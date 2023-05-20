@@ -1,4 +1,4 @@
-package com.example.appse3
+package com.example.se3_app
 
 import org.junit.Test
 
