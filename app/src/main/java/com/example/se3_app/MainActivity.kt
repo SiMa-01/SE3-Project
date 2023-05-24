@@ -10,10 +10,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.example.se3_app.View.StartView.StartView
 import com.example.se3_app.View.StartView.StartViewModel
+
+
 import com.example.se3_app.ui.theme.SE3AppTheme
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.se3_app.CocktailSearchView.CocktailSearchView
+import com.example.se3_app.CocktailSearchView.CocktailSearchViewModel
 
 
 class MainActivity : ComponentActivity() {
@@ -35,11 +39,15 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun CocktailApp(){
     val startViewModel = StartViewModel()
+    val cocktailViewModel = CocktailSearchViewModel()
     val navController = rememberNavController()
 
     NavHost(navController, startDestination = "startView") {
         composable(route = "startView"){
             StartView(navController, startViewModel)
+        }
+        composable(route = "cocktailSearchView"){
+            CocktailSearchView(navController, cocktailViewModel)
         }
     }
 }

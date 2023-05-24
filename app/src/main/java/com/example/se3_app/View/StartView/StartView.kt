@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.R
 import androidx.compose.foundation.lazy.LazyColumn
 
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -38,6 +39,8 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import java.time.format.TextStyle
 
@@ -179,10 +182,20 @@ fun StartViewContent(navController: NavController, viewModel: StartViewModel) {
             Cocktailbox(navController, viewModel, "Mojito", ingredients, "EASY", alcoholic, "Sour")
             Cocktailbox(navController, viewModel, "Mojito", ingredients, "EASY", alcoholic, "Sour")
 //Damit die NavigationBar drüber passt
-            Spacer(modifier = Modifier.height(100.dp))
 
         }
     }
+    Button(
+            onClick = {
+                navController.navigate("CocktailSearchView")
+            }, modifier = Modifier
+
+
+    ) {
+        Text(text = "Test")
+    }
+    Spacer(modifier = Modifier.height(100.dp))
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -194,26 +207,14 @@ fun StartViewContent(navController: NavController, viewModel: StartViewModel) {
                     icon = { Icon(icons[index], contentDescription = null) },
                     label = { Text(item) },
                     selected = selectedItem == index,
-                    onClick = { selectedItem = index }
+                    onClick = {
+                        selectedItem = index }
                 )
             }
         }
     }
 }
-@Composable
-fun TextInBox(text: String) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-            .border(1.dp, Color.Black),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = text
-        )
-    }
-}
+
 @Composable
 fun Cocktailbox(navController: NavController, startViewModel: StartViewModel, name: String, ingredients: Array<String>, difficulty: String, alcoholic: Boolean, taste: String) {
     val customColor = Color(0xFFFF9800)
