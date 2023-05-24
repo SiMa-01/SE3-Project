@@ -17,4 +17,5 @@ deploymentTargetDropDown.xml
 .idea/deploymentTargetDropDown.xml
 .idea/deploymentTargetDropDown.xml
 .idea/deploymentTargetDropDown.xml
-.idea/*
+.idea
+misc.xml

@@ -211,7 +211,17 @@ fun StartViewContent(navController: NavController, viewModel: StartViewModel) {
                         selectedItem = index }
                 )
             }
+        }/*
+        IconButton(
+            onClick = { navController.navigate("StartView") }
+        ) {
+            Icon(Icons.Default.Home, contentDescription = "Home")
         }
+        IconButton(
+            onClick = { navController.navigate("") }
+        ) {
+            Icon(Icons.Default.Settings, contentDescription = stringResource(R.string.settings))
+        }*/
     }
 }
 
