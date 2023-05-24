@@ -1,4 +1,4 @@
-package com.example.se3_app.CocktailSearchView
+package com.example.se3_app.HinzufuegenView
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -33,15 +33,15 @@ import androidx.navigation.NavController
 import com.example.se3_app.View.StartView.StartViewContent
 
 @Composable
-fun CocktailSearchView(navController: NavController, viewModel: CocktailSearchViewModel) {
-    CocktailSearchViewContent(navController, viewModel)
+fun HinzufuegenView(navController: NavController, viewModel: HinzufuegenViewModel) {
+    HinzufuegenViewContent(navController, viewModel)
 
 }
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CocktailSearchViewContent(navController: NavController, viewModel: CocktailSearchViewModel) {
+fun HinzufuegenViewContent(navController: NavController, viewModel: HinzufuegenViewModel) {
     var selectedItem by remember { mutableStateOf(0) }
     val items = listOf("Home", "Cocktails", "Merkliste", "Einkaufsliste")
     val icons = listOf(
