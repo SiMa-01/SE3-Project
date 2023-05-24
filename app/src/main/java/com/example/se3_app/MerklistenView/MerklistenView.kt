@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.se3_app.View.StartView.StartViewContent
+import com.example.se3_app.View.StartView.navigateToDestination
 
 @Composable
 fun MerklistenView(navController: NavController, viewModel: MerklistenViewModel) {
@@ -75,8 +76,7 @@ fun MerklistenViewContent(navController: NavController, viewModel: MerklistenVie
         )
 
 
-
-    // Hier kommt der Inhalt der Seite hin
+        Text("Ich bin auf der Merklisten View")
 
     Spacer(modifier = Modifier.height(100.dp))
 
@@ -90,11 +90,15 @@ fun MerklistenViewContent(navController: NavController, viewModel: MerklistenVie
                 NavigationBarItem(
                     icon = { Icon(icons[index], contentDescription = null) },
                     label = { Text(item) },
-                    selected = selectedItem == index,
+                    selected = selectedItem == 1,
                     onClick = {
-                        selectedItem = index }
+                        selectedItem = 2
+                        navigateToDestination(navController, index)
+                    }
                 )
             }
         }
     }
-}}
+}
+
+}

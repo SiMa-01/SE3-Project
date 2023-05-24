@@ -7,7 +7,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
@@ -15,6 +18,7 @@ import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBarItem
@@ -27,10 +31,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.se3_app.View.StartView.StartViewContent
+import com.example.se3_app.View.StartView.navigateToDestination
 
 @Composable
 fun CocktailSearchView(navController: NavController, viewModel: CocktailSearchViewModel) {
@@ -76,25 +82,41 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: CocktailS
 
 
 
-    // Hier kommt der Inhalt der Seite hin
 
-    Spacer(modifier = Modifier.height(100.dp))
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .wrapContentSize(Alignment.BottomCenter)
-    ) {
-        BottomAppBar() {
-            items.forEachIndexed { index, item ->
-                NavigationBarItem(
-                    icon = { Icon(icons[index], contentDescription = null) },
-                    label = { Text(item) },
-                    selected = selectedItem == index,
-                    onClick = {
-                        selectedItem = index }
-                )
+
+
+
+
+
+            Spacer(modifier = Modifier.height(100.dp))
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .wrapContentSize(Alignment.BottomCenter)
+            ) {
+                BottomAppBar() {
+
+                    items.forEachIndexed { index, item ->
+                        NavigationBarItem(
+                            icon = {
+                                Icon(
+                                    icons[index],
+                                    contentDescription = "Cocktail",
+                                )
+                            },
+                            label = { Text(item) },
+
+                            selected = selectedItem == 1,
+                            onClick = {
+                                selectedItem = index
+                                navigateToDestination(navController, index)
+                            }
+
+                        )
+                    }
+                }
             }
         }
     }
-}}

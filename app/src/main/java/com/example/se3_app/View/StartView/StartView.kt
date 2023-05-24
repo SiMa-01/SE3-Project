@@ -124,7 +124,7 @@ fun StartViewContent(navController: NavController, viewModel: StartViewModel) {
                     )
             {
                 FloatingActionButton(
-                    onClick = { }, //andere Seite einfügen
+                    onClick = {navController.navigate("CocktailSearchView")}, //andere Seite einfügen
                     modifier = Modifier
                         .weight(1f)
                         .height(80.dp),
@@ -132,7 +132,7 @@ fun StartViewContent(navController: NavController, viewModel: StartViewModel) {
                     Text("Cocktail suchen")
                 }
                 FloatingActionButton(
-                    onClick = { }, //andere Seite einfügen
+                    onClick = {navController.navigate("HinzufuegenView")}, //andere Seite einfügen
                     modifier = Modifier
                         .weight(1f)
                         .padding(horizontal = 5.dp)
@@ -182,19 +182,11 @@ fun StartViewContent(navController: NavController, viewModel: StartViewModel) {
             Cocktailbox(navController, viewModel, "Mojito", ingredients, "EASY", alcoholic, "Sour")
             Cocktailbox(navController, viewModel, "Mojito", ingredients, "EASY", alcoholic, "Sour")
 //Damit die NavigationBar drüber passt
+            Spacer(modifier = Modifier.height(100.dp))
 
         }
     }
-    Button(
-            onClick = {
-                navController.navigate("CocktailSearchView")
-            }, modifier = Modifier
 
-
-    ) {
-        Text(text = "Test")
-    }
-    Spacer(modifier = Modifier.height(100.dp))
 
     Box(
         modifier = Modifier
@@ -204,24 +196,17 @@ fun StartViewContent(navController: NavController, viewModel: StartViewModel) {
         BottomAppBar() {
             items.forEachIndexed { index, item ->
                 NavigationBarItem(
-                    icon = { Icon(icons[index], contentDescription = null) },
+                    icon = { Icon(icons[index], contentDescription = "Home") },
                     label = { Text(item) },
-                    selected = selectedItem == index,
+                    selected = selectedItem == 1,
                     onClick = {
-                        selectedItem = index }
+                        selectedItem = index
+                        navigateToDestination(navController, index)
+                    }
                 )
             }
-        }/*
-        IconButton(
-            onClick = { navController.navigate("StartView") }
-        ) {
-            Icon(Icons.Default.Home, contentDescription = "Home")
         }
-        IconButton(
-            onClick = { navController.navigate("") }
-        ) {
-            Icon(Icons.Default.Settings, contentDescription = stringResource(R.string.settings))
-        }*/
+
     }
 }
 
@@ -360,3 +345,14 @@ fun Cocktailbox(navController: NavController, startViewModel: StartViewModel, na
             fontWeight = FontWeight.Bold)
     }*/
 }
+    fun navigateToDestination(navController: NavController, index: Int) {
+       when (index) {
+            0 -> navController.navigate("StartView")
+            1 -> navController.navigate("CocktailSearchView")
+            2 -> navController.navigate("MerklistenView")
+            3 -> navController.navigate("EinkaufslistenView")
+
+        }
+}
+
+

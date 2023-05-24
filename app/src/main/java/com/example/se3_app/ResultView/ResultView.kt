@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.se3_app.View.StartView.StartViewContent
+import com.example.se3_app.View.StartView.navigateToDestination
 
 @Composable
 fun ResultView(navController: NavController, viewModel: ResultViewModel) {
@@ -90,11 +91,15 @@ fun ResultViewContent(navController: NavController, viewModel: ResultViewModel) 
                 NavigationBarItem(
                     icon = { Icon(icons[index], contentDescription = null) },
                     label = { Text(item) },
-                    selected = selectedItem == index,
+                    selected = selectedItem == 1,
                     onClick = {
-                        selectedItem = index }
+                        selectedItem = index
+                        navigateToDestination(navController, index)
+                    }
                 )
             }
         }
     }
-}}
+}
+
+}

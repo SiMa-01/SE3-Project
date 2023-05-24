@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.se3_app.View.StartView.StartViewContent
+import com.example.se3_app.View.StartView.navigateToDestination
 
 @Composable
 fun EinkaufslistenView(navController: NavController, viewModel: EinkaufslistenViewModel) {
@@ -76,7 +77,7 @@ fun EinkaufsListenViewContent(navController: NavController, viewModel: Einkaufsl
 
 
 
-    // Hier kommt der Inhalt der Seite hin
+        Text("Ich bin auf der Einkaufslisten View")
 
     Spacer(modifier = Modifier.height(100.dp))
 
@@ -90,11 +91,15 @@ fun EinkaufsListenViewContent(navController: NavController, viewModel: Einkaufsl
                 NavigationBarItem(
                     icon = { Icon(icons[index], contentDescription = null) },
                     label = { Text(item) },
-                    selected = selectedItem == index,
+                    selected = selectedItem == 1,
                     onClick = {
-                        selectedItem = index }
+                        selectedItem = 3
+                        navigateToDestination(navController, index)
+                    }
                 )
             }
         }
     }
-}}
+}
+
+}
