@@ -39,7 +39,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.se3_app.startView.navigateToDestination
-
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -194,15 +193,12 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: CocktailS
                         var isExpaned by remember {
                             mutableStateOf(false)
                         }
-
                         var zutat by remember {
                             mutableStateOf("")
                         }
-
                         Box(
                             modifier = Modifier
                                 .fillMaxSize(), contentAlignment = Alignment.Center
-
                         ) {
 
 
@@ -217,9 +213,7 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: CocktailS
                                         ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpaned)
                                     },
                                     modifier = Modifier.menuAnchor()
-
                                 )
-
                                 ExposedDropdownMenu(
                                     expanded = isExpaned,
                                     onDismissRequest = { isExpaned = false }) {
