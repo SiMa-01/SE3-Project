@@ -28,11 +28,9 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -46,7 +44,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.se3_app.View.StartView.StartViewContent
 import com.example.se3_app.View.StartView.navigateToDestination
 
 @Composable
@@ -54,7 +51,6 @@ fun HinzufuegenView(navController: NavController, viewModel: HinzufuegenViewMode
     HinzufuegenViewContent(navController, viewModel)
 
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -91,8 +87,6 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: HinzufuegenV
             },
         )
 
-
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -105,6 +99,8 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: HinzufuegenV
             //Eingabefeld des Nutzers
             var text by remember { mutableStateOf(TextFieldValue("")) }
             TextField(
+                modifier = Modifier
+                    .fillMaxWidth(),
                 value = text,
                 onValueChange = {
                     text = it
@@ -112,6 +108,8 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: HinzufuegenV
                 label = { Text(text = "Der Name deines Cocktails") },
                 placeholder = { Text(text = "Cocktainame") },
             )
+
+            Spacer(modifier = Modifier.height(8.dp))
 
             Box(
                 modifier = Modifier
@@ -219,8 +217,6 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: HinzufuegenV
                                 .fillMaxSize(), contentAlignment = Alignment.Center
 
                         ) {
-
-
                             ExposedDropdownMenuBox(
                                 expanded = isExpaned,
                                 onExpandedChange = { isExpaned = it }) {
@@ -232,9 +228,7 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: HinzufuegenV
                                         ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpaned)
                                     },
                                     modifier = Modifier.menuAnchor()
-
                                 )
-
                                 ExposedDropdownMenu(
                                     expanded = isExpaned,
                                     onDismissRequest = { isExpaned = false }) {
@@ -374,11 +368,7 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: HinzufuegenV
                         Box(
                             modifier = Modifier
                                 .fillMaxSize(), contentAlignment = Alignment.Center
-
-
                         ) {
-
-
                             ExposedDropdownMenuBox(
                                 expanded = isExpaned,
                                 onExpandedChange = { isExpaned = it }) {
@@ -391,7 +381,6 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: HinzufuegenV
                                     },
                                     modifier = Modifier.menuAnchor()
                                 )
-
                                 ExposedDropdownMenu(
                                     expanded = isExpaned,
                                     onDismissRequest = { isExpaned = false }) {
@@ -422,38 +411,51 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: HinzufuegenV
                                 }
                             }
                         }
-
-
                     }
                 }
             }
             Spacer(modifier = Modifier.height(8.dp))
 
-//TODO: JOHANNA HIER
+            //Eingabefeld des Nutzers
+            var beschreibungsText by remember { mutableStateOf(TextFieldValue("")) }
+            TextField(
+                modifier = Modifier
+                    .fillMaxWidth().height(300.dp),
+                value = beschreibungsText,
+                onValueChange = {
+                    beschreibungsText = it
+                },
+                label = { Text(text = "Beschreibe deinen Text") },
+                placeholder = {
+                    Text(
+                        "Nutze für deine Beschreibung am Besten einzelne Schritte. Gebe außerdem die Mengenanzahl deiner Zutaten an. Beispiel:\nSchritt 1: Die beiden Limettenenden der unbehandelten Limetten abschneiden, die Frucht achteln und in ein Tumbler-Glas geben. \nSchritt 2: Danach 2EL braunen Zucker drüber verteilen und die Limettenstücke mit einem Stößel leicht ausdrücken. \nSchritt 3: 6cl Cachaca dazugeben und das Glas mit 5EL Crushed Ice auffüllen - alles gut durchrühren.\nSchritt 4: Eventuell noch einen Schuss Soadwasser hinzufügen und den Cocktail mit einem Trinkhalm servieren. ",
+                        fontSize = 10.sp
+                    )
+                },
+            )
+
             Spacer(modifier = Modifier.height(8.dp))
 
             // Der Suche Button
-            Box (
+            Box(
                 modifier = Modifier
                     .fillMaxSize(),
                 contentAlignment = Alignment.Center
 
-            ){
+            ) {
                 FloatingActionButton(
-                    onClick = {navController.navigate("ResultView")}, //andere Seite einfügen
+                    onClick = { navController.navigate("ResultView") }, //andere Seite einfügen
                     modifier = Modifier
                         .height(40.dp).fillMaxWidth(),
                 ) {
-                    Text("Suchen")
+                    Text("Hinzufügen")
                 }
             }
-
+            Spacer(modifier = Modifier.height(200.dp))
 
         }
 
-
-    Spacer(modifier = Modifier.height(100.dp))
-
+    }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -473,6 +475,5 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: HinzufuegenV
             }
         }
     }
-}
 
 }

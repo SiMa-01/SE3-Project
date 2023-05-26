@@ -134,8 +134,10 @@ fun RezeptViewContent(navController: NavController, viewModel: RezeptViewModel) 
                     text = "Bla" // TODO hier kommt dann der Get der Zubereitung hin
                 )
             }
+            Spacer(modifier = Modifier.height(100.dp))
+
         }
-    Spacer(modifier = Modifier.height(100.dp))
+    }
 
     Box(
         modifier = Modifier
@@ -156,7 +158,7 @@ fun RezeptViewContent(navController: NavController, viewModel: RezeptViewModel) 
             }
         }
     }
-}
+
 }
 
 

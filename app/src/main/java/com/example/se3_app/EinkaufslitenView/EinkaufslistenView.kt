@@ -194,8 +194,6 @@ fun EinkaufsListenViewContent(navController: NavController, viewModel: Einkaufsl
         }
 
 */
-
-
         Spacer(modifier = Modifier.height(100.dp))
 
         Box(

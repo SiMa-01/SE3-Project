@@ -117,6 +117,7 @@ fun ResultViewContent(navController: NavController, viewModel: ResultViewModel) 
                 taste
             )
         }
+    }
 
     Spacer(modifier = Modifier.height(100.dp))
 
@@ -139,7 +140,7 @@ fun ResultViewContent(navController: NavController, viewModel: ResultViewModel) 
             }
         }
     }
-}
+
 
 }
 @Composable

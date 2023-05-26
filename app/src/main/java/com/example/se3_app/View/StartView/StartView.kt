@@ -146,30 +146,6 @@ fun StartViewContent(navController: NavController, viewModel: StartViewModel) {
                     Text("Rezept hinzufügen")
                 }
             }
-            /*
-            Text("Zuletzt gesucht")
-
-            // TODO oder wieder raus
-            //val data by datenbankenViewModel.aktivitaet.observeAsState(initial = emptyList())
-            val data: Int = 1
-            LazyColumn {
-                items (data) { item ->
-                    Column(modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(5.dp)) {
-                        FloatingActionButton(
-                            onClick = { }, //andere Seite einfügen
-                            modifier = Modifier
-                                .weight(1f)
-                                .padding(horizontal = 5.dp)
-                                .height(80.dp)
-                        ) {
-                            Text("Gin Tonic") // TODO: Hier kommt ein random Cocktail hin
-                        }
-                    }
-
-                }
-            }*/
 
             Spacer(modifier = Modifier.height(8.dp))
             Text("Zum inspirieren", fontSize = 20.sp)
@@ -186,7 +162,8 @@ fun StartViewContent(navController: NavController, viewModel: StartViewModel) {
             Cocktailbox(navController, viewModel, "Mojito", ingredients, "EASY", alcoholic, "Sour")
             Cocktailbox(navController, viewModel, "Mojito", ingredients, "EASY", alcoholic, "Sour")
             Cocktailbox(navController, viewModel, "Mojito", ingredients, "EASY", alcoholic, "Sour")
-//Damit die NavigationBar drüber passt
+
+            //Damit die NavigationBar drüber passt
             Spacer(modifier = Modifier.height(100.dp))
 
         }
@@ -384,15 +361,12 @@ fun Cocktailbox(navController: NavController, startViewModel: StartViewModel, na
             fontWeight = FontWeight.Bold)
     }*/
 }
-
-
     fun navigateToDestination(navController: NavController, index: Int) {
        when (index) {
             0 -> navController.navigate("StartView")
             1 -> navController.navigate("CocktailSearchView")
             2 -> navController.navigate("MerklistenView")
             3 -> navController.navigate("EinkaufslistenView")
-
         }
 }
 

@@ -421,14 +421,10 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: CocktailS
                                 }
                             }
                         }
-
-
                     }
                 }
             }
-
             Spacer(modifier = Modifier.height(8.dp))
-
             // Der Suche Button
             Box (
                 modifier = Modifier
@@ -444,23 +440,9 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: CocktailS
                     Text("Suchen")
                 }
             }
-
-            
         }
-
-
-
-
         }
-
-
-
-
-
-
         Spacer(modifier = Modifier.height(100.dp))
-
-
         Box(
             modifier = Modifier
                 .fillMaxSize()
