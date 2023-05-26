@@ -1,58 +1,42 @@
-package com.example.se3_app.ResultView
+package com.example.se3_app.startView
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.layout.*
+
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
+import androidx.navigation.NavController
+import java.util.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import com.example.se3_app.MerklistenView.Cocktailbox
-import com.example.se3_app.MerklistenView.MerklistenViewModel
-import com.example.se3_app.View.StartView.StartViewContent
-import com.example.se3_app.View.StartView.navigateToDestination
 
 @Composable
-fun ResultView(navController: NavController, viewModel: ResultViewModel) {
-    ResultViewContent(navController, viewModel)
+fun StartView(navController: NavController, viewModel: StartViewModel) {
+    StartViewContent(navController, viewModel)
 
 }
-
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ResultViewContent(navController: NavController, viewModel: ResultViewModel) {
+fun StartViewContent(navController: NavController, viewModel: StartViewModel) {
+    // Das müssen wir vermutlich überall hin kopieren
+
+
     var selectedItem by remember { mutableStateOf(0) }
     val items = listOf("Home", "Cocktails", "Merkliste", "Einkaufsliste")
     val icons = listOf(
@@ -85,29 +69,23 @@ fun ResultViewContent(navController: NavController, viewModel: ResultViewModel) 
             },
         )
 
+        //--------------------------------------------------------------------------------------------------------------
 
-
-    // Hier kommt der Inhalt der Seite hin
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-            Text("Deine gewählten Filter: ", fontSize = 14.sp) // TODO: Marcel hier muss von der vorherigen Seite die Filiter hin
-
+            Text("Der Cocktail der Woche", fontSize = 20.sp)
             Spacer(modifier = Modifier.height(8.dp))
+            val name = "Gin Tonic"
+            var ingredients = arrayOf("Wodka", "Tonic", "Eis")
+            val difficulty = "EASY"
+            var alcoholic by remember { mutableStateOf(true) }
+            val taste = "Sweet"
 
-            Text("Damit empfehlen wir dir diese Cocktails: ", fontSize = 20.sp)
-
-            Spacer(modifier = Modifier.height(8.dp))
-            val name="Gin Tonic"
-            var ingredients= arrayOf("Gin", "Tonic", "Eis")
-            val difficulty="EASY"
-            var alcoholic by remember { mutableStateOf(true)}
-            val taste ="Sweet"
-
-            Cocktailbox(
+            StartCocktailbox(
                 navController,
                 viewModel,
                 name,
@@ -116,10 +94,58 @@ fun ResultViewContent(navController: NavController, viewModel: ResultViewModel) 
                 alcoholic,
                 taste
             )
+
+            Spacer(modifier = Modifier.height(8.dp))
+            Text("Funktionen", fontSize = 20.sp)
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Row (
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 5.dp)
+                    )
+            {
+                FloatingActionButton(
+                    onClick = {navController.navigate("CocktailSearchView")}, //andere Seite einfügen
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(80.dp),
+                ) {
+                    Text("Cocktail suchen")
+                }
+                FloatingActionButton(
+                    onClick = {navController.navigate("HinzufuegenView")}, //andere Seite einfügen
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(horizontal = 5.dp)
+                        .height(80.dp)
+                ) {
+                    Text("Rezept hinzufügen")
+                }
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+            Text("Zum inspirieren", fontSize = 20.sp)
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Hier ist der Test der Methode
+            ingredients = arrayOf("Cachaca",  "Limette", "Rohrzucker")
+            StartCocktailbox(navController, viewModel, "Caipirinha", ingredients, "MEDIUM", alcoholic, "Sour")
+            ingredients = arrayOf("Rum", "Soda", "Limette", "Rohrzucker")
+            StartCocktailbox(navController, viewModel, "Mojito", ingredients, "EASY", alcoholic, "Sour")
+            StartCocktailbox(navController, viewModel, "Mojito", ingredients, "EASY", alcoholic, "Sour")
+            StartCocktailbox(navController, viewModel, "Mojito", ingredients, "EASY", alcoholic, "Sour")
+            StartCocktailbox(navController, viewModel, "Mojito", ingredients, "EASY", alcoholic, "Sour")
+            StartCocktailbox(navController, viewModel, "Mojito", ingredients, "EASY", alcoholic, "Sour")
+            StartCocktailbox(navController, viewModel, "Mojito", ingredients, "EASY", alcoholic, "Sour")
+            StartCocktailbox(navController, viewModel, "Mojito", ingredients, "EASY", alcoholic, "Sour")
+
+            //Damit die NavigationBar drüber passt
+            Spacer(modifier = Modifier.height(100.dp))
+
         }
     }
 
-    Spacer(modifier = Modifier.height(100.dp))
 
     Box(
         modifier = Modifier
@@ -129,7 +155,7 @@ fun ResultViewContent(navController: NavController, viewModel: ResultViewModel) 
         BottomAppBar() {
             items.forEachIndexed { index, item ->
                 NavigationBarItem(
-                    icon = { Icon(icons[index], contentDescription = null) },
+                    icon = { Icon(icons[index], contentDescription = "Home") },
                     label = { Text(item) },
                     selected = selectedItem == 1,
                     onClick = {
@@ -139,39 +165,49 @@ fun ResultViewContent(navController: NavController, viewModel: ResultViewModel) 
                 )
             }
         }
+
     }
-
-
 }
+
+// Das ist die Methode nur für diese View
 @Composable
-fun Cocktailbox(navController: NavController, resultViewModel: ResultViewModel, name: String, ingredients: Array<String>, difficulty: String, alcoholic: Boolean, taste: String) {
+fun StartCocktailbox(navController: NavController, startViewModel: StartViewModel, name: String, ingredients: Array<String>, difficulty: String, alcoholic: Boolean, taste: String) {
+    if (startViewModel.errorMessage.isEmpty()) {
+        Cocktailbox(navController, name, ingredients, difficulty, alcoholic, taste)
+    }
+}
+
+
+// Das ist die allgemeine Methode auf die alle gehen
+
+
+@Composable
+fun Cocktailbox(navController: NavController, name: String, ingredients: Array<String>, difficulty: String, alcoholic: Boolean, taste: String) {
     val customColor = Color(0xFFFF9800)
-    if (resultViewModel.errorMessage.isEmpty()) {
         FloatingActionButton(
             onClick = {navController.navigate("RezeptView") },
-            modifier = Modifier
-                .fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
                 .height(80.dp)
         ) {
             // Das ist der linke Teil des Buttons
-            Row(
+            Row (
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 5.dp)
             )
             {
-                Box(
+                Box (
                     modifier = Modifier
                         .weight(1f)
                         .padding(horizontal = 5.dp)
                 )
                 {
-                    Column(
+                    Column (
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 5.dp)
                     ) {
-                        Text(text = name, fontSize = 15.sp)
+                        Text(text = name,fontSize = 15.sp)
                         Spacer(modifier = Modifier.height(8.dp))
                         Row(
                             modifier = Modifier
@@ -206,7 +242,6 @@ fun Cocktailbox(navController: NavController, resultViewModel: ResultViewModel, 
                                     )
                                 }
                             }
-                            // Das ist der rechte Teil des Buttons
                             Box(
                                 modifier = Modifier
                                     .weight(1f)
@@ -220,28 +255,48 @@ fun Cocktailbox(navController: NavController, resultViewModel: ResultViewModel, 
                                     Text("kein %")
                                 }
                             }
+                            Box(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .padding(horizontal = 5.dp)
+
+                            ) {      //wenn der Button geklickt wird -> zur Merkliste hinzufügen
+                                val isClicked = remember { mutableStateOf(false) }
+                                IconButton(
+                                    onClick = {
+                                        isClicked.value = !isClicked.value }, //hier muss der Post rein
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Icon(
+                                        Icons.Filled.Star,
+                                        contentDescription = "Zur Merkliste",
+                                        tint = if (isClicked.value) Color.Yellow else Color.Unspecified
+                                    )
+                                    if (isClicked.value)
+                                    {}                              //Post methoden in Merkliste
+                                    else
+                                    {}                                 // da passiert nix
+                                }
+                            }
                         }
                     }
                 }
-
-                Box(
+                Box (
                     modifier = Modifier
                         .weight(1f)
                         .padding(horizontal = 5.dp)
                         .height(80.dp),
                 )
                 {
-                    Column(
+                    Column (
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 5.dp)
-                    ) {
-
-
+                    ){
                         //Den Zutaten auflisten
                         var Zutaten = ""
                         for (item in ingredients) {
-                            Zutaten = Zutaten + ", " + item
+                            Zutaten = Zutaten + ", " +  item
                         }
                         Zutaten = Zutaten.drop(2)
                         Text(Zutaten)
@@ -253,10 +308,14 @@ fun Cocktailbox(navController: NavController, resultViewModel: ResultViewModel, 
             }
         }
         Spacer(modifier = Modifier.height(5.dp))
-
-    }
 }
-
-
+    fun navigateToDestination(navController: NavController, index: Int) {
+       when (index) {
+            0 -> navController.navigate("StartView")
+            1 -> navController.navigate("CocktailSearchView")
+            2 -> navController.navigate("MerklistenView")
+            3 -> navController.navigate("EinkaufslistenView")
+        }
+}
 
 

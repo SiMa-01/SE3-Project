@@ -1,4 +1,4 @@
-package com.example.se3_app.HinzufuegenView
+package com.example.se3_app.hinzufuegenView
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
@@ -44,7 +44,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.se3_app.View.StartView.navigateToDestination
+import com.example.se3_app.startView.navigateToDestination
 
 @Composable
 fun HinzufuegenView(navController: NavController, viewModel: HinzufuegenViewModel) {
@@ -444,7 +444,7 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: HinzufuegenV
 
             ) {
                 FloatingActionButton(
-                    onClick = { navController.navigate("ResultView") }, //andere Seite einfügen
+                    onClick = { navController.navigate("RezeptView") }, //andere Seite einfügen
                     modifier = Modifier
                         .height(40.dp).fillMaxWidth(),
                 ) {

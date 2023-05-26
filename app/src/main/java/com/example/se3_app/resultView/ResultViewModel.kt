@@ -1,4 +1,4 @@
-package com.example.se3_app.ResultView
+package com.example.se3_app.resultView
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

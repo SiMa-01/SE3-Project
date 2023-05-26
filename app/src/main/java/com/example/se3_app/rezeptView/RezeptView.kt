@@ -1,7 +1,6 @@
-package com.example.se3_app.RezeptView
+package com.example.se3_app.rezeptView
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -23,7 +21,6 @@ import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBarItem
@@ -40,17 +37,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.se3_app.ResultView.ResultViewModel
-import com.example.se3_app.View.StartView.StartViewContent
-import com.example.se3_app.View.StartView.navigateToDestination
+import com.example.se3_app.startView.Cocktailbox
+import com.example.se3_app.startView.navigateToDestination
 
 @Composable
 fun RezeptView(navController: NavController, viewModel: RezeptViewModel) {
     RezeptViewContent(navController, viewModel)
 
 }
-
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RezeptViewContent(navController: NavController, viewModel: RezeptViewModel) {
@@ -85,9 +79,6 @@ fun RezeptViewContent(navController: NavController, viewModel: RezeptViewModel) 
                 }
             },
         )
-
-
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -100,7 +91,7 @@ fun RezeptViewContent(navController: NavController, viewModel: RezeptViewModel) 
             var alcoholic by remember { mutableStateOf(true)}
             val taste ="Sweet"
 
-            Cocktailbox(
+            RezeptCocktailbox(
                 navController,
                 viewModel,
                 name,
@@ -163,115 +154,8 @@ fun RezeptViewContent(navController: NavController, viewModel: RezeptViewModel) 
 
 
 @Composable
-fun Cocktailbox(navController: NavController, rezeptViewModel: RezeptViewModel, name: String, ingredients: Array<String>, difficulty: String, alcoholic: Boolean, taste: String) {
-    val customColor = Color(0xFFFF9800)
+fun RezeptCocktailbox(navController: NavController, rezeptViewModel: RezeptViewModel, name: String, ingredients: Array<String>, difficulty: String, alcoholic: Boolean, taste: String) {
     if (rezeptViewModel.errorMessage.isEmpty()) {
-        FloatingActionButton(
-            onClick = {navController.navigate("RezeptView") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(80.dp)
-        ) {
-            // Das ist der linke Teil des Buttons
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 5.dp)
-            )
-            {
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(horizontal = 5.dp)
-                )
-                {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 5.dp)
-                    ) {
-                        Text(text = name, fontSize = 15.sp)
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 5.dp)
-                        )
-                        {
-                            Box(
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .padding(horizontal = 5.dp)
-                            )
-                            {
-                                //Den Schwierigkeitsgrad durch Farben darstellen
-                                if (difficulty == "EASY") {
-                                    Box(
-                                        modifier = Modifier
-                                            .size(8.dp)
-                                            .background(Color.Green)
-                                    )
-                                } else if (difficulty == "MEDIUM") {
-                                    Box(
-                                        modifier = Modifier
-                                            .size(8.dp)
-                                            .background(customColor)
-                                    )
-                                } else if (difficulty == "HARD") {
-                                    Box(
-                                        modifier = Modifier
-                                            .size(8.dp)
-                                            .background(Color.Red)
-                                    )
-                                }
-                            }
-                            // Das ist der rechte Teil des Buttons
-                            Box(
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .padding(horizontal = 5.dp)
-                            )
-                            {
-                                //Den Alkoholgehalt durch Alkohol darstellen
-                                if (alcoholic) {
-                                    Text("%")
-                                } else {
-                                    Text("kein %")
-                                }
-                            }
-                        }
-                    }
-                }
-
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(horizontal = 5.dp)
-                        .height(80.dp),
-                )
-                {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 5.dp)
-                    ) {
-
-
-                        //Den Zutaten auflisten
-                        var Zutaten = ""
-                        for (item in ingredients) {
-                            Zutaten = Zutaten + ", " + item
-                        }
-                        Zutaten = Zutaten.drop(2)
-                        Text(Zutaten)
-
-                        //Den Geschmack nennen
-                        Text(taste)
-                    }
-                }
-            }
-        }
-        Spacer(modifier = Modifier.height(5.dp))
-
+        Cocktailbox(navController, name, ingredients, difficulty, alcoholic, taste)
     }
 }

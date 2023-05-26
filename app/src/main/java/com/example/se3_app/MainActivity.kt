@@ -8,26 +8,26 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.se3_app.View.StartView.StartView
-import com.example.se3_app.View.StartView.StartViewModel
+import com.example.se3_app.startView.StartView
+import com.example.se3_app.startView.StartViewModel
 
 
 import com.example.se3_app.ui.theme.SE3AppTheme
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.se3_app.CocktailSearchView.CocktailSearchView
-import com.example.se3_app.CocktailSearchView.CocktailSearchViewModel
-import com.example.se3_app.EinkaufslitenView.EinkaufslistenView
-import com.example.se3_app.EinkaufslitenView.EinkaufslistenViewModel
-import com.example.se3_app.HinzufuegenView.HinzufuegenView
-import com.example.se3_app.HinzufuegenView.HinzufuegenViewModel
-import com.example.se3_app.MerklistenView.MerklistenView
-import com.example.se3_app.MerklistenView.MerklistenViewModel
-import com.example.se3_app.ResultView.ResultView
-import com.example.se3_app.ResultView.ResultViewModel
-import com.example.se3_app.RezeptView.RezeptView
-import com.example.se3_app.RezeptView.RezeptViewModel
+import com.example.se3_app.cocktailSearchView.CocktailSearchView
+import com.example.se3_app.cocktailSearchView.CocktailSearchViewModel
+import com.example.se3_app.einkaufslitenView.EinkaufslistenView
+import com.example.se3_app.einkaufslitenView.EinkaufslistenViewModel
+import com.example.se3_app.hinzufuegenView.HinzufuegenView
+import com.example.se3_app.hinzufuegenView.HinzufuegenViewModel
+import com.example.se3_app.merklistenView.MerklistenView
+import com.example.se3_app.merklistenView.MerklistenViewModel
+import com.example.se3_app.resultView.ResultView
+import com.example.se3_app.resultView.ResultViewModel
+import com.example.se3_app.rezeptView.RezeptView
+import com.example.se3_app.rezeptView.RezeptViewModel
 
 
 class MainActivity : ComponentActivity() {
