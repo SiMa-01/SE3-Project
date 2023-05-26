@@ -1,8 +1,10 @@
 package com.example.se3_app.View.StartView
 
+import android.content.Context
 import android.graphics.fonts.Font
 import android.graphics.fonts.FontFamily
 import android.graphics.fonts.FontStyle
+import android.widget.Toast
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -31,14 +33,17 @@ import androidx.navigation.NavController
 import java.util.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
@@ -215,9 +220,8 @@ fun Cocktailbox(navController: NavController, startViewModel: StartViewModel, na
     val customColor = Color(0xFFFF9800)
     if (startViewModel.errorMessage.isEmpty()) {
         FloatingActionButton(
-            onClick = { }, //andere Seite einfügen
-            modifier = Modifier
-                .fillMaxWidth()
+            onClick = {navController.navigate("RezeptView") },
+            modifier = Modifier.fillMaxWidth()
                 .height(80.dp)
         ) {
             // Das ist der linke Teil des Buttons
@@ -251,6 +255,7 @@ fun Cocktailbox(navController: NavController, startViewModel: StartViewModel, na
                                     .weight(1f)
                                     .padding(horizontal = 5.dp)
                             )
+
                             {
                                 //Den Schwierigkeitsgrad durch Farben darstellen
                                 if (difficulty == "EASY") {
@@ -273,12 +278,12 @@ fun Cocktailbox(navController: NavController, startViewModel: StartViewModel, na
                                     )
                                 }
                             }
-                            // Das ist der rechte Teil des Buttons
                             Box(
                                 modifier = Modifier
                                     .weight(1f)
                                     .padding(horizontal = 5.dp)
                             )
+
                             {
                                 //Den Alkoholgehalt durch Alkohol darstellen
                                 if (alcoholic) {
@@ -287,7 +292,41 @@ fun Cocktailbox(navController: NavController, startViewModel: StartViewModel, na
                                     Text("kein %")
                                 }
                             }
+                            Box(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .padding(horizontal = 5.dp)
+
+                            ) {      //wenn der Button geklickt wird -> zur Merkliste hinzufügen
+                                val isClicked = remember { mutableStateOf(false) }
+                                IconButton(
+                                    onClick = {
+                                        isClicked.value = !isClicked.value }, //hier muss der Post rein
+                                    modifier = Modifier.fillMaxWidth()
+
+                                ) {
+                                    Icon(
+                                        Icons.Filled.Star,
+                                        contentDescription = "Zur Merkliste",
+                                        tint = if (isClicked.value) Color.Yellow else Color.Unspecified
+                                    )
+                                    if (isClicked.value)
+                                    {}                              //Post methoden in Merkliste
+                                    else
+                                    {}                                 // da passiert nix
+                                }
+
+                            }
+
+
+
+
+
+
+
                         }
+
+
                     }
                 }
 
@@ -345,6 +384,8 @@ fun Cocktailbox(navController: NavController, startViewModel: StartViewModel, na
             fontWeight = FontWeight.Bold)
     }*/
 }
+
+
     fun navigateToDestination(navController: NavController, index: Int) {
        when (index) {
             0 -> navController.navigate("StartView")

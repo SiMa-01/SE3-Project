@@ -173,7 +173,7 @@ fun Cocktailbox(navController: NavController, merklistenViewModel: MerklistenVie
     val customColor = Color(0xFFFF9800)
     if (merklistenViewModel.errorMessage.isEmpty()) {
         FloatingActionButton(
-            onClick = { }, //andere Seite einfügen
+            onClick = {navController.navigate("RezeptView") },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(80.dp)
