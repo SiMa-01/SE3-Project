@@ -181,7 +181,7 @@ fun StartViewContent(navController: NavController, viewModel: StartViewModel) {
             Cocktailbox(navController, viewModel, "Mojito", ingredients, "EASY", alcoholic, "Sour")
             Cocktailbox(navController, viewModel, "Mojito", ingredients, "EASY", alcoholic, "Sour")
             Cocktailbox(navController, viewModel, "Mojito", ingredients, "EASY", alcoholic, "Sour")
-//Damit die NavigationBar drüber passt
+            //Damit die NavigationBar drüber passt
             Spacer(modifier = Modifier.height(100.dp))
 
         }

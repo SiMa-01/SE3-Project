@@ -28,6 +28,8 @@ import com.example.se3_app.ResultView.ResultView
 import com.example.se3_app.ResultView.ResultViewModel
 import com.example.se3_app.RezeptView.RezeptView
 import com.example.se3_app.RezeptView.RezeptViewModel
+import com.example.se3_app.firebase.signIn.SignInView
+import com.example.se3_app.firebase.signIn.SignInViewModel
 
 
 class MainActivity : ComponentActivity() {
@@ -55,6 +57,7 @@ fun CocktailApp(){
     val merklistenViewModel = MerklistenViewModel()
     val resultViewModel = ResultViewModel()
     val rezeptViewModel = RezeptViewModel()
+    val signInViewModel = SignInViewModel()
     val navController = rememberNavController()
 
     NavHost(navController, startDestination = "startView") {
@@ -65,7 +68,8 @@ fun CocktailApp(){
             CocktailSearchView(navController, cocktailSearchViewModel)
         }
         composable(route = "einkaufslistenView"){
-            EinkaufslistenView(navController, einkaufslistenViewModel)
+            //EinkaufslistenView(navController, einkaufslistenViewModel)
+            SignInView(navController, signInViewModel)
         }
         composable(route = "hinzufuegenView"){
             HinzufuegenView(navController, hinzufuegenViewModel)
@@ -78,6 +82,9 @@ fun CocktailApp(){
         }
         composable(route = "rezeptView"){
             RezeptView(navController, rezeptViewModel)
+        }
+        composable(route = "signInView"){
+            SignInView(navController, signInViewModel)
         }
     }
 }
