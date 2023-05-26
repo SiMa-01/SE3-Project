@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "771913156361",
+    "firebase_url": "https://se3-project-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "se3-project",
+    "storage_bucket": "se3-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:771913156361:android:a1fc7067b1b4eef06af5d8",
+        "android_client_info": {
+          "package_name": "com.example.se3_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "771913156361-takcf4mihcg6q2grm1un6l2hn75vlq1n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.se3_app",
+            "certificate_hash": "9c1811770d5e1c5df933afbd388c47743549abb8"
+          }
+        },
+        {
+          "client_id": "771913156361-jppojqrblsc2hs0mlp2gq97mu0ooddo1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAj2GkJvCv9gPF2G61h0BwfS-X-6g3Vu10"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "771913156361-jppojqrblsc2hs0mlp2gq97mu0ooddo1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
