@@ -12,7 +12,7 @@ import com.google.firebase.ktx.Firebase
 class EmailPasswordActivity : Activity() {
 
     // [START declare_auth]
-    private lateinit var auth: FirebaseAuth
+    lateinit var auth: FirebaseAuth
     // [END declare_auth]
 
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +35,7 @@ class EmailPasswordActivity : Activity() {
     }
     // [END on_start_check_user]
 
-    private fun createAccount(email: String, password: String) {
+    fun createAccount(email: String, password: String) {
         // [START create_user_with_email]
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
@@ -58,7 +58,7 @@ class EmailPasswordActivity : Activity() {
         // [END create_user_with_email]
     }
 
-    private fun signIn(email: String, password: String) {
+    fun signIn(email: String, password: String) {
         // [START sign_in_with_email]
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
@@ -81,7 +81,7 @@ class EmailPasswordActivity : Activity() {
         // [END sign_in_with_email]
     }
 
-    private fun sendEmailVerification() {
+    fun sendEmailVerification() {
         // [START send_email_verification]
         val user = auth.currentUser!!
         user.sendEmailVerification()
