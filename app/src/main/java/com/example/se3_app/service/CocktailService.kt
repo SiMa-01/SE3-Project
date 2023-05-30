@@ -16,41 +16,38 @@ class CocktailService {
     var errorMessage: String by mutableStateOf("")
     var loading: Boolean by mutableStateOf(false)
 
-    suspend fun getAllCocktails(): List<CocktailMetadataDto> {
-        val metadataDto: CocktailMetadataListDto = apiManager.httpClient.get("cocktails/")
+    suspend fun findCocktails(
+        name: String?,
+        taste:String?,
+        ingredients: List<String>?,
+        alcoholic: Boolean?,
+        difficulty: String?
+    ): List<CocktailDto> {
+        var stringURL = "cocktails?"
 
-        return metadataDto.data
-    }
-
-    suspend fun getCocktailById(cocktailId: Int): CocktailDto {
-        val metadataDto: CocktailMetadataDto = apiManager.httpClient.get("cocktails/id/$cocktailId")
-
-        return metadataDto.data
-    }
-
-    suspend fun getCocktailByName(cocktailName: String): CocktailDto {
-        val metadataDto: CocktailMetadataDto = apiManager.httpClient.get("cocktails/name/$cocktailName")
-
-        return metadataDto.data
-    }
-
-    suspend fun getCocktailByTaste(cocktailTaste: String): CocktailDto {
-        val metadataDto: CocktailMetadataDto = apiManager.httpClient.get("cocktails/taste/$cocktailTaste")
-
-        return metadataDto.data
-    }
-
-    suspend fun getCocktailByAlcoholic(cocktailAlcoholic: Boolean): CocktailDto {
-        val metadataDto: CocktailMetadataDto = apiManager.httpClient.get("cocktails/alcoholic/$cocktailAlcoholic")
-
-        return metadataDto.data
-    }
-
-    suspend fun addCocktail(cocktailDto: CocktailDto): CocktailDto {
-        val metadataDto: CocktailMetadataDto = apiManager.httpClient.post("add/") {
-            body = cocktailDto
+        if (!name.isNullOrBlank()){
+            stringURL = "$stringURL+name=$name&"
         }
+        if (!taste.isNullOrBlank()){
+            stringURL = "$stringURL+taste=$taste&"
+        }
+        if (!ingredients.isNullOrEmpty()){
+            stringURL = "$stringURL+ingredients="
+            for(element in ingredients){
+                stringURL = "$stringURL$element,"
+            }
+            stringURL = stringURL.substring(0, stringURL.length - 1)
+            stringURL = "$stringURL&"
+        }
+        if (alcoholic != null){
+            stringURL = "$stringURL+alcohilic=$alcoholic&"
+        }
+        if (!difficulty.isNullOrBlank()){
+            stringURL = "$stringURL+difficulty=$difficulty&"
+        }
+        stringURL = stringURL.substring(0, stringURL.length - 1)
 
-        return metadataDto.data
+        val cocktails: List<CocktailDto> = apiManager.httpClient.get("$stringURL")
+        return cocktails
     }
 }
