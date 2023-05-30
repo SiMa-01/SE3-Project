@@ -94,7 +94,7 @@ class MainActivity : ComponentActivity() {
         val verifyEmailViewModel = VerifyEmailViewModel()
         val navController = rememberNavController()
 
-        NavHost(navController, startDestination = "signInView") {
+        NavHost(navController, startDestination = "startView") {
             composable(route = "startView") {
                 StartView(navController, startViewModel)
             }

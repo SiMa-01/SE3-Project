@@ -32,6 +32,21 @@ class SignInViewModel: ViewModel(){
                         // Anmeldung erfolgreich und E-Mail-Adresse verifiziert
                         veriviziert = true
                         anmeldungOk = true
+
+                        user.getIdToken(true)
+                            .addOnCompleteListener { tokenTask ->
+                                if (tokenTask.isSuccessful) {
+                                    val idToken = tokenTask.result?.token
+                                    // Hier hast du den JWT (idToken) des angemeldeten Benutzers
+                                    // Führe hier weitere Operationen mit dem JWT durch
+                                    println("idToken:$idToken")
+                                } else {
+                                    // Fehler beim Abrufen des JWT
+                                    val exception = tokenTask.exception
+                                    // Behandle den Fehler entsprechend
+                                }
+                            }
+
                     } else {
                         // Anmeldung erfolgreich, aber E-Mail-Adresse nicht verifiziert
                         veriviziert = false
