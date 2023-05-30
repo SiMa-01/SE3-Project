@@ -1,12 +1,17 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.example.se3_app.einkaufslitenView
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,13 +26,16 @@ import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -81,6 +89,8 @@ fun EinkaufsListenViewContent(navController: NavController, viewModel: Einkaufsl
             },
         )
     }
+
+    //---------------------------------------------------------------------------------------------
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -88,109 +98,26 @@ fun EinkaufsListenViewContent(navController: NavController, viewModel: Einkaufsl
            //.verticalScroll(rememberScrollState())
     ) {
         Text("Liste der gemerkten Zutaten: ", fontSize = 20.sp)
-
         Box(
             modifier = Modifier
-                       .border(BorderStroke(1.dp, Color.LightGray)).fillMaxWidth()
+                .border(BorderStroke(1.dp, Color.LightGray))
+                .fillMaxWidth()
+                .padding(bottom= 50.dp).padding(5.dp)
         ) {
-            val names = listOf("Gin", "Tonic", "Eis")
-            ListScreen(names)
+            val gemerkteZutaten = listOf("Gin", "Tonic", "Eis")
+            ListScreen(gemerkteZutaten)
         }
-        Text("Liste deiner manuell hinzugefügten gemerkten Zutaten: ", fontSize = 20.sp)
-
+        Spacer(modifier = Modifier.height(10.dp))
+        Text("Zutaten, die du manuelle hinzugefügt hast ", fontSize = 20.sp)
         Box(
             modifier = Modifier
-                .border(BorderStroke(1.dp, Color.LightGray)).fillMaxWidth()
+                .border(BorderStroke(1.dp, Color.LightGray))
+                .fillMaxWidth()
         ) {
-            val names = listOf("Gin", "Tonic", "Eis")
-            ListScreen(names)
-        }
+            EditierbaereListe()
+            }
     }
-        /*
-        //Des hier soll eine normale Liste sein, aber die will nicht wie ich des möchte
 
-        @Composable
-        fun gemerkteZutatenList() {
-            val zutatenlist = listOf("Gin", "Vodka", "Eis", "Limetten", "O-Saft")
-
-            LazyColumn {
-                items(zutatenlist) { item ->
-                    Text(item)
-                }
-            }
-        }
-        @ExperimentalComposeUiApi
-        @Composable
-        fun warumgehtdermuellnet(){
-            MaterialTheme{
-                gemerkteZutatenList()
-            }
-        }
-
-        //Des soll eine editierbare Liste sein, aber die will ebenfalls net wie ich des möchte
-        Text("Liste der manuell hinzugefügten Zutaten: ", fontSize = 20.sp)
-        @Composable
-        fun EditableList() {
-            // Hier wird die Liste der Elemente gespeichert
-            var itemList by remember { mutableStateOf(mutableStateListOf<String>()) }
-
-            Column(modifier = Modifier.fillMaxSize()) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
-                ) {
-                    // Eingabefeld für den neuen Eintrag
-                    var newItemText by remember { mutableStateOf("") }
-                    TextField(
-                        value = newItemText,
-                        onValueChange = { newItemText = it },
-                        modifier = Modifier.weight(1f),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                        label = { Text("Neuer Eintrag") }
-                    )
-
-                    // Schaltfläche zum Hinzufügen des Eintrags
-                    Button(
-                        onClick = {
-                            if (newItemText.isNotBlank()) {
-                                itemList.add(newItemText)
-                                newItemText = ""
-                            }
-                        },
-                        modifier = Modifier.padding(start = 8.dp)
-                    ) {
-                        Text("Hinzufügen")
-                    }
-                }
-
-                // Anzeigen der Liste der Elemente
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 16.dp)
-                ) {
-                    items(itemList.size) { index ->
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.padding(vertical = 8.dp)
-                        ) {
-                            Text(itemList[index])
-
-                            // Schaltfläche zum Entfernen des Eintrags
-                            Button(
-                                onClick = { itemList.removeAt(index) },
-                                modifier = Modifier.padding(start = 8.dp)
-                            ) {
-                                Text("Entfernen")
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-*/
         Spacer(modifier = Modifier.height(100.dp))
 
         Box(
@@ -219,7 +146,6 @@ fun EinkaufsListenViewContent(navController: NavController, viewModel: Einkaufsl
 fun ListScreen(zutaten: List<String>) {
        LazyColumn {
         items(zutaten) { zutaten ->
-            // Hier wird jedes Element der Liste angezeigt
             ListItem(zutaten)
         }
     }
@@ -228,5 +154,55 @@ fun ListScreen(zutaten: List<String>) {
 fun ListItem(zutaten: String) {
         Text(text = zutaten)
 }
+@Composable
+fun EditierbaereListe() {
+    var itemList by remember { mutableStateOf(mutableStateListOf("Zutat 1", "Zutat 2", "Zutat 3")) }
+    val newItemState = remember { mutableStateOf("") }
+
+    fun removeItem(item: String) {
+        itemList.remove(item)
+    }
+
+
+    Column {
+        LazyColumn(
+
+        ) {
+            items(itemList) { item ->
+                Text(
+                    text = item,
+                    modifier = Modifier
+                        .clickable { removeItem(item) }
+                        .padding(5.dp)
+                )
+            }
+        }
+        TextField(
+            value = newItemState.value,
+            onValueChange = { newItemState.value = it },
+            label = { Text("Neue Zutat") },
+            modifier = Modifier.padding(16.dp)
+        )
+            FloatingActionButton(
+                onClick = {
+                    val newItem = newItemState.value
+                    if (newItem.isNotBlank()) {
+                        itemList.add(newItem)
+                        newItemState.value = ""
+                    }
+                },
+                modifier = Modifier.padding(8.dp).fillMaxWidth()
+            ) {
+                Text(text = "Zutat hinzufügen")
+            }
+
+
+        }
+    }
+
+
+
+
+
 
 
