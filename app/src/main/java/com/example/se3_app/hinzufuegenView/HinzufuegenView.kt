@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -189,7 +190,6 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: HinzufuegenV
                         modifier = Modifier
                             .weight(1f)
                             .padding(horizontal = 5.dp)
-                            .height(80.dp),
                     ) {
                         Text(
                             text = "Welche Zutaten enthält der Cocktail?",
@@ -200,62 +200,20 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: HinzufuegenV
                     Box(
                         modifier = Modifier
                             .weight(1f)
-                            .height(80.dp),
+
                     ) {
-
-
-                        var isExpaned by remember {
-                            mutableStateOf(false)
-                        }
-
-                        var zutat by remember {
-                            mutableStateOf("")
-                        }
-
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize(), contentAlignment = Alignment.Center
-
-                        ) {
-                            ExposedDropdownMenuBox(
-                                expanded = isExpaned,
-                                onExpandedChange = { isExpaned = it }) {
-                                TextField(
-                                    value = zutat,
-                                    onValueChange = {},
-                                    readOnly = true,
-                                    trailingIcon = {
-                                        ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpaned)
-                                    },
-                                    modifier = Modifier.menuAnchor()
-                                )
-                                ExposedDropdownMenu(
-                                    expanded = isExpaned,
-                                    onDismissRequest = { isExpaned = false }) {
-                                    DropdownMenuItem(
-                                        text = {
-                                            Text(text = "Gin")
-                                        },
-                                        onClick = {
-                                            zutat = "Gin"
-                                            isExpaned = false
-                                        })
-                                    DropdownMenuItem(
-                                        text = {
-                                            Text(text = "Wodka")
-                                        },
-                                        onClick = {
-                                            zutat = "Wodka"
-                                            isExpaned = false
-                                        })
-                                    DropdownMenuItem(
-                                        text = {
-                                            Text(text = "Limette")
-                                        },
-                                        onClick = {
-                                            zutat = "Limette"
-                                            isExpaned = false
-                                        })
+                        Column {
+                            val zutaten = arrayOf("apple", "banana", "cherry")// TODO Marcel: Hier nehmen wir dann das Array der Zutaten zurück
+                            var counter = 0
+                            for (x in zutaten){
+                                val checkedState = remember { mutableStateOf(false) }
+                                Row{
+                                    Checkbox(
+                                        checked = checkedState.value,
+                                        onCheckedChange = { checkedState.value = it },
+                                    )
+                                    Text(text = zutaten[counter], fontSize = 15.sp, modifier = Modifier.padding(vertical = 14.dp))
+                                    counter = counter + 1
                                 }
                             }
                         }
@@ -425,7 +383,7 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: HinzufuegenV
                 onValueChange = {
                     beschreibungsText = it
                 },
-                label = { Text(text = "Beschreibe deinen Text") },
+                label = { Text(text = "Beschreibe deinen Cocktail") },
                 placeholder = {
                     Text(
                         "Nutze für deine Beschreibung am Besten einzelne Schritte. Gebe außerdem die Mengenanzahl deiner Zutaten an. Beispiel:\nSchritt 1: Die beiden Limettenenden der unbehandelten Limetten abschneiden, die Frucht achteln und in ein Tumbler-Glas geben. \nSchritt 2: Danach 2EL braunen Zucker drüber verteilen und die Limettenstücke mit einem Stößel leicht ausdrücken. \nSchritt 3: 6cl Cachaca dazugeben und das Glas mit 5EL Crushed Ice auffüllen - alles gut durchrühren.\nSchritt 4: Eventuell noch einen Schuss Soadwasser hinzufügen und den Cocktail mit einem Trinkhalm servieren. ",

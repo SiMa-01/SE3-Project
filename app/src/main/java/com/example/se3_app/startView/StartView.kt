@@ -183,7 +183,7 @@ fun StartCocktailbox(navController: NavController, startViewModel: StartViewMode
 
 @Composable
 fun Cocktailbox(navController: NavController, name: String, ingredients: Array<String>, difficulty: String, alcoholic: Boolean, taste: String) {
-    val customColor = Color(0xFFFF9800)
+        val orange = Color(0xFFFF9800)
         FloatingActionButton(
             onClick = {navController.navigate("RezeptView") },
             modifier = Modifier.fillMaxWidth()
@@ -232,7 +232,7 @@ fun Cocktailbox(navController: NavController, name: String, ingredients: Array<S
                                     Box(
                                         modifier = Modifier
                                             .size(8.dp)
-                                            .background(customColor)
+                                            .background(orange)
                                     )
                                 } else if (difficulty == "HARD") {
                                     Box(
@@ -281,6 +281,9 @@ fun Cocktailbox(navController: NavController, name: String, ingredients: Array<S
                         }
                     }
                 }
+
+
+                //Der Rechte Teil des Buttons
                 Box (
                     modifier = Modifier
                         .weight(1f)

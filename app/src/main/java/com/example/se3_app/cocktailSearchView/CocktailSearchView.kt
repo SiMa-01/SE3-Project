@@ -27,6 +27,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -40,11 +41,14 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.se3_app.startView.navigateToDestination
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Slider
 import androidx.compose.material3.TextField
+import androidx.compose.material.*
+import androidx.compose.runtime.*
+
 
 
 @Composable
@@ -88,6 +92,8 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: CocktailS
                 }
             },
         )
+
+
 
         Column(
             modifier = Modifier
@@ -155,10 +161,9 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: CocktailS
                     }
                 }
             }
-
             Spacer(modifier = Modifier.height(8.dp))
-            // Auswahl der Zutaten
 
+            // Auswahl der Zutaten
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -170,7 +175,6 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: CocktailS
                         .padding(vertical = 5.dp)
                 )
                 {
-
                     Box(
                         modifier = Modifier
                             .weight(1f)
@@ -185,64 +189,33 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: CocktailS
                     }
                     Box(
                         modifier = Modifier
-                            .weight(1f)
-                            .height(80.dp),
+                            .weight(1f),
                     ) {
-
-
-                        var isExpaned by remember {
-                            mutableStateOf(false)
-                        }
-                        var zutat by remember {
-                            mutableStateOf("")
-                        }
                         Box(
                             modifier = Modifier
                                 .fillMaxSize(), contentAlignment = Alignment.Center
                         ) {
 
-
-                            ExposedDropdownMenuBox(
-                                expanded = isExpaned,
-                                onExpandedChange = { isExpaned = it }) {
-                                TextField(
-                                    value = zutat,
-                                    onValueChange = {},
-                                    readOnly = true,
-                                    trailingIcon = {
-                                        ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpaned)
-                                    },
-                                    modifier = Modifier.menuAnchor()
-                                )
-                                ExposedDropdownMenu(
-                                    expanded = isExpaned,
-                                    onDismissRequest = { isExpaned = false }) {
-                                    DropdownMenuItem(
-                                        text = {
-                                            Text(text = "Gin")
-                                        },
-                                        onClick = {
-                                            zutat = "Gin"
-                                            isExpaned = false
-                                        })
-                                    DropdownMenuItem(
-                                        text = {
-                                            Text(text = "Wodka")
-                                        },
-                                        onClick = {
-                                            zutat = "Wodka"
-                                            isExpaned = false
-                                        })
-                                    DropdownMenuItem(
-                                        text = {
-                                            Text(text = "Limette")
-                                        },
-                                        onClick = {
-                                            zutat = "Limette"
-                                            isExpaned = false
-                                        })
+                            Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                ){
+                                    Column {
+                                        val zutaten = arrayOf("apple", "banana", "cherry")// TODO Marcel: Hier nehmen wir dann das Array der Zutaten zurück
+                                        var counter = 0
+                                        for (x in zutaten){
+                                            val checkedState = remember { mutableStateOf(false) }
+                                            Row{
+                                                Checkbox(
+                                                    checked = checkedState.value,
+                                                    onCheckedChange = { checkedState.value = it },
+                                                )
+                                                Text(text = zutaten[counter], fontSize = 15.sp, modifier = Modifier.padding(vertical = 14.dp))
+                                                counter = counter + 1
+                                            }
+                                        }
+                                    }
                                 }
-                            }
                         }
                     }
                 }
@@ -415,7 +388,8 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: CocktailS
                 FloatingActionButton(
                     onClick = {navController.navigate("ResultView")}, //andere Seite einfügen
                     modifier = Modifier
-                        .height(40.dp).fillMaxWidth(),
+                        .height(40.dp)
+                        .fillMaxWidth(),
                 ) {
                     Text("Suchen")
                 }
