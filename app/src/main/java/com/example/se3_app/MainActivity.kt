@@ -35,6 +35,7 @@ import com.example.se3_app.rezeptView.RezeptView
 import com.example.se3_app.rezeptView.RezeptViewModel
 import com.example.se3_app.startView.StartView
 import com.example.se3_app.startView.StartViewModel
+import kotlinx.coroutines.delay
 
 
 class MainActivity : ComponentActivity() {
@@ -68,6 +69,10 @@ class MainActivity : ComponentActivity() {
         val emailPasswordActivity = EmailPasswordActivity()
         val verifyEmailViewModel = VerifyEmailViewModel()
         val navController = rememberNavController()
+
+
+        //startViewModel.getAllCocktails()
+
 
         NavHost(navController, startDestination = "startView") {
             composable(route = "startView") {

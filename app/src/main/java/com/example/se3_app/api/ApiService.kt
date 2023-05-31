@@ -20,7 +20,7 @@ class ApiService {
         defaultRequest {
             url.host = "cocktail-service.onrender.com"
             url.protocol = URLProtocol.HTTPS
-            url.encodedPath = "/api/" + url.encodedPath
+            url.encodedPath = "/api" + url.encodedPath
             contentType(ContentType.Application.Json)
         }
         HttpResponseValidator {

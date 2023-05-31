@@ -1,11 +1,8 @@
 package com.example.se3_app.startView
 
-import android.graphics.BitmapFactory
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.se3_app.Dto.CocktailDto
@@ -24,9 +21,9 @@ class StartViewModel: ViewModel() {
             loading = true
 
             try {
-                val allUsers = cocktailService.findCocktails(null, null, null, null, null)
+                val allCocktails = cocktailService.findCocktails()
                 loading = false
-                cocktails = allUsers.toMutableList()
+                cocktails = allCocktails.toMutableList()
 
             } catch (e: Exception) {
                 loading = false
