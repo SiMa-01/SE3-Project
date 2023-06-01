@@ -1,7 +1,7 @@
 package com.example.se3_app.startView
 
 import androidx.compose.foundation.background
-
+import kotlinx.coroutines.*
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun StartView(navController: NavController, viewModel: StartViewModel) {
+    viewModel.getAllCocktails()
     StartViewContent(navController, viewModel)
 
 }
@@ -79,6 +80,7 @@ fun StartViewContent(navController: NavController, viewModel: StartViewModel) {
         ) {
             Text("Der Cocktail der Woche", fontSize = 20.sp)
             Spacer(modifier = Modifier.height(8.dp))
+            println("drink ${viewModel.cocktails}")
             val name = "Gin Tonic"
             var ingredients = arrayOf("Wodka", "Tonic", "Eis")
             val difficulty = "EASY"

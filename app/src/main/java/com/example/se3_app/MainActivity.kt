@@ -70,10 +70,6 @@ class MainActivity : ComponentActivity() {
         val verifyEmailViewModel = VerifyEmailViewModel()
         val navController = rememberNavController()
 
-
-        //startViewModel.getAllCocktails()
-
-
         NavHost(navController, startDestination = "startView") {
             composable(route = "startView") {
                 StartView(navController, startViewModel)
@@ -109,6 +105,8 @@ class MainActivity : ComponentActivity() {
             composable(route = "verifyEmailView") {
                 VerifyEmailView(navController, verifyEmailViewModel)
             }
+
+
         }
     }
 }

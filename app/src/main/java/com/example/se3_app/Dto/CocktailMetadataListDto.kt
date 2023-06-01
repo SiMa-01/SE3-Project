@@ -4,6 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class CocktailMetadataListDto (
-    val data: List<CocktailMetadataDto>
+    val data: List<CocktailDto>
     )
 
