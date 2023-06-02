@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 @Composable
@@ -188,19 +189,14 @@ fun Cocktailbox(navController: NavController, name: String, ingredients: Array<S
         val orange = Color(0xFFFF9800)
         FloatingActionButton(
             onClick = {navController.navigate("RezeptView") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .height(80.dp)
         ) {
             // Das ist der linke Teil des Buttons
-            Row (
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 5.dp)
-            )
-            {
+
                 Box (
                     modifier = Modifier
-                        .weight(1f)
                         .padding(horizontal = 5.dp)
                 )
                 {
@@ -209,7 +205,7 @@ fun Cocktailbox(navController: NavController, name: String, ingredients: Array<S
                             .fillMaxWidth()
                             .padding(vertical = 5.dp)
                     ) {
-                        Text(text = name,fontSize = 15.sp)
+                        Text(text = name,fontSize = 15.sp, fontWeight = FontWeight.Bold)
                         Spacer(modifier = Modifier.height(8.dp))
                         Row(
                             modifier = Modifier
@@ -220,7 +216,7 @@ fun Cocktailbox(navController: NavController, name: String, ingredients: Array<S
                             Box(
                                 modifier = Modifier
                                     .weight(1f)
-                                    .padding(horizontal = 5.dp)
+                                    .padding(vertical = 5.dp, horizontal = 10.dp)
                             )
                             {
                                 //Den Schwierigkeitsgrad durch Farben darstellen
@@ -247,7 +243,6 @@ fun Cocktailbox(navController: NavController, name: String, ingredients: Array<S
                             Box(
                                 modifier = Modifier
                                     .weight(1f)
-                                    .padding(horizontal = 5.dp)
                             )
                             {
                                 //Den Alkoholgehalt durch Alkohol darstellen
@@ -260,8 +255,13 @@ fun Cocktailbox(navController: NavController, name: String, ingredients: Array<S
                             Box(
                                 modifier = Modifier
                                     .weight(1f)
-                                    .padding(horizontal = 5.dp)
-
+                            ) {      //wenn der Button geklickt wird -> zur Merkliste hinzufügen
+                                //Den Geschmack nennen
+                                Text(taste)
+                            }
+                            Box(
+                                modifier = Modifier
+                                    .weight(1f)
                             ) {      //wenn der Button geklickt wird -> zur Merkliste hinzufügen
                                 val isClicked = remember { mutableStateOf(false) }
                                 IconButton(
@@ -283,37 +283,10 @@ fun Cocktailbox(navController: NavController, name: String, ingredients: Array<S
                         }
                     }
                 }
-
-
-                //Der Rechte Teil des Buttons
-                Box (
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(horizontal = 5.dp)
-                        .height(80.dp),
-                )
-                {
-                    Column (
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 5.dp)
-                    ){
-                        //Den Zutaten auflisten
-                        var Zutaten = ""
-                        for (item in ingredients) {
-                            Zutaten = Zutaten + ", " +  item
-                        }
-                        Zutaten = Zutaten.drop(2)
-                        Text(Zutaten)
-
-                        //Den Geschmack nennen
-                        Text(taste)
-                    }
-                }
             }
+    Spacer(modifier = Modifier.height(8.dp))
         }
-        Spacer(modifier = Modifier.height(5.dp))
-}
+
     fun navigateToDestination(navController: NavController, index: Int) {
        when (index) {
             0 -> navController.navigate("StartView")

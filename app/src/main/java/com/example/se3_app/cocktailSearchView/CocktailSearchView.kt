@@ -47,8 +47,9 @@ import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Slider
 import androidx.compose.material3.TextField
 import androidx.compose.material.*
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.runtime.*
-
+import androidx.compose.ui.text.input.TextFieldValue
 
 
 @Composable
@@ -103,6 +104,23 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: CocktailS
         ) {
             Text("Wähle alle Einschränkungen für deinen Cocktail aus:", fontSize = 20.sp)
             Spacer(modifier = Modifier.height(8.dp))
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .border(BorderStroke(1.dp, Color.LightGray))
+            ){
+                var textValue by remember { mutableStateOf(TextFieldValue()) }
+
+                OutlinedTextField(
+                    value = textValue,
+                    onValueChange = { textValue = it },
+                    label = { Text("Name des Cocktails") },
+                )
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -201,7 +219,7 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: CocktailS
                                         .fillMaxWidth()
                                 ){
                                     Column {
-                                        val zutaten = arrayOf("apple", "banana", "cherry")// TODO Marcel: Hier nehmen wir dann das Array der Zutaten zurück
+                                        val zutaten = arrayOf("apple", "banana", "cherry", "apple", "banana", "cherry")// TODO Marcel: Hier nehmen wir dann das Array der Zutaten zurück
                                         var counter = 0
                                         for (x in zutaten){
                                             val checkedState = remember { mutableStateOf(false) }
@@ -394,9 +412,11 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: CocktailS
                     Text("Suchen")
                 }
             }
+            Spacer(modifier = Modifier.height(100.dp))
+
         }
-        }
-        Spacer(modifier = Modifier.height(100.dp))
+
+    }
         Box(
             modifier = Modifier
                 .fillMaxSize()
