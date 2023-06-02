@@ -22,12 +22,12 @@ class StartViewModel: ViewModel() {
 
             try {
                 val allCocktails = cocktailService.findCocktails()
-                loading = false
                 cocktails = allCocktails.toMutableList()
-
+                loading = false
             } catch (e: Exception) {
                 loading = false
                 errorMessage = e.message.toString()
+                println("fehler $errorMessage")
             }
         }
     }

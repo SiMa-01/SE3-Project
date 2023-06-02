@@ -18,8 +18,8 @@ class ApiService {
             })
         }
         defaultRequest {
-            url.host = "cocktail-service.onrender.com"
             url.protocol = URLProtocol.HTTPS
+            url.host = "cocktail-service.onrender.com"
             url.encodedPath = "/api" + url.encodedPath
             contentType(ContentType.Application.Json)
         }
