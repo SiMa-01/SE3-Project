@@ -14,7 +14,6 @@ import io.ktor.client.request.post
 class CocktailService {
     private val apiManager = ApiService()
     var errorMessage: String by mutableStateOf("")
-    var loading: Boolean by mutableStateOf(false)
 
     suspend fun findCocktails(
         name: String? = null,
