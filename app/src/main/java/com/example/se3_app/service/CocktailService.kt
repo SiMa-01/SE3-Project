@@ -4,15 +4,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.example.se3_app.Dto.CocktailDto
-import com.example.se3_app.Dto.CocktailMetadataDto
-import com.example.se3_app.Dto.CocktailMetadataListDto
-import com.example.se3_app.api.ApiService
-import io.ktor.client.features.get
+import com.example.se3_app.Dto.ListDto
+import com.example.se3_app.api.ApiManager
 import io.ktor.client.request.get
 import io.ktor.client.request.post
 
 class CocktailService {
-    private val apiManager = ApiService()
+    private val apiManager = ApiManager()
     var errorMessage: String by mutableStateOf("")
 
     suspend fun findCocktails(
@@ -48,6 +46,11 @@ class CocktailService {
 
         val cocktails: List<CocktailDto> = apiManager.httpClient.get(stringURL)
         return cocktails
+    }
+
+    suspend fun getIngredients(): List<String> {
+        val ingredients: List<String> = apiManager.httpClient.get("ingredients")
+        return ingredients
     }
 
     suspend fun addCocktail(cocktailDto: CocktailDto): CocktailDto{

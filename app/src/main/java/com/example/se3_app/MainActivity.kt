@@ -16,7 +16,6 @@ import com.example.se3_app.cocktailSearchView.CocktailSearchView
 import com.example.se3_app.cocktailSearchView.CocktailSearchViewModel
 import com.example.se3_app.einkaufslitenView.EinkaufslistenView
 import com.example.se3_app.einkaufslitenView.EinkaufslistenViewModel
-import com.example.se3_app.firebase.EmailPasswordActivity
 import com.example.se3_app.firebase.forgot_password.ForgotPasswordView
 import com.example.se3_app.firebase.forgot_password.ForgotPasswordViewModel
 import com.example.se3_app.firebase.sign_in.SignInView
@@ -27,6 +26,7 @@ import com.example.se3_app.firebase.verify_email.VerifyEmailView
 import com.example.se3_app.firebase.verify_email.VerifyEmailViewModel
 import com.example.se3_app.hinzufuegenView.HinzufuegenView
 import com.example.se3_app.hinzufuegenView.HinzufuegenViewModel
+import com.example.se3_app.loadingScreen.AnimatedSplashScreen
 import com.example.se3_app.merklistenView.MerklistenView
 import com.example.se3_app.merklistenView.MerklistenViewModel
 import com.example.se3_app.resultView.ResultView
@@ -35,7 +35,6 @@ import com.example.se3_app.rezeptView.RezeptView
 import com.example.se3_app.rezeptView.RezeptViewModel
 import com.example.se3_app.startView.StartView
 import com.example.se3_app.startView.StartViewModel
-import kotlinx.coroutines.delay
 
 
 class MainActivity : ComponentActivity() {
@@ -66,11 +65,10 @@ class MainActivity : ComponentActivity() {
         val signInViewModel = SignInViewModel()
         val signUpViewModel = SignUpViewModel()
         val forgotPasswordViewModel = ForgotPasswordViewModel()
-        val emailPasswordActivity = EmailPasswordActivity()
         val verifyEmailViewModel = VerifyEmailViewModel()
         val navController = rememberNavController()
 
-        NavHost(navController, startDestination = "startView") {
+        NavHost(navController, startDestination = "splashScreen") {
             composable(route = "startView") {
                 StartView(navController, startViewModel)
             }
@@ -94,16 +92,19 @@ class MainActivity : ComponentActivity() {
                 RezeptView(navController, rezeptViewModel)
             }
             composable(route = "signInView") {
-                SignInView(navController, signInViewModel, emailPasswordActivity)
+                SignInView(navController, signInViewModel)
             }
             composable(route = "signUpView") {
-                SignUpView(navController, signUpViewModel, emailPasswordActivity)
+                SignUpView(navController, signUpViewModel)
             }
             composable(route = "forgotPasswordView") {
                 ForgotPasswordView(navController, forgotPasswordViewModel)
             }
             composable(route = "verifyEmailView") {
                 VerifyEmailView(navController, verifyEmailViewModel)
+            }
+            composable(route = "splashScreen") {
+                AnimatedSplashScreen(navController, startViewModel)
             }
 
 

@@ -33,12 +33,11 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.se3_app.firebase.EmailPasswordActivity
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignInView(navController: NavController, signInViewModel: SignInViewModel, emailPasswordActivity: EmailPasswordActivity) {
+fun SignInView(navController: NavController, signInViewModel: SignInViewModel) {
     val context  = LocalContext.current
     Box(modifier = Modifier.fillMaxSize()) {
         ClickableText(

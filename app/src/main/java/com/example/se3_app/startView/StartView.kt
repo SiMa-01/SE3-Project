@@ -1,5 +1,6 @@
 package com.example.se3_app.startView
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import kotlinx.coroutines.*
 import androidx.compose.foundation.layout.padding
@@ -24,12 +25,14 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.example.se3_app.R
 
 @Composable
 fun StartView(navController: NavController, viewModel: StartViewModel) {
-    viewModel.getAllCocktails()
     StartViewContent(navController, viewModel)
 
 }
@@ -49,17 +52,21 @@ fun StartViewContent(navController: NavController, viewModel: StartViewModel) {
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TopAppBar(
+        TopAppBar( modifier = Modifier.align(Alignment.CenterHorizontally),
             title = {
                 Row(
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    /*Image(
-                        painter = painterResource(id = R.drawable.cocktail), // Das Logo wird aktuell noch viel zu groß angezeigt. Daher habe ich es noch nicht hingekommen
-                        contentDescription = "Logo",
-                        modifier = Modifier.padding(end = 8.dp)
-                    )*/
-                    Text("MIX'N'FIX", fontSize = 30.sp)
+                    Image(
+                        painter = painterResource(id = R.drawable.cocktail),
+                        contentDescription = "App Logo",
+                        modifier = Modifier
+                            .size(30.dp)
+                    )
+                    Text("MIX'N'FIX",
+                        fontSize = 30.sp,
+                        modifier = Modifier
+                    )
                 }
             },
             navigationIcon = {
@@ -82,20 +89,20 @@ fun StartViewContent(navController: NavController, viewModel: StartViewModel) {
             Text("Der Cocktail der Woche", fontSize = 20.sp)
             Spacer(modifier = Modifier.height(8.dp))
             println("drink ${viewModel.cocktails}")
-            val name = "Gin Tonic"
-            var ingredients = arrayOf("Wodka", "Tonic", "Eis")
-            val difficulty = "EASY"
-            var alcoholic by remember { mutableStateOf(true) }
-            val taste = "Sweet"
+            val name = viewModel.cocktails[0].name
+            var ingredients = viewModel.cocktails[0].ingredients
+            val difficulty = viewModel.cocktails[0].difficulty
+            var alcoholic = viewModel.cocktails[0].alcoholic
+            val taste = viewModel.cocktails[0].taste
 
             StartCocktailbox(
                 navController,
                 viewModel,
-                name,
-                ingredients,
-                difficulty,
+                name!!,
+                ingredients!!,
+                difficulty!!,
                 alcoholic,
-                taste
+                taste!!
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -220,19 +227,19 @@ fun Cocktailbox(navController: NavController, name: String, ingredients: Array<S
                             )
                             {
                                 //Den Schwierigkeitsgrad durch Farben darstellen
-                                if (difficulty == "EASY") {
+                                if (difficulty == "einfach") {
                                     Box(
                                         modifier = Modifier
                                             .size(8.dp)
                                             .background(Color.Green)
                                     )
-                                } else if (difficulty == "MEDIUM") {
+                                } else if (difficulty == "mittel") {
                                     Box(
                                         modifier = Modifier
                                             .size(8.dp)
                                             .background(orange)
                                     )
-                                } else if (difficulty == "HARD") {
+                                } else if (difficulty == "schwierig") {
                                     Box(
                                         modifier = Modifier
                                             .size(8.dp)

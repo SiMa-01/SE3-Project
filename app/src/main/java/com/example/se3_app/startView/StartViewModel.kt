@@ -14,6 +14,7 @@ class StartViewModel: ViewModel() {
     var loading: Boolean by mutableStateOf(false)
     private val cocktailService = CocktailService()
     var cocktails: MutableList<CocktailDto> by mutableStateOf(mutableListOf())
+    lateinit var incredients: List<String>
 
     fun getAllCocktails() {
         viewModelScope.launch {
@@ -23,6 +24,23 @@ class StartViewModel: ViewModel() {
             try {
                 val allCocktails = cocktailService.findCocktails()
                 cocktails = allCocktails.toMutableList()
+                loading = false
+            } catch (e: Exception) {
+                loading = false
+                errorMessage = e.message.toString()
+                println("fehler $errorMessage")
+            }
+        }
+    }
+
+    fun getAllIncredients(){
+        viewModelScope.launch {
+            errorMessage = ""
+            loading = true
+
+            try {
+                val allIncredients = cocktailService.getIngredients()
+                incredients = allIncredients.toMutableList()
                 loading = false
             } catch (e: Exception) {
                 loading = false

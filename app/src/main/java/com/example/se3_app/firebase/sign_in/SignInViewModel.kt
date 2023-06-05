@@ -20,6 +20,8 @@ class SignInViewModel: ViewModel(){
 
     var veriviziert: Boolean by mutableStateOf(false)
     var anmeldungOk: Boolean by mutableStateOf(false)
+    var userId: String? = null // UserID des angemeldeten Benutzers
+
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
@@ -30,6 +32,7 @@ class SignInViewModel: ViewModel(){
                     val user: FirebaseUser? = auth.currentUser
                     if (user != null && user.isEmailVerified) {
                         // Anmeldung erfolgreich und E-Mail-Adresse verifiziert
+                        userId = user.uid
                         veriviziert = true
                         anmeldungOk = true
 
