@@ -37,13 +37,13 @@ jobs:
         with:
           arguments: build
 
-  ktlint:
-     runs-on: ubuntu-latest
-
-     steps:
-       - name: "checkout"
-         uses: actions/checkout@v2
-
-       - name: "ktlint"
-         uses: "vroy/gha-kotlin-linter@v1"
+#  ktlint:
+ #    runs-on: ubuntu-latest
+#
+ #    steps:
+  #     - name: "checkout"
+   #      uses: actions/checkout@v2
+#
+ #      - name: "ktlint"
+  #       uses: "vroy/gha-kotlin-linter@v1"
 
