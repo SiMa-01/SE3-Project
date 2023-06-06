@@ -1,7 +1,9 @@
 package com.example.se3_app.rezeptView
 
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,10 +13,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
@@ -28,12 +32,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -79,6 +85,9 @@ fun RezeptViewContent(navController: NavController, viewModel: RezeptViewModel) 
                 }
             },
         )
+
+        //----------------------------------
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -108,11 +117,40 @@ fun RezeptViewContent(navController: NavController, viewModel: RezeptViewModel) 
                     .padding(horizontal = 5.dp)
                     .border(BorderStroke(1.dp, Color.LightGray))
             ) {
-                Text(
-                    text = "Listiii"
-                )
+
+                val zutatenList by remember {
+                    mutableStateOf(
+                        mutableStateListOf(
+                            "Zutat 1",
+                            "Zutat 2",
+                            "Zutat 3"
+                        )
+                    )
+                }
+                Column {
+
+                    for (item in zutatenList) {
+                        Row(Modifier.padding(8.dp)) {
+                            Text(
+                                item,
+                                modifier = Modifier.weight(1f)
+                            )
+                            IconButton(
+                                onClick = {
+                                  //        showToastMessage("$item wurde hinzugefügt")
+                                    // TODO hier kommt das hinzufügen zur Einkaufsliste
+                                },
+                                modifier = Modifier.size(24.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Add,
+                                    contentDescription = "Hinzufügen"
+                                )
+                            }
+                        }
+                    }
+                }
             }
-            //TODO: Hier fügt Felix die Liste der Einkaufslite ein
             Spacer(modifier = Modifier.height(8.dp))
             Text("Die Zubereitung umfasst folgende Schritte: ", fontSize = 20.sp)
             Box(
@@ -158,4 +196,9 @@ fun RezeptCocktailbox(navController: NavController, rezeptViewModel: RezeptViewM
     if (rezeptViewModel.errorMessage.isEmpty()) {
         Cocktailbox(navController, name, ingredients, difficulty, alcoholic, taste)
     }
+}
+@Composable
+fun showToastMessage(message:String){
+    val context= LocalContext.current
+    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 }
