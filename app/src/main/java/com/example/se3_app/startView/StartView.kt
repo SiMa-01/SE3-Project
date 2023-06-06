@@ -20,6 +20,7 @@ import java.util.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
@@ -112,7 +113,7 @@ fun StartViewContent(navController: NavController, viewModel: StartViewModel) {
             },
             actions = {
                 IconButton(onClick = { /* Aktion beim Klick auf das zweite Icon */ }) { //TODO Hilfe View erstellen und navigieren
-                    Icon(Icons.Filled.Search, contentDescription = "Search Icon")
+                    Icon(Icons.Filled.Info, contentDescription = "Search Icon")
                 }
             }
         )
