@@ -34,6 +34,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import com.example.se3_app.R
@@ -86,62 +87,35 @@ fun StartViewContent(navController: NavController, viewModel: StartViewModel) {
 
 
 
-        /*TopAppBar(
+        TopAppBar(
             modifier = Modifier.fillMaxWidth(),
             navigationIcon = {
                 Icon(
-                    painter = painterResource(id = R.drawable.cocktail),
+                    painter = painterResource(id = R.drawable.logo_app_icon),
                     contentDescription = "Menu",
                     modifier = Modifier
                             .size(40.dp)
                 )
             },
             title = {
-                Text(
-                        "MIX'N'FIX",
-                fontSize = 30.sp,
-                modifier = Modifier.align(Alignment.CenterHorizontally).padding(5.dp))
-            },
-
-        )*/
-
-
-
-
-
-        TopAppBar(
-            modifier = Modifier.fillMaxWidth(),
-            title = {
-                Row(
+                Box(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 5.dp)
+                        .fillMaxSize()
                 ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.cocktail),
-                        contentDescription = "App Logo",
-                        modifier = Modifier
-                            .size(30.dp)
-                    )
                     Text(
-                        text ="MIX'N'FIX",
-                        fontSize = 30.sp,
+                        text = "MIX'N'FIX",
                         fontFamily = font,
-                        modifier = Modifier
-                            .weight(1f)
-
+                        fontSize = 30.sp,
+                        modifier = Modifier.align(Alignment.Center)
                     )
                 }
             },
-            navigationIcon = {
-                IconButton(
-                    onClick = { /* Navigationsaktion ausführen */ }
-                ) {
-                    // Hier können Sie ein Navigations-Icon hinzufügen, z.B. ein Menü-Icon
+            actions = {
+                IconButton(onClick = { /* Aktion beim Klick auf das zweite Icon */ }) { //TODO Hilfe View erstellen und navigieren
+                    Icon(Icons.Filled.Search, contentDescription = "Search Icon")
                 }
-            },
+            }
         )
-
 
         //--------------------------------------------------------------------------------------------------------------
 
@@ -453,18 +427,30 @@ fun Cocktailbox(navController: NavController, name: String, ingredients: Array<S
 
                                 } else if (difficulty == "mittel") {
                                     Row(){
-                                        Box(
+                                       /* Box(
                                             modifier = Modifier
                                                 .size(10.dp)
                                                 .background(orange)
+                                        )*/
+                                        Icon(
+                                            painter = painterResource(id = R.drawable.medium),
+                                            contentDescription = "mittel",
+                                            modifier = Modifier
+                                                .size(30.dp)
                                         )
                                     }
 
                                 } else if (difficulty == "schwierig") {
-                                    Box(
+                                    /*Box(
                                         modifier = Modifier
                                             .size(10.dp)
                                             .background(Color.Red)
+                                    )*/
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.hard),
+                                        contentDescription = "schwierig",
+                                        modifier = Modifier
+                                            .size(30.dp)
                                     )
 
                                 }
