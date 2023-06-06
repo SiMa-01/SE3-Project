@@ -34,6 +34,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun AnimatedSplashScreen(navController: NavController, startViewModel: StartViewModel) {
     var startAnimation by remember { mutableStateOf(false) }
+    val mussHierhin: String
 
     val alphaAnim = animateFloatAsState(
         targetValue = if (startAnimation) 1f else 0f,
