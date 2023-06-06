@@ -30,12 +30,15 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import com.example.se3_app.R
-import com.example.se3_app.ui.theme.buttonFarbe
 import com.example.se3_app.ui.theme.green
+import com.example.se3_app.ui.theme.neueIdee
 import com.example.se3_app.ui.theme.orange
 
 
@@ -53,6 +56,9 @@ fun generateRandomNumbers(): List<Int> {
 }
 
 val randomList = generateRandomNumbers()
+val font = FontFamily(
+    Font(resId = R.font.arciform)
+)
 
 @Composable
 fun StartView(navController: NavController, viewModel: StartViewModel) {
@@ -64,6 +70,7 @@ fun StartView(navController: NavController, viewModel: StartViewModel) {
 fun StartViewContent(navController: NavController, viewModel: StartViewModel) {
     // Das müssen wir vermutlich überall hin kopieren
 
+    val buttonFarbe = Color(0x6A6C84FF)
 
     var selectedItem by remember { mutableStateOf(0) }
     val items = listOf("Home", "Cocktails", "Merkliste", "Einkaufsliste")
@@ -100,6 +107,8 @@ fun StartViewContent(navController: NavController, viewModel: StartViewModel) {
 
 
 
+
+
         TopAppBar(
             modifier = Modifier.fillMaxWidth(),
             title = {
@@ -115,8 +124,9 @@ fun StartViewContent(navController: NavController, viewModel: StartViewModel) {
                             .size(30.dp)
                     )
                     Text(
-                        "MIX'N'FIX",
+                        text ="MIX'N'FIX",
                         fontSize = 30.sp,
+                        fontFamily = font,
                         modifier = Modifier
                             .weight(1f)
 
@@ -175,9 +185,9 @@ fun StartViewContent(navController: NavController, viewModel: StartViewModel) {
                     modifier = Modifier
                         .weight(1f)
                         .height(80.dp),
-                    containerColor = buttonFarbe
+                    containerColor = neueIdee
                 ) {
-                    Text("Cocktail suchen", fontSize = 15.sp)
+                    Text("Cocktail suchen", fontFamily = font, fontSize = 15.sp)
                 }
                 FloatingActionButton(
                     onClick = {navController.navigate("HinzufuegenView")}, //andere Seite einfügen
@@ -185,9 +195,10 @@ fun StartViewContent(navController: NavController, viewModel: StartViewModel) {
                         .weight(1f)
                         .padding(horizontal = 5.dp)
                         .height(80.dp),
-                    containerColor = buttonFarbe
+                    containerColor = neueIdee
                 ) {
-                    Text("Rezept hinzufügen", fontSize = 15.sp)
+                    Text("Rezept hinzufügen", fontFamily = font,
+                        fontSize = 15.sp)
                 }
             }
 
@@ -340,12 +351,13 @@ fun Cocktailbox(navController: NavController, name: String, ingredients: Array<S
         onClick = {navController.navigate("RezeptView") },
         modifier = Modifier
             .fillMaxWidth(),
-        containerColor = buttonFarbe
+        containerColor = neueIdee
 
     ) {
         Box (
             modifier = Modifier
-                .padding(horizontal = 5.dp)
+                .padding(horizontal = 5.dp),
+
         )
         {
             Column (
@@ -379,6 +391,7 @@ fun Cocktailbox(navController: NavController, name: String, ingredients: Array<S
 
                             Text(
                                 text = name,
+                                fontFamily = font,
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.Bold,
                                 modifier = Modifier
@@ -426,10 +439,16 @@ fun Cocktailbox(navController: NavController, name: String, ingredients: Array<S
                             ) {
                                 //Den Schwierigkeitsgrad durch Farben darstellen
                                 if (difficulty == "einfach") {
-                                    Box(
+                                  /*  Box(
                                         modifier = Modifier
                                             .size(10.dp)
                                             .background(green)
+                                    )*/
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.easy),
+                                        contentDescription = "einfach",
+                                        modifier = Modifier
+                                            .size(30.dp)
                                     )
 
                                 } else if (difficulty == "mittel") {
@@ -473,9 +492,11 @@ fun Cocktailbox(navController: NavController, name: String, ingredients: Array<S
                             )
                             {
                                 if (alcoholic) {
-                                    Text("%", fontSize = 15.sp)
+                                    Text("%", fontFamily = font,
+                                        fontSize = 15.sp)
                                 } else {
-                                    Text("kein %", fontSize = 15.sp)
+                                    Text("kein %", fontFamily = font,
+                                        fontSize = 15.sp)
                                 }
                             }
                             //Den Geschmack nennen
