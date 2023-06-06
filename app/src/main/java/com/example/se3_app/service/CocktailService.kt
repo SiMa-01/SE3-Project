@@ -44,7 +44,7 @@ class CocktailService {
         }
         stringURL = stringURL.substring(0, stringURL.length - 1)
 
-        val cocktails: List<CocktailDto> = apiManager.httpClient.get(stringURL)
+            val cocktails: List<CocktailDto> = apiManager.httpClient.get(stringURL)
         return cocktails
     }
 
