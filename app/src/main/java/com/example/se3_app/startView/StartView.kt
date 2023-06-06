@@ -23,13 +23,32 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.rounded.Check
+import androidx.compose.material.icons.rounded.Warning
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.example.se3_app.R
+
+
+fun generateRandomNumbers(): List<Int> {
+    val randomNumbers = mutableListOf<Int>()
+
+    while (randomNumbers.size < 8) {
+        val randomNumber = (0..30).random()
+        if (!randomNumbers.contains(randomNumber)) {
+            randomNumbers.add(randomNumber)
+        }
+    }
+
+    return randomNumbers
+}
+
+val randomList = generateRandomNumbers()
 
 @Composable
 fun StartView(navController: NavController, viewModel: StartViewModel) {
@@ -49,23 +68,54 @@ fun StartViewContent(navController: NavController, viewModel: StartViewModel) {
         Icons.Filled.Favorite, Icons.Filled.List
     )
     Column(
-        verticalArrangement = Arrangement.SpaceBetween,
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        //verticalArrangement = Arrangement.SpaceBetween,
     ) {
-        TopAppBar( modifier = Modifier.align(Alignment.CenterHorizontally),
+
+
+
+        /*TopAppBar(
+            modifier = Modifier.fillMaxWidth(),
+            navigationIcon = {
+                Icon(
+                    painter = painterResource(id = R.drawable.cocktail),
+                    contentDescription = "Menu",
+                    modifier = Modifier
+                            .size(40.dp)
+                )
+            },
+            title = {
+                Text(
+                        "MIX'N'FIX",
+                fontSize = 30.sp,
+                modifier = Modifier.align(Alignment.CenterHorizontally).padding(5.dp))
+            },
+
+        )*/
+
+
+
+        TopAppBar(
+            modifier = Modifier.fillMaxWidth(),
             title = {
                 Row(
-                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 5.dp)
                 ) {
-                    Image(
+                    Icon(
                         painter = painterResource(id = R.drawable.cocktail),
                         contentDescription = "App Logo",
                         modifier = Modifier
                             .size(30.dp)
                     )
-                    Text("MIX'N'FIX",
+                    Text(
+                        "MIX'N'FIX",
                         fontSize = 30.sp,
                         modifier = Modifier
+                            .weight(1f)
+
                     )
                 }
             },
@@ -77,6 +127,7 @@ fun StartViewContent(navController: NavController, viewModel: StartViewModel) {
                 }
             },
         )
+
 
         //--------------------------------------------------------------------------------------------------------------
 
@@ -139,7 +190,7 @@ fun StartViewContent(navController: NavController, viewModel: StartViewModel) {
             Spacer(modifier = Modifier.height(8.dp))
 
             // Hier ist der Test der Methode
-            ingredients = arrayOf("Cachaca",  "Limette", "Rohrzucker")
+            /*ingredients = arrayOf("Cachaca",  "Limette", "Rohrzucker")
             StartCocktailbox(navController, viewModel, "Caipirinha", ingredients, "MEDIUM", alcoholic, "Sour")
             ingredients = arrayOf("Rum", "Soda", "Limette", "Rohrzucker")
             StartCocktailbox(navController, viewModel, "Mojito", ingredients, "EASY", alcoholic, "Sour")
@@ -149,6 +200,90 @@ fun StartViewContent(navController: NavController, viewModel: StartViewModel) {
             StartCocktailbox(navController, viewModel, "Mojito", ingredients, "EASY", alcoholic, "Sour")
             StartCocktailbox(navController, viewModel, "Mojito", ingredients, "EASY", alcoholic, "Sour")
             StartCocktailbox(navController, viewModel, "Mojito", ingredients, "EASY", alcoholic, "Sour")
+            */
+
+                viewModel.cocktails[randomList[0]].ingredients?.let {
+                    StartCocktailbox(
+                        navController,
+                        viewModel,
+                        viewModel.cocktails[randomList[0]].name.toString(),
+                        it,
+                        viewModel.cocktails[randomList[0]].difficulty.toString(),
+                        viewModel.cocktails[randomList[0]].alcoholic,
+                        viewModel.cocktails[randomList[0]].taste.toString()
+                    )
+                }
+
+            viewModel.cocktails[randomList[1]].ingredients?.let {
+                StartCocktailbox(
+                    navController,
+                    viewModel,
+                    viewModel.cocktails[randomList[1]].name.toString(),
+                    it,
+                    viewModel.cocktails[randomList[1]].difficulty.toString(),
+                    viewModel.cocktails[randomList[1]].alcoholic,
+                    viewModel.cocktails[randomList[1]].taste.toString()
+                )
+            }
+            viewModel.cocktails[randomList[2]].ingredients?.let {
+                StartCocktailbox(
+                    navController,
+                    viewModel,
+                    viewModel.cocktails[randomList[2]].name.toString(),
+                    it,
+                    viewModel.cocktails[randomList[2]].difficulty.toString(),
+                    viewModel.cocktails[randomList[2]].alcoholic,
+                    viewModel.cocktails[randomList[2]].taste.toString()
+                )
+            }
+
+            viewModel.cocktails[randomList[3]].ingredients?.let {
+                StartCocktailbox(
+                    navController,
+                    viewModel,
+                    viewModel.cocktails[randomList[3]].name.toString(),
+                    it,
+                    viewModel.cocktails[randomList[3]].difficulty.toString(),
+                    viewModel.cocktails[randomList[3]].alcoholic,
+                    viewModel.cocktails[randomList[3]].taste.toString()
+                )
+            }
+
+            viewModel.cocktails[randomList[4]].ingredients?.let {
+                StartCocktailbox(
+                    navController,
+                    viewModel,
+                    viewModel.cocktails[randomList[4]].name.toString(),
+                    it,
+                    viewModel.cocktails[randomList[4]].difficulty.toString(),
+                    viewModel.cocktails[randomList[4]].alcoholic,
+                    viewModel.cocktails[randomList[4]].taste.toString()
+                )
+            }
+
+            viewModel.cocktails[randomList[5]].ingredients?.let {
+                StartCocktailbox(
+                    navController,
+                    viewModel,
+                    viewModel.cocktails[randomList[5]].name.toString(),
+                    it,
+                    viewModel.cocktails[randomList[5]].difficulty.toString(),
+                    viewModel.cocktails[randomList[5]].alcoholic,
+                    viewModel.cocktails[randomList[5]].taste.toString()
+                )
+            }
+            viewModel.cocktails[randomList[6]].ingredients?.let {
+                StartCocktailbox(
+                    navController,
+                    viewModel,
+                    viewModel.cocktails[randomList[6]].name.toString(),
+                    it,
+                    viewModel.cocktails[randomList[6]].difficulty.toString(),
+                    viewModel.cocktails[randomList[6]].alcoholic,
+                    viewModel.cocktails[randomList[6]].taste.toString()
+                )
+            }
+
 
             //Damit die NavigationBar drüber passt
             Spacer(modifier = Modifier.height(100.dp))
