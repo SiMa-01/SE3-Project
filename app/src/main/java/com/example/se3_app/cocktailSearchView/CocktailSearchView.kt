@@ -261,7 +261,7 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: CocktailS
                                     horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
                                     FloatingActionButton(
-                                        onClick = { navController.navigate("ResultView") }, //andere Seite einfügen
+                                        onClick = { }, //TODO Simon Seite hinterlegen
                                         modifier = Modifier
                                             .height(40.dp)
                                             .fillMaxWidth(),
