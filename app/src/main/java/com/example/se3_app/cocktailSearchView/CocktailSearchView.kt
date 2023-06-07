@@ -1,6 +1,7 @@
 package com.example.se3_app.cocktailSearchView
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -41,15 +42,21 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.se3_app.startView.navigateToDestination
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Slider
 import androidx.compose.material3.TextField
 import androidx.compose.material.*
-import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.SliderDefaults
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.TextFieldValue
+import com.example.se3_app.R
+import com.example.se3_app.ui.theme.dunkelGelb
+import com.example.se3_app.ui.theme.hellGelb
+import com.example.se3_app.ui.theme.neueIdee
 
 
 @Composable
@@ -57,6 +64,10 @@ fun CocktailSearchView(navController: NavController, viewModel: CocktailSearchVi
     CocktailSearchViewContent(navController, viewModel)
 
 }
+
+val font = FontFamily(
+    Font(resId = R.font.arciform)
+)
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -88,7 +99,7 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: CocktailS
                         contentDescription = "Logo",
                         modifier = Modifier.padding(end = 8.dp)
                     )*/
-                    Text("MIX'N'FIX", fontSize = 30.sp)
+                    Text("MIX'N'FIX", fontFamily = font, fontSize = 30.sp)
                 }
             },
             navigationIcon = {
@@ -108,7 +119,7 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: CocktailS
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-            Text("Wähle alle Einschränkungen für deinen Cocktail aus:", fontSize = 20.sp)
+            Text("Wähle alle Einschränkungen für deinen Cocktail aus:", fontFamily = font, fontSize = 20.sp)
             Spacer(modifier = Modifier.height(8.dp))
 
             Box(
@@ -116,13 +127,24 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: CocktailS
                     .fillMaxSize()
                     .border(BorderStroke(1.dp, Color.LightGray))
             ){
-                var textValue by remember { mutableStateOf(TextFieldValue()) }
+                var name by remember { mutableStateOf(TextFieldValue("")) }
+                TextField(
+                    value = name,
+                    onValueChange = {
+                        name = it
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    label = { Text(text = "Nach Name filtern", fontFamily = font) },
+                    placeholder = { Text(text = "Cocktainame", fontFamily = font) },
+                    colors = TextFieldDefaults.textFieldColors(
+                        containerColor = hellGelb,
+                        cursorColor = Color.Black, // Farbe des Cursors
+                        focusedIndicatorColor = neueIdee, // Farbe des Fokusindikators
+                        unfocusedIndicatorColor = Color.Gray // Farbe des nicht fokussierten Indikators
+                    )
+                        )
 
-                OutlinedTextField(
-                    value = textValue,
-                    onValueChange = { textValue = it },
-                    label = { Text("Name des Cocktails") },
-                )
             }
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -147,6 +169,7 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: CocktailS
                     ) {
                         Text(
                             text = "Soll der Cocktail Alkohol enthalten?",
+                            fontFamily = font,
                             modifier = Modifier
                                 .padding(horizontal = 5.dp)
                         )
@@ -170,9 +193,13 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: CocktailS
                             val selectedValue = remember { mutableStateOf(minValue) }
                             Slider(
                                 value = selectedValue.value.toFloat(),
+                                modifier = Modifier,
+                                colors = SliderDefaults.colors(
+                                    thumbColor = neueIdee,
+                                    activeTrackColor = dunkelGelb
+                                ),
                                 onValueChange = { newValue ->
-                                    selectedValue.value = newValue.toInt()
-                                },
+                                    selectedValue.value = newValue.toInt()},
                                 valueRange = minValue.toFloat()..maxValue.toFloat(),
                                 steps = maxValue - minValue
                             )
@@ -180,6 +207,7 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: CocktailS
                             val text = values[selectedValue.value]
                             Text(
                                 text = text,
+                                fontFamily = font
                             )
                         }
                     }
@@ -207,6 +235,7 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: CocktailS
                     ) {
                         Text(
                             text = "Welche Zutaten soll der Cocktail enthalten?",
+                            fontFamily = font,
                             modifier = Modifier
                                 .padding(horizontal = 5.dp)
                         )
@@ -224,6 +253,23 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: CocktailS
                                     modifier = Modifier
                                         .fillMaxWidth()
                                 ) {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(all = 4.dp),
+                                    verticalArrangement = Arrangement.Center,
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    FloatingActionButton(
+                                        onClick = { navController.navigate("ResultView") }, //andere Seite einfügen
+                                        modifier = Modifier
+                                            .height(40.dp)
+                                            .fillMaxWidth(),
+                                        containerColor = neueIdee
+                                    ) {
+                                        Text("Zutatenfilter", fontFamily = font)
+                                    }
+                                }
                                 /*
                                     Column {
                                         val zutaten = arrayOf("apple", "banana", "cherry", "apple", "banana", "cherry")// TODO Marcel: Hier nehmen wir dann das Array der Zutaten zurück
@@ -241,7 +287,7 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: CocktailS
                                         }
                                     }
                                  */
-                                ExposedDropdownMenuBox(
+                                /*ExposedDropdownMenuBox(
                                     expanded = expanded,
                                     onExpandedChange = {
                                         expanded = !expanded
@@ -276,7 +322,7 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: CocktailS
                                             )
                                         }
                                     }
-                                }
+                                }*/
                             }
                         }
                     }
@@ -304,6 +350,7 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: CocktailS
                     ) {
                         Text(
                             text = "Welchen Schwierigkeitsgrad möchtest du?",
+                            fontFamily = font,
                             modifier = Modifier
                                 .padding(horizontal = 5.dp)
                         )
@@ -327,6 +374,10 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: CocktailS
                             val selectedValue = remember { mutableStateOf(minValue) }
                             Slider(
                                 value = selectedValue.value.toFloat(),
+                                colors = SliderDefaults.colors(
+                                    thumbColor = neueIdee,
+                                    activeTrackColor = dunkelGelb
+                                ),
                                 onValueChange = { newValue ->
                                     selectedValue.value = newValue.toInt()
                                 },
@@ -337,6 +388,7 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: CocktailS
                             val text = values[selectedValue.value]
                             Text(
                                 text = text,
+                                fontFamily = font,
                             )
                         }
                     }
@@ -362,10 +414,11 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: CocktailS
                         modifier = Modifier
                             .weight(1f)
                             .padding(horizontal = 5.dp)
-                            .height(80.dp),
+                            .height(80.dp)
                     ) {
                         Text(
                             text = "Welchen Geschmack magst du?",
+                            fontFamily = font,
                             modifier = Modifier
                                 .padding(horizontal = 5.dp)
                         )
@@ -398,20 +451,30 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: CocktailS
                                 onExpandedChange = { isExpaned = it }) {
                                 TextField(
                                     value = geschmack,
+
                                     onValueChange = {},
                                     readOnly = true,
                                     trailingIcon = {
                                         ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpaned)
                                     },
-                                    modifier = Modifier.menuAnchor()
-                                )
+                                    modifier = Modifier.menuAnchor(),
+                                    colors = TextFieldDefaults.textFieldColors(
+                                        containerColor = hellGelb,
+                                        cursorColor = Color.Black, // Farbe des Cursors
+                                        focusedIndicatorColor = neueIdee, // Farbe des Fokusindikators
+                                        unfocusedIndicatorColor = Color.Gray // Farbe des nicht fokussierten Indikators
+                                    )
+
+                                    )
 
                                 ExposedDropdownMenu(
                                     expanded = isExpaned,
+                                    modifier = Modifier
+                                        .background(hellGelb),
                                     onDismissRequest = { isExpaned = false }) {
                                     DropdownMenuItem(
                                         text = {
-                                            Text(text = "Sweet")
+                                            Text(text = "Sweet", fontFamily = font)
                                         },
                                         onClick = {
                                             geschmack = "Sweet"
@@ -419,7 +482,7 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: CocktailS
                                         })
                                     DropdownMenuItem(
                                         text = {
-                                            Text(text = "Sour")
+                                            Text(text = "Sour", fontFamily = font)
                                         },
                                         onClick = {
                                             geschmack = "Sour"
@@ -427,7 +490,7 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: CocktailS
                                         })
                                     DropdownMenuItem(
                                         text = {
-                                            Text(text = "Bitter")
+                                            Text(text = "Bitter", fontFamily = font)
                                         },
                                         onClick = {
                                             geschmack = "Bitter"
@@ -452,8 +515,9 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: CocktailS
                     modifier = Modifier
                         .height(40.dp)
                         .fillMaxWidth(),
+                    containerColor = neueIdee
                 ) {
-                    Text("Suchen")
+                    Text("Suchen", fontFamily = font,)
                 }
             }
             Spacer(modifier = Modifier.height(100.dp))
