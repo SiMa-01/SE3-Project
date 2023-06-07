@@ -26,6 +26,8 @@ import com.example.se3_app.firebase.verify_email.VerifyEmailView
 import com.example.se3_app.firebase.verify_email.VerifyEmailViewModel
 import com.example.se3_app.hinzufuegenView.HinzufuegenView
 import com.example.se3_app.hinzufuegenView.HinzufuegenViewModel
+import com.example.se3_app.ingredientsView.IngredientsView
+import com.example.se3_app.ingredientsView.IngredientsViewModel
 import com.example.se3_app.loadingScreen.AnimatedSplashScreen
 import com.example.se3_app.merklistenView.MerklistenView
 import com.example.se3_app.merklistenView.MerklistenViewModel
@@ -66,11 +68,12 @@ class MainActivity : ComponentActivity() {
         val signUpViewModel = SignUpViewModel()
         val forgotPasswordViewModel = ForgotPasswordViewModel()
         val verifyEmailViewModel = VerifyEmailViewModel()
+        val ingredientsViewModel = IngredientsViewModel()
         val navController = rememberNavController()
 
         NavHost(navController, startDestination = "splashScreen") {
             composable(route = "startView") {
-                StartView(navController, startViewModel)
+                StartView(navController, startViewModel, ingredientsViewModel)
             }
             composable(route = "cocktailSearchView") {
                 CocktailSearchView(navController, cocktailSearchViewModel)
@@ -106,8 +109,9 @@ class MainActivity : ComponentActivity() {
             composable(route = "splashScreen") {
                 AnimatedSplashScreen(navController, startViewModel)
             }
-
-
+            composable(route = "ingredientsView") {
+                IngredientsView(navController, ingredientsViewModel)
+            }
         }
     }
 }

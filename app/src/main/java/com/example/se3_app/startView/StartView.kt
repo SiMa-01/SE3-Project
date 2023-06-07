@@ -39,6 +39,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import com.example.se3_app.R
+import com.example.se3_app.ingredientsView.IngredientsViewModel
 import com.example.se3_app.ui.theme.green
 import com.example.se3_app.ui.theme.neueIdee
 import com.example.se3_app.ui.theme.orange
@@ -63,13 +64,13 @@ val font = FontFamily(
 )
 
 @Composable
-fun StartView(navController: NavController, viewModel: StartViewModel) {
-    StartViewContent(navController, viewModel)
+fun StartView(navController: NavController, viewModel: StartViewModel, ingredientsViewModel: IngredientsViewModel) {
+    StartViewContent(navController, viewModel, ingredientsViewModel)
 
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun StartViewContent(navController: NavController, viewModel: StartViewModel) {
+fun StartViewContent(navController: NavController, viewModel: StartViewModel, ingredientsViewModel: IngredientsViewModel) {
     // Das müssen wir vermutlich überall hin kopieren
 
     val buttonFarbe = Color(0x6A6C84FF)
@@ -112,7 +113,9 @@ fun StartViewContent(navController: NavController, viewModel: StartViewModel) {
                 }
             },
             actions = {
-                IconButton(onClick = { /* Aktion beim Klick auf das zweite Icon */ }) { //TODO Hilfe View erstellen und navigieren
+                IconButton(onClick = {
+                    ingredientsViewModel.getAllIncredients()
+                    navController.navigate("ingredientsView") }) { //TODO Hilfe View erstellen und navigieren
                     Icon(Icons.Filled.Info, contentDescription = "Search Icon")
                 }
             }

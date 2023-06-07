@@ -49,7 +49,8 @@ class CocktailService {
     }
 
     suspend fun getIngredients(): List<String> {
-        val ingredients: List<String> = apiManager.httpClient.get("ingredients")
+        val stringUrl = "ingredients"
+        val ingredients: List<String> = apiManager.httpClient.get(stringUrl)
         return ingredients
     }
 
