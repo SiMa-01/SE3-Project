@@ -16,7 +16,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -26,6 +28,13 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.se3_app.ui.theme.Purple80
 import com.example.se3_app.ui.theme.PurpleGrey40
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
+import androidx.compose.material3.Button
+import androidx.compose.runtime.*
+import androidx.compose.ui.unit.dp
+import com.google.android.material.chip.Chip
+
 //import androidx.compose.foundation.layout.FlowRow
 
 
@@ -63,7 +72,9 @@ fun ChipEachRow(
 
     var multipleChecked by rememberSaveable { mutableStateOf(tempList) }
 
-    Row(modifier = Modifier.padding(8.dp)) {
+
+
+    FlowRow(modifier = Modifier.padding(8.dp)) {
         list.forEachIndexed { index, s ->
             FilterChip(
                 selected = multipleChecked.contains(index),
@@ -95,4 +106,7 @@ fun ChipEachRow(
     }
 
 
+
+
 }
+
