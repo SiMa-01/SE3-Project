@@ -6,14 +6,17 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.BottomAppBar
@@ -30,10 +33,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.se3_app.MainViewModel
+import com.example.se3_app.R
 import com.example.se3_app.startView.navigateToDestination
 import com.example.se3_app.startView.Cocktailbox
 import com.example.se3_app.startView.CocktailboxMitIndex
@@ -59,27 +64,56 @@ fun MerklistenViewContent(navController: NavController, viewModel: MainViewModel
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TopAppBar(
-            title = {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    /*Image(
-                        painter = painterResource(id = R.drawable.cocktail), // Das Logo wird aktuell noch viel zu groß angezeigt. Daher habe ich es noch nicht hingekommen
-                        contentDescription = "Logo",
-                        modifier = Modifier.padding(end = 8.dp)
-                    )*/
-                    Text("MIX'N'FIX", fontSize = 30.sp)
-                }
-            },
-            navigationIcon = {
-                IconButton(
-                    onClick = { /* Navigationsaktion ausführen */ }
-                ) {
-                    // Hier können Sie ein Navigations-Icon hinzufügen, z.B. ein Menü-Icon
-                }
-            },
-        )
+        TopAppBar(modifier = Modifier.fillMaxWidth(), navigationIcon = {
+            Icon(
+                painter = painterResource(id = R.drawable.logo_app_icon),
+                contentDescription = "Menu",
+                modifier = Modifier.size(40.dp)
+            )
+        }, title = {
+            Box(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Text(
+                    text = "MIX'N'FIX",
+                    fontFamily = com.example.se3_app.startView.font,
+                    fontSize = 30.sp,
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
+        }, actions = {
+            IconButton(onClick = { navController.navigate("HelpView")
+
+
+            }) {
+                Icon(Icons.Filled.Info, contentDescription = "Search Icon")
+            }
+        })
+        TopAppBar(modifier = Modifier.fillMaxWidth(), navigationIcon = {
+            Icon(
+                painter = painterResource(id = R.drawable.logo_app_icon),
+                contentDescription = "Menu",
+                modifier = Modifier.size(40.dp)
+            )
+        }, title = {
+            Box(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Text(
+                    text = "MIX'N'FIX",
+                    fontFamily = com.example.se3_app.startView.font,
+                    fontSize = 30.sp,
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
+        }, actions = {
+            IconButton(onClick = { navController.navigate("HelpView")
+
+
+            }) {
+                Icon(Icons.Filled.Info, contentDescription = "Search Icon")
+            }
+        })
 
 
 
@@ -153,6 +187,9 @@ fun MerklistenViewContent(navController: NavController, viewModel: MainViewModel
                         label = { Text(item) },
                         selected = selectedItem == 1,
                         onClick = {
+                            if (index == 1) {
+                                viewModel.getAllTastes()
+                            }
                             selectedItem = 2
                             navigateToDestination(navController, index)
                         }

@@ -47,21 +47,22 @@ import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Slider
 import androidx.compose.material3.TextField
 import androidx.compose.material.*
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.TextFieldValue
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
 import com.example.se3_app.ingredientsView.IngredientsViewModel
-import com.example.se3_app.rezeptView.RezeptViewContent
-import com.example.se3_app.rezeptView.cocktail
-import com.example.se3_app.ui.theme.dunkelGelb
-import com.example.se3_app.ui.theme.hellGelb
-import com.example.se3_app.ui.theme.neueIdee
+import com.example.se3_app.ui.theme.chipFarbe1
+import com.example.se3_app.ui.theme.chipFarbe2
+import com.example.se3_app.ui.theme.chipFarbe5
+import com.example.se3_app.ui.theme.chipFarbe6
 
 var options = emptyList<String>()
 
@@ -115,27 +116,31 @@ fun CocktailSearchViewContent(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TopAppBar(
-            title = {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    /*Image(
-                        painter = painterResource(id = R.drawable.cocktail), // Das Logo wird aktuell noch viel zu groß angezeigt. Daher habe ich es noch nicht hingekommen
-                        contentDescription = "Logo",
-                        modifier = Modifier.padding(end = 8.dp)
-                    )*/
-                    Text("MIX'N'FIX", fontFamily = font, fontSize = 30.sp)
-                }
-            },
-            navigationIcon = {
-                IconButton(
-                    onClick = { /* Navigationsaktion ausführen */ }
-                ) {
-                    // Hier können Sie ein Navigations-Icon hinzufügen, z.B. ein Menü-Icon
-                }
-            },
-        )
+        TopAppBar(modifier = Modifier.fillMaxWidth(), navigationIcon = {
+            Icon(
+                painter = painterResource(id = R.drawable.logo_app_icon),
+                contentDescription = "Menu",
+                modifier = Modifier.size(40.dp)
+            )
+        }, title = {
+            Box(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Text(
+                    text = "MIX'N'FIX",
+                    fontFamily = com.example.se3_app.startView.font,
+                    fontSize = 30.sp,
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
+        }, actions = {
+            IconButton(onClick = { navController.navigate("HelpView")
+
+
+            }) {
+                Icon(Icons.Filled.Info, contentDescription = "Search Icon")
+            }
+        })
 
 
 
@@ -168,9 +173,9 @@ fun CocktailSearchViewContent(
                     label = { Text(text = "Nach Name filtern", fontFamily = font) },
                     placeholder = { Text(text = "Cocktainame", fontFamily = font) },
                     colors = TextFieldDefaults.textFieldColors(
-                        containerColor = hellGelb,
+                        containerColor = chipFarbe2,
                         cursorColor = Color.Black, // Farbe des Cursors
-                        focusedIndicatorColor = neueIdee, // Farbe des Fokusindikators
+                        focusedIndicatorColor = chipFarbe6, // Farbe des Fokusindikators
                         unfocusedIndicatorColor = Color.Gray // Farbe des nicht fokussierten Indikators
                     )
                 )
@@ -223,10 +228,9 @@ fun CocktailSearchViewContent(
                             val selectedValue = remember { mutableStateOf(minValue) }
                             Slider(
                                 value = selectedValue.value.toFloat(),
-                                modifier = Modifier,
                                 colors = SliderDefaults.colors(
-                                    thumbColor = neueIdee,
-                                    activeTrackColor = dunkelGelb
+                                    thumbColor = chipFarbe6,
+                                    activeTrackColor = chipFarbe1
                                 ),
                                 onValueChange = { newValue ->
                                     selectedValue.value = newValue.toInt()
@@ -299,7 +303,7 @@ fun CocktailSearchViewContent(
                                         modifier = Modifier
                                             .height(40.dp)
                                             .fillMaxWidth(),
-                                        containerColor = neueIdee
+                                        containerColor = chipFarbe6
                                     ) {
                                         Text("Zutatenfilter", fontFamily = font)
                                     }
@@ -357,8 +361,8 @@ fun CocktailSearchViewContent(
                             Slider(
                                 value = selectedValue.value.toFloat(),
                                 colors = SliderDefaults.colors(
-                                    thumbColor = neueIdee,
-                                    activeTrackColor = dunkelGelb
+                                    thumbColor = chipFarbe6,
+                                    activeTrackColor = chipFarbe1
                                 ),
                                 onValueChange = { newValue ->
                                     selectedValue.value = newValue.toInt()
@@ -420,6 +424,7 @@ fun CocktailSearchViewContent(
 
                             ExposedDropdownMenuBox(
                                 expanded = expanded,
+                                modifier = Modifier.background(chipFarbe2),
                                 onExpandedChange = {
                                     expanded = !expanded
                                 }
@@ -439,6 +444,7 @@ fun CocktailSearchViewContent(
                                 )
                                 ExposedDropdownMenu(
                                     expanded = expanded,
+                                    modifier = Modifier.background(chipFarbe2),
                                     onDismissRequest = {
                                         expanded = false
                                     }
@@ -478,7 +484,7 @@ fun CocktailSearchViewContent(
                     modifier = Modifier
                         .height(40.dp)
                         .fillMaxWidth(),
-                    containerColor = neueIdee
+                    containerColor = chipFarbe6
                 ) {
                     Text("Suchen", fontFamily = font)
                 }
@@ -507,6 +513,9 @@ fun CocktailSearchViewContent(
 
                     selected = selectedItem == 1,
                     onClick = {
+                        if (index == 1) {
+                            viewModel.getAllTastes()
+                        }
                         selectedItem = index
                         navigateToDestination(navController, index)
                     }

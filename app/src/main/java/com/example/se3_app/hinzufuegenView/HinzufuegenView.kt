@@ -1,6 +1,7 @@
 package com.example.se3_app.hinzufuegenView
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,12 +12,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.BottomAppBar
@@ -30,8 +33,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -41,19 +46,27 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.se3_app.Dto.AddCocktailDto
 import com.example.se3_app.MainViewModel
+import com.example.se3_app.R
+import com.example.se3_app.cocktailSearchView.font
+import com.example.se3_app.cocktailSearchView.options
+import com.example.se3_app.ingredientsView.IngredientsViewModel
 import com.example.se3_app.startView.navigateToDestination
+import com.example.se3_app.ui.theme.chipFarbe1
+import com.example.se3_app.ui.theme.chipFarbe2
+import com.example.se3_app.ui.theme.chipFarbe6
 
 
 val newCocktail = AddCocktailDto("", emptyArray(),"", true, "", "")
 @Composable
-fun HinzufuegenView(navController: NavController, viewModel: MainViewModel) {
-    HinzufuegenViewContent(navController, viewModel)
+fun HinzufuegenView(navController: NavController, viewModel: MainViewModel, ingredientsViewModel: IngredientsViewModel) {
+    HinzufuegenViewContent(navController, viewModel, ingredientsViewModel)
 
 
 
@@ -61,7 +74,7 @@ fun HinzufuegenView(navController: NavController, viewModel: MainViewModel) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewModel) {
+fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewModel, ingredientsViewModel: IngredientsViewModel) {
     var selectedItem by remember { mutableStateOf(0) }
     val items = listOf("Home", "Cocktails", "Merkliste", "Einkaufsliste")
     val icons = listOf(
@@ -72,27 +85,34 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TopAppBar(
-            title = {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    /*Image(
-                        painter = painterResource(id = R.drawable.cocktail), // Das Logo wird aktuell noch viel zu groß angezeigt. Daher habe ich es noch nicht hingekommen
-                        contentDescription = "Logo",
-                        modifier = Modifier.padding(end = 8.dp)
-                    )*/
-                    Text("MIX'N'FIX", fontSize = 30.sp)
-                }
-            },
-            navigationIcon = {
-                IconButton(
-                    onClick = { /* Navigationsaktion ausführen */ }
-                ) {
-                    // Hier können Sie ein Navigations-Icon hinzufügen, z.B. ein Menü-Icon
-                }
-            },
-        )
+        TopAppBar(modifier = Modifier.fillMaxWidth(), navigationIcon = {
+            Icon(
+                painter = painterResource(id = R.drawable.logo_app_icon),
+                contentDescription = "Menu",
+                modifier = Modifier.size(40.dp)
+            )
+        }, title = {
+            Box(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Text(
+                    text = "MIX'N'FIX",
+                    fontFamily = com.example.se3_app.startView.font,
+                    fontSize = 30.sp,
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
+        }, actions = {
+            IconButton(onClick = { navController.navigate("HelpView")
+
+
+            }) {
+                Icon(Icons.Filled.Info, contentDescription = "Search Icon")
+            }
+        })
+
+        var expanded by remember { mutableStateOf(false) }
+        var selectedOptionText by remember { mutableStateOf(options[0]) }
 
         Column(
             modifier = Modifier
@@ -114,6 +134,12 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                 },
                 label = { Text(text = "Der Name deines Cocktails") },
                 placeholder = { Text(text = "Cocktainame") },
+                colors = TextFieldDefaults.textFieldColors(
+                    containerColor = chipFarbe2,
+                    cursorColor = Color.Black, // Farbe des Cursors
+                    focusedIndicatorColor = chipFarbe6, // Farbe des Fokusindikators
+                    unfocusedIndicatorColor = Color.Gray // Farbe des nicht fokussierten Indikators
+                )
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -137,7 +163,7 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                             .height(80.dp),
                     ) {
                         Text(
-                            text = "Enthält der Cocktail Alkohol??",
+                            text = "Enthält der Cocktail Alkohol?",
                             modifier = Modifier
                                 .padding(horizontal = 5.dp)
                         )
@@ -161,6 +187,10 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                             val selectedValue = remember { mutableStateOf(minValue) }
                             Slider(
                                 value = selectedValue.value.toFloat(),
+                                colors = SliderDefaults.colors(
+                                    thumbColor = chipFarbe6,
+                                    activeTrackColor = chipFarbe1
+                                ),
                                 onValueChange = { newValue ->
                                     selectedValue.value = newValue.toInt()
                                 },
@@ -205,22 +235,38 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                     }
                     Box(
                         modifier = Modifier
-                            .weight(1f)
-
+                            .weight(1f),
                     ) {
-                        Column {
-                            val zutaten = arrayOf("apple", "banana", "cherry")// TODO Marcel: Hier nehmen wir dann das Array der Zutaten zurück
-                            var counter = 0
-                            for (x in zutaten){
-                                val checkedState = remember { mutableStateOf(false) }
-                                Row{
-                                    Checkbox(
-                                        checked = checkedState.value,
-                                        onCheckedChange = { checkedState.value = it },
-                                    )
-                                    Text(text = zutaten[counter], fontSize = 15.sp, modifier = Modifier.padding(vertical = 14.dp))
-                                    counter = counter + 1
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize(), contentAlignment = Alignment.Center
+                        ) {
+
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(all = 4.dp),
+                                    verticalArrangement = Arrangement.Center,
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    FloatingActionButton(
+                                        onClick = {
+                                            ingredientsViewModel.getAllIncredients()
+                                            navController.navigate("ingredientsView")
+                                        },
+                                        modifier = Modifier
+                                            .height(40.dp)
+                                            .fillMaxWidth(),
+                                        containerColor = chipFarbe6
+                                    ) {
+                                        Text("Zutatenfilter", fontFamily = font)
+                                    }
                                 }
+
                             }
                         }
                     }
@@ -271,6 +317,10 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                             val selectedValue = remember { mutableStateOf(minValue) }
                             Slider(
                                 value = selectedValue.value.toFloat(),
+                                colors = SliderDefaults.colors(
+                                    thumbColor = chipFarbe6,
+                                    activeTrackColor = chipFarbe1
+                                ),
                                 onValueChange = { newValue ->
                                     selectedValue.value = newValue.toInt()
                                 },
@@ -334,44 +384,42 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                                 .fillMaxSize(), contentAlignment = Alignment.Center
                         ) {
                             ExposedDropdownMenuBox(
-                                expanded = isExpaned,
-                                onExpandedChange = { isExpaned = it }) {
+                                expanded = expanded,
+                                modifier = Modifier.background(chipFarbe2),
+                                onExpandedChange = {
+                                    expanded = !expanded
+                                }
+                            ) {
                                 TextField(
-                                    value = geschmack,
-                                    onValueChange = {},
+                                    modifier = Modifier.menuAnchor(),
                                     readOnly = true,
+                                    value = "egal",
+                                    onValueChange = { },
+                                    label = { Text("Geschmack") },
                                     trailingIcon = {
-                                        ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpaned)
+                                        ExposedDropdownMenuDefaults.TrailingIcon(
+                                            expanded = expanded
+                                        )
                                     },
-                                    modifier = Modifier.menuAnchor()
+                                    colors = ExposedDropdownMenuDefaults.textFieldColors()
                                 )
                                 ExposedDropdownMenu(
-                                    expanded = isExpaned,
-                                    onDismissRequest = { isExpaned = false }) {
-                                    DropdownMenuItem(
-                                        text = {
-                                            Text(text = "Sweet")
-                                        },
-                                        onClick = {
-                                            geschmack = "Sweet"
-                                            isExpaned = false
-                                        })
-                                    DropdownMenuItem(
-                                        text = {
-                                            Text(text = "Sour")
-                                        },
-                                        onClick = {
-                                            geschmack = "Sour"
-                                            isExpaned = false
-                                        })
-                                    DropdownMenuItem(
-                                        text = {
-                                            Text(text = "Bitter")
-                                        },
-                                        onClick = {
-                                            geschmack = "Bitter"
-                                            isExpaned = false
-                                        })
+                                    expanded = expanded,
+                                    modifier = Modifier.background(chipFarbe2),
+                                    onDismissRequest = {
+                                        expanded = false
+                                    }
+                                ) {
+                                    options.forEach { selectionOption ->
+                                        DropdownMenuItem(
+                                            text = { Text(text = selectionOption) },
+                                            onClick = {
+                                                selectedOptionText = selectionOption
+                                                expanded = false
+                                            }
+                                        )
+                                    }
+
                                 }
                             }
                         }
@@ -396,6 +444,12 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                         fontSize = 10.sp
                     )
                 },
+                colors = TextFieldDefaults.textFieldColors(
+                    containerColor = chipFarbe2,
+                    cursorColor = Color.Black, // Farbe des Cursors
+                    focusedIndicatorColor = chipFarbe6, // Farbe des Fokusindikators
+                    unfocusedIndicatorColor = Color.Gray // Farbe des nicht fokussierten Indikators
+                )
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -411,6 +465,7 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                     onClick = { navController.navigate("RezeptView") }, //andere Seite einfügen
                     modifier = Modifier
                         .height(40.dp).fillMaxWidth(),
+                    containerColor = chipFarbe6
                 ) {
                     Text("Hinzufügen")
                 }
@@ -432,6 +487,9 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                     label = { Text(item) },
                     selected = selectedItem == 1,
                     onClick = {
+                        if (index == 1) {
+                            viewModel.getAllTastes()
+                        }
                         selectedItem = index
                         navigateToDestination(navController, index)
                     }
