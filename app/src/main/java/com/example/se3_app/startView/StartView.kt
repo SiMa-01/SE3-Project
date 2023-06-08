@@ -278,6 +278,9 @@ fun StartViewContent(
                     label = { Text(item) },
                     selected = selectedItem == 1,
                     onClick = {
+                        if (index == 1) {
+                            viewModel.getAllTastes()
+                        }
                         selectedItem = index
                         navigateToDestination(navController, index)
                     })

@@ -47,6 +47,7 @@ import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Slider
 import androidx.compose.material3.TextField
 import androidx.compose.material.*
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
@@ -56,14 +57,29 @@ import androidx.compose.ui.text.input.TextFieldValue
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
 import com.example.se3_app.ingredientsView.IngredientsViewModel
+import com.example.se3_app.rezeptView.RezeptViewContent
+import com.example.se3_app.rezeptView.cocktail
 import com.example.se3_app.ui.theme.dunkelGelb
 import com.example.se3_app.ui.theme.hellGelb
 import com.example.se3_app.ui.theme.neueIdee
 
+var options = emptyList<String>()
 
 @Composable
 fun CocktailSearchView(navController: NavController, viewModel: MainViewModel, ingredientsViewModel: IngredientsViewModel) {
-    CocktailSearchViewContent(navController, viewModel, ingredientsViewModel)
+
+    if (viewModel.loading){
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
+    } else {
+        options = viewModel.tastes
+        CocktailSearchViewContent(navController, viewModel, ingredientsViewModel)
+    }
+
 
 }
 
@@ -76,7 +92,9 @@ val font = FontFamily(
 @Composable
 fun CocktailSearchViewContent(navController: NavController, viewModel: MainViewModel, ingredientsViewModel: IngredientsViewModel) {
 
-    val options = listOf("Option 1", "Option 2", "Option 3", "Option 4", "Option 5")
+
+
+
     var expanded by remember { mutableStateOf(false) }
     var selectedOptionText by remember { mutableStateOf(options[0]) }
 
@@ -419,35 +437,41 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: MainViewM
 
                                     )
 
-                                ExposedDropdownMenu(
-                                    expanded = isExpaned,
-                                    modifier = Modifier
-                                        .background(hellGelb),
-                                    onDismissRequest = { isExpaned = false }) {
-                                    DropdownMenuItem(
-                                        text = {
-                                            Text(text = "Sweet", fontFamily = font)
+                                ExposedDropdownMenuBox(
+                                    expanded = expanded,
+                                    onExpandedChange = {
+                                        expanded = !expanded
+                                    }
+                                ) {
+                                    TextField(
+                                        modifier = Modifier.menuAnchor(),
+                                        readOnly = true,
+                                        value = selectedOptionText,
+                                        onValueChange = { },
+                                        label = { Text("Label") },
+                                        trailingIcon = {
+                                            ExposedDropdownMenuDefaults.TrailingIcon(
+                                                expanded = expanded
+                                            )
                                         },
-                                        onClick = {
-                                            geschmack = "Sweet"
-                                            isExpaned = false
-                                        })
-                                    DropdownMenuItem(
-                                        text = {
-                                            Text(text = "Sour", fontFamily = font)
-                                        },
-                                        onClick = {
-                                            geschmack = "Sour"
-                                            isExpaned = false
-                                        })
-                                    DropdownMenuItem(
-                                        text = {
-                                            Text(text = "Bitter", fontFamily = font)
-                                        },
-                                        onClick = {
-                                            geschmack = "Bitter"
-                                            isExpaned = false
-                                        })
+                                        colors = ExposedDropdownMenuDefaults.textFieldColors()
+                                    )
+                                    ExposedDropdownMenu(
+                                        expanded = expanded,
+                                        onDismissRequest = {
+                                            expanded = false
+                                        }
+                                    ) {
+                                        options.forEach { selectionOption ->
+                                            DropdownMenuItem(
+                                                text = { Text(text = selectionOption) },
+                                                onClick = {
+                                                    selectedOptionText = selectionOption
+                                                    expanded = false
+                                                }
+                                            )
+                                        }
+                                    }
                                 }
                             }
                         }

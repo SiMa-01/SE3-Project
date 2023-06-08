@@ -54,6 +54,12 @@ class CocktailService {
         return ingredients
     }
 
+    suspend fun getTastes(): List<String> {
+        val stringUrl = "tastes"
+        val tastes: List<String> = apiManager.httpClient.get(stringUrl)
+        return tastes
+    }
+
     suspend fun addCocktail(cocktailDto: CocktailDto): CocktailDto{
         val cocktail: CocktailDto = apiManager.httpClient.post("add/") {
             body = cocktailDto
