@@ -62,10 +62,10 @@ class MainActivity : ComponentActivity() {
 
         NavHost(navController, startDestination = "splashScreen") {
             composable(route = "startView") {
-                StartView(navController, mainViewModel, ingredientsViewModel)
+                StartView(navController, mainViewModel)
             }
             composable(route = "cocktailSearchView") {
-                CocktailSearchView(navController, mainViewModel)
+                CocktailSearchView(navController, mainViewModel, ingredientsViewModel)
             }
             composable(route = "einkaufslistenView") {
                 EinkaufslistenView(navController, mainViewModel)

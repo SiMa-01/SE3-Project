@@ -55,14 +55,15 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.TextFieldValue
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
+import com.example.se3_app.ingredientsView.IngredientsViewModel
 import com.example.se3_app.ui.theme.dunkelGelb
 import com.example.se3_app.ui.theme.hellGelb
 import com.example.se3_app.ui.theme.neueIdee
 
 
 @Composable
-fun CocktailSearchView(navController: NavController, viewModel: MainViewModel) {
-    CocktailSearchViewContent(navController, viewModel)
+fun CocktailSearchView(navController: NavController, viewModel: MainViewModel, ingredientsViewModel: IngredientsViewModel) {
+    CocktailSearchViewContent(navController, viewModel, ingredientsViewModel)
 
 }
 
@@ -73,7 +74,7 @@ val font = FontFamily(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CocktailSearchViewContent(navController: NavController, viewModel: MainViewModel) {
+fun CocktailSearchViewContent(navController: NavController, viewModel: MainViewModel, ingredientsViewModel: IngredientsViewModel) {
 
     val options = listOf("Option 1", "Option 2", "Option 3", "Option 4", "Option 5")
     var expanded by remember { mutableStateOf(false) }
@@ -262,7 +263,9 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: MainViewM
                                     horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
                                     FloatingActionButton(
-                                        onClick = { }, //TODO Simon Seite hinterlegen
+                                        onClick = {
+                                            ingredientsViewModel.getAllIncredients()
+                                            navController.navigate("ingredientsView")},
                                         modifier = Modifier
                                             .height(40.dp)
                                             .fillMaxWidth(),

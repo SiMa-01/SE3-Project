@@ -68,10 +68,9 @@ val font = FontFamily(
 @Composable
 fun StartView(
     navController: NavController,
-    viewModel: MainViewModel,
-    ingredientsViewModel: IngredientsViewModel
+    viewModel: MainViewModel
 ) {
-    StartViewContent(navController, viewModel, ingredientsViewModel)
+    StartViewContent(navController, viewModel)
 
 }
 
@@ -80,7 +79,6 @@ fun StartView(
 fun StartViewContent(
     navController: NavController,
     viewModel: MainViewModel,
-    ingredientsViewModel: IngredientsViewModel
 ) {
     // Das müssen wir vermutlich überall hin kopieren
 
@@ -117,8 +115,8 @@ fun StartViewContent(
             }
         }, actions = {
             IconButton(onClick = {
-                ingredientsViewModel.getAllIncredients()
-                navController.navigate("ingredientsView")
+
+
             }) { //TODO Hilfe View erstellen und navigieren
                 Icon(Icons.Filled.Info, contentDescription = "Search Icon")
             }
