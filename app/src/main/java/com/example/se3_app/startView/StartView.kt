@@ -1,7 +1,5 @@
 package com.example.se3_app.startView
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import kotlinx.coroutines.*
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
@@ -23,34 +21,22 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.rounded.Check
-import androidx.compose.material.icons.rounded.Warning
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
-import com.example.se3_app.ingredientsView.IngredientsViewModel
 import com.example.se3_app.ui.theme.chipFarbe1
 import com.example.se3_app.ui.theme.chipFarbe2
 import com.example.se3_app.ui.theme.chipFarbe3
 import com.example.se3_app.ui.theme.chipFarbe4
 import com.example.se3_app.ui.theme.chipFarbe5
 import com.example.se3_app.ui.theme.chipFarbe6
-import com.example.se3_app.ui.theme.green
-import com.example.se3_app.ui.theme.neueIdee
-import com.example.se3_app.ui.theme.orange
 
 
 fun generateRandomNumbers(): List<Int> {

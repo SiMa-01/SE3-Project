@@ -25,7 +25,6 @@ import com.example.se3_app.firebase.verify_email.VerifyEmailViewModel
 import com.example.se3_app.helpView.HelpView
 import com.example.se3_app.hinzufuegenView.HinzufuegenView
 import com.example.se3_app.ingredientsView.IngredientsView
-import com.example.se3_app.ingredientsView.IngredientsViewModel
 import com.example.se3_app.loadingScreen.AnimatedSplashScreen
 import com.example.se3_app.merklistenView.MerklistenView
 import com.example.se3_app.pictures.PicturesView
@@ -60,7 +59,7 @@ class MainActivity : ComponentActivity() {
         val signUpViewModel = SignUpViewModel()
         val forgotPasswordViewModel = ForgotPasswordViewModel()
         val verifyEmailViewModel = VerifyEmailViewModel()
-        val ingredientsViewModel = IngredientsViewModel()
+
         val navController = rememberNavController()
 
         NavHost(navController, startDestination = "splashScreen") {
@@ -68,14 +67,14 @@ class MainActivity : ComponentActivity() {
                 StartView(navController, mainViewModel)
             }
             composable(route = "cocktailSearchView") {
-                CocktailSearchView(navController, mainViewModel, ingredientsViewModel)
+                CocktailSearchView(navController, mainViewModel)
             }
             composable(route = "einkaufslistenView") {
                 EinkaufslistenView(navController, mainViewModel)
                 //SignInView(navController, signInViewModel)
             }
             composable(route = "hinzufuegenView") {
-                HinzufuegenView(navController, mainViewModel, ingredientsViewModel)
+                HinzufuegenView(navController, mainViewModel)
             }
             composable(route = "merklistenView") {
                 MerklistenView(navController, mainViewModel)
@@ -102,7 +101,7 @@ class MainActivity : ComponentActivity() {
                 AnimatedSplashScreen(navController, mainViewModel)
             }
             composable(route = "ingredientsView") {
-                IngredientsView(navController, ingredientsViewModel)
+                IngredientsView(navController, mainViewModel)
             }
             composable(route = "helpView"){
                 HelpView(navController, mainViewModel)

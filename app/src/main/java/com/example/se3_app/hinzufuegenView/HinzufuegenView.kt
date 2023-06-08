@@ -23,7 +23,6 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -55,10 +54,8 @@ import androidx.navigation.NavController
 import com.example.se3_app.Dto.AddCocktailDto
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
-import com.example.se3_app.cocktailSearchView.CocktailSearchViewContent
 import com.example.se3_app.cocktailSearchView.font
 import com.example.se3_app.cocktailSearchView.options
-import com.example.se3_app.ingredientsView.IngredientsViewModel
 import com.example.se3_app.startView.navigateToDestination
 import com.example.se3_app.ui.theme.chipFarbe1
 import com.example.se3_app.ui.theme.chipFarbe2
@@ -67,7 +64,7 @@ import com.example.se3_app.ui.theme.chipFarbe6
 
 val newCocktail = AddCocktailDto("", emptyArray(),"", true, "", "")
 @Composable
-fun HinzufuegenView(navController: NavController, viewModel: MainViewModel, ingredientsViewModel: IngredientsViewModel) {
+fun HinzufuegenView(navController: NavController, viewModel: MainViewModel) {
 
     if (viewModel.loading) {
         Box(
@@ -78,13 +75,13 @@ fun HinzufuegenView(navController: NavController, viewModel: MainViewModel, ingr
         }
     } else {
         options = viewModel.tastes
-        HinzufuegenViewContent(navController, viewModel, ingredientsViewModel)
+        HinzufuegenViewContent(navController, viewModel)
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewModel, ingredientsViewModel: IngredientsViewModel) {
+fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewModel) {
     var selectedItem by remember { mutableStateOf(0) }
     val items = listOf("Home", "Cocktails", "Merkliste", "Einkaufsliste")
     val icons = listOf(
@@ -265,7 +262,7 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                                 ) {
                                     FloatingActionButton(
                                         onClick = {
-                                            ingredientsViewModel.getAllIncredients()
+                                            viewModel.getAllIncredients()
                                             navController.navigate("ingredientsView")
                                         },
                                         modifier = Modifier

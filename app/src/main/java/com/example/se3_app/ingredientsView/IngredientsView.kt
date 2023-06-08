@@ -41,6 +41,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import com.example.se3_app.Dto.CocktailDto
+import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
 import com.example.se3_app.cocktailSearchView.font
 import com.example.se3_app.ui.theme.chipFarbe1
@@ -61,7 +62,7 @@ var selectedFilters: MutableList<String> = emptyList<String>().toMutableList()
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun IngredientsView(navController: NavController, ingredientsViewModel: IngredientsViewModel) {
+fun IngredientsView(navController: NavController, ingredientsViewModel: MainViewModel) {
 
     var ingredients = listOf("Apfel", "Banane", "Birne", "Orange", "Ananas")
 
@@ -87,7 +88,7 @@ fun IngredientsView(navController: NavController, ingredientsViewModel: Ingredie
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
-fun ChipEachRow(navController: NavController, viewModel: IngredientsViewModel, list: List<String>, tempList: Set<Int>) {
+fun ChipEachRow(navController: NavController, viewModel: MainViewModel, list: List<String>, tempList: Set<Int>) {
 
     var multipleChecked by rememberSaveable { mutableStateOf(tempList) }
 
@@ -116,7 +117,9 @@ fun ChipEachRow(navController: NavController, viewModel: IngredientsViewModel, l
                             selectedFilters.minus(s).toMutableList()
                         else
                             selectedFilters.plus(s).toMutableList()
-                        println("ItemsInList $selectedFilters ")
+                        //println("ItemsInList $selectedFilters ")
+                        viewModel.selectedIngredients = selectedFilters
+                        println("ItemsInViewModel ${viewModel.selectedIngredients} ")
                     },
                     label = {
                         Text(text = s, fontFamily = font)

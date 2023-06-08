@@ -58,10 +58,8 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.TextFieldValue
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
-import com.example.se3_app.ingredientsView.IngredientsViewModel
 import com.example.se3_app.ui.theme.chipFarbe1
 import com.example.se3_app.ui.theme.chipFarbe2
-import com.example.se3_app.ui.theme.chipFarbe5
 import com.example.se3_app.ui.theme.chipFarbe6
 
 var options = emptyList<String>()
@@ -70,7 +68,6 @@ var options = emptyList<String>()
 fun CocktailSearchView(
     navController: NavController,
     viewModel: MainViewModel,
-    ingredientsViewModel: IngredientsViewModel
 ) {
 
     if (viewModel.loading) {
@@ -82,7 +79,7 @@ fun CocktailSearchView(
         }
     } else {
         options = viewModel.tastes
-        CocktailSearchViewContent(navController, viewModel, ingredientsViewModel)
+        CocktailSearchViewContent(navController, viewModel)
     }
 
 
@@ -98,7 +95,6 @@ val font = FontFamily(
 fun CocktailSearchViewContent(
     navController: NavController,
     viewModel: MainViewModel,
-    ingredientsViewModel: IngredientsViewModel
 ) {
 
     var name: String? = null
@@ -303,7 +299,7 @@ fun CocktailSearchViewContent(
                                 ) {
                                     FloatingActionButton(
                                         onClick = {
-                                            ingredientsViewModel.getAllIncredients()
+                                            viewModel.getAllIncredients()
                                             navController.navigate("ingredientsView")
                                         },
                                         modifier = Modifier
