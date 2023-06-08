@@ -33,12 +33,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.se3_app.MainViewModel
 import com.example.se3_app.startView.navigateToDestination
 import com.example.se3_app.startView.Cocktailbox
 
 
 @Composable
-fun MerklistenView(navController: NavController, viewModel: MerklistenViewModel) {
+fun MerklistenView(navController: NavController, viewModel: MainViewModel) {
     MerklistenViewContent(navController, viewModel)
 
 }
@@ -46,7 +47,7 @@ fun MerklistenView(navController: NavController, viewModel: MerklistenViewModel)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MerklistenViewContent(navController: NavController, viewModel: MerklistenViewModel) {
+fun MerklistenViewContent(navController: NavController, viewModel: MainViewModel) {
     var selectedItem by remember { mutableStateOf(0) }
     val items = listOf("Home", "Cocktails", "Merkliste", "Einkaufsliste")
     val icons = listOf(
@@ -107,7 +108,7 @@ fun MerklistenViewContent(navController: NavController, viewModel: MerklistenVie
             ingredients= arrayOf("Cachaca","Limette", "Rohrzucker" )
             MerklistenCocktailbox(
                 navController = navController,
-                merklistenViewModel = viewModel,
+                viewModel = viewModel,
                 name ="Caipirinha" ,
                 ingredients =ingredients ,
                 difficulty ="MEDIUM" ,
@@ -116,7 +117,7 @@ fun MerklistenViewContent(navController: NavController, viewModel: MerklistenVie
             )
             MerklistenCocktailbox(
                 navController = navController,
-                merklistenViewModel = viewModel,
+                viewModel = viewModel,
                 name ="Caipirinha" ,
                 ingredients =ingredients ,
                 difficulty ="MEDIUM" ,
@@ -125,7 +126,7 @@ fun MerklistenViewContent(navController: NavController, viewModel: MerklistenVie
             )
             MerklistenCocktailbox(
                 navController = navController,
-                merklistenViewModel = viewModel,
+                viewModel = viewModel,
                 name ="Caipirinha" ,
                 ingredients =ingredients ,
                 difficulty ="MEDIUM" ,
@@ -162,9 +163,9 @@ fun MerklistenViewContent(navController: NavController, viewModel: MerklistenVie
         }
     }
 @Composable
-fun MerklistenCocktailbox(navController: NavController, merklistenViewModel: MerklistenViewModel , name: String, ingredients: Array<String>, difficulty: String, alcoholic: Boolean, taste: String) {
-    if (merklistenViewModel.errorMessage.isEmpty()) {
-        Cocktailbox(navController, name, ingredients, difficulty, alcoholic, taste)
+fun MerklistenCocktailbox(navController: NavController, viewModel: MainViewModel , name: String, ingredients: Array<String>, difficulty: String, alcoholic: Boolean, taste: String) {
+    if (viewModel.errorMessage.isEmpty()) {
+        Cocktailbox(navController, viewModel, name, ingredients, difficulty, alcoholic, taste)
     }
 }
 

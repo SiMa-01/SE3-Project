@@ -6,15 +6,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -26,18 +20,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
+import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
-import com.example.se3_app.startView.StartViewModel
 import kotlinx.coroutines.delay
 
 @Composable
-fun AnimatedSplashScreen(navController: NavController, startViewModel: StartViewModel) {
+fun AnimatedSplashScreen(navController: NavController, viewModel: MainViewModel) {
     var startAnimation by remember { mutableStateOf(false) }
 
     val alphaAnim = animateFloatAsState(
@@ -49,22 +39,22 @@ fun AnimatedSplashScreen(navController: NavController, startViewModel: StartView
 
     LaunchedEffect(key1 = true) {
         startAnimation = true
-        startViewModel.getAllCocktails()
+        viewModel.getAllCocktails()
         delay(3000)
 
 
-        while (startViewModel.loading) {
+        while (viewModel.loading) {
             delay(1000) // Wartezeit vor der erneuten Überprüfung
         }
 
         navController.popBackStack()
         navController.navigate("startView")
     }
-    Splash(alpha = alphaAnim.value, startViewModel)
+    Splash(alpha = alphaAnim.value, viewModel)
 }
 
 @Composable
-fun Splash(alpha: Float, startViewModel: StartViewModel) {
+fun Splash(alpha: Float, viewModel: MainViewModel) {
     Box(
         modifier = Modifier
             .background(Color.White)
@@ -86,7 +76,7 @@ fun Splash(alpha: Float, startViewModel: StartViewModel) {
                     .align(Alignment.CenterHorizontally)
             )
 
-            if (startViewModel.loading) {
+            if (viewModel.loading) {
                 LinearProgressIndicator(
                     modifier = Modifier
                         .fillMaxSize()

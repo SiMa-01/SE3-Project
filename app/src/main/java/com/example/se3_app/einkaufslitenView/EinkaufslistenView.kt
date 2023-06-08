@@ -52,12 +52,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.se3_app.MainViewModel
 import com.example.se3_app.startView.navigateToDestination
 
 
 
 @Composable
-fun EinkaufslistenView(navController: NavController, viewModel: EinkaufslistenViewModel) {
+fun EinkaufslistenView(navController: NavController, viewModel: MainViewModel) {
     EinkaufsListenViewContent(navController, viewModel)
 
 }
@@ -65,7 +66,7 @@ fun EinkaufslistenView(navController: NavController, viewModel: EinkaufslistenVi
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EinkaufsListenViewContent(navController: NavController, viewModel: EinkaufslistenViewModel) {
+fun EinkaufsListenViewContent(navController: NavController, viewModel: MainViewModel) {
     var selectedItem by remember { mutableStateOf(0) }
     val items = listOf("Home", "Cocktails", "Merkliste", "Einkaufsliste")
     val icons = listOf(

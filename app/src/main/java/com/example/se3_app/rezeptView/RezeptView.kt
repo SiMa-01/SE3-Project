@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -43,17 +44,34 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.se3_app.Dto.CocktailDto
+import com.example.se3_app.MainViewModel
+import com.example.se3_app.ingredientsView.ChipEachRow
 import com.example.se3_app.startView.Cocktailbox
 import com.example.se3_app.startView.navigateToDestination
 
+var cocktail = emptyList<CocktailDto>()
+
 @Composable
-fun RezeptView(navController: NavController, viewModel: RezeptViewModel) {
-    RezeptViewContent(navController, viewModel)
+fun RezeptView(navController: NavController, viewModel: MainViewModel) {
+
+    if (viewModel.loading){
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
+    } else {
+        cocktail = viewModel.cocktailByName
+        RezeptViewContent(navController, viewModel)
+    }
+
 
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RezeptViewContent(navController: NavController, viewModel: RezeptViewModel) {
+fun RezeptViewContent(navController: NavController, viewModel: MainViewModel) {
     var selectedItem by remember { mutableStateOf(0) }
     val items = listOf("Home", "Cocktails", "Merkliste", "Einkaufsliste")
     val icons = listOf(
@@ -69,11 +87,6 @@ fun RezeptViewContent(navController: NavController, viewModel: RezeptViewModel) 
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    /*Image(
-                        painter = painterResource(id = R.drawable.cocktail), // Das Logo wird aktuell noch viel zu groß angezeigt. Daher habe ich es noch nicht hingekommen
-                        contentDescription = "Logo",
-                        modifier = Modifier.padding(end = 8.dp)
-                    )*/
                     Text("MIX'N'FIX", fontSize = 30.sp)
                 }
             },
@@ -94,23 +107,23 @@ fun RezeptViewContent(navController: NavController, viewModel: RezeptViewModel) 
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-            val name="Gin Tonic"
-            var ingredients= arrayOf("Gin", "Tonic", "Eis")
-            val difficulty="EASY"
-            var alcoholic by remember { mutableStateOf(true)}
-            val taste ="Sweet"
+            val name= cocktail[0].name
+            var ingredients= cocktail[0].ingredients
+            val difficulty=cocktail[0].difficulty
+            var alcoholic = cocktail[0].alcoholic
+            val taste =cocktail[0].taste
 
             RezeptCocktailbox(
                 navController,
                 viewModel,
-                name,
-                ingredients,
-                difficulty,
+                name!!,
+                ingredients!!,
+                difficulty!!,
                 alcoholic,
-                taste
+                taste!!
             )
 
-            Text("Für deinen Cocktail brauchst du: ", fontSize = 20.sp)
+            Text("Für deinen ${cocktail[0].name} brauchst du: ", fontSize = 20.sp)
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -118,18 +131,9 @@ fun RezeptViewContent(navController: NavController, viewModel: RezeptViewModel) 
                     .border(BorderStroke(1.dp, Color.LightGray))
             ) {
 
-                val zutatenList by remember {
-                    mutableStateOf(
-                        mutableStateListOf(
-                            "Zutat 1",
-                            "Zutat 2",
-                            "Zutat 3"
-                        )
-                    )
-                }
                 Column {
 
-                    for (item in zutatenList) {
+                    for (item in cocktail[0].ingredients!!) {
                         Row(Modifier.padding(8.dp)) {
                             Text(
                                 item,
@@ -160,7 +164,7 @@ fun RezeptViewContent(navController: NavController, viewModel: RezeptViewModel) 
                     .border(BorderStroke(1.dp, Color.LightGray))
             ) {
                 Text(
-                    text = "Bla" // TODO hier kommt dann der Get der Zubereitung hin
+                    text = cocktail[0].preparation.toString()
                 )
             }
             Spacer(modifier = Modifier.height(100.dp))
@@ -192,9 +196,9 @@ fun RezeptViewContent(navController: NavController, viewModel: RezeptViewModel) 
 
 
 @Composable
-fun RezeptCocktailbox(navController: NavController, rezeptViewModel: RezeptViewModel, name: String, ingredients: Array<String>, difficulty: String, alcoholic: Boolean, taste: String) {
-    if (rezeptViewModel.errorMessage.isEmpty()) {
-        Cocktailbox(navController, name, ingredients, difficulty, alcoholic, taste)
+fun RezeptCocktailbox(navController: NavController, viewModel: MainViewModel, name: String, ingredients: Array<String>, difficulty: String, alcoholic: Boolean, taste: String) {
+    if (viewModel.errorMessage.isEmpty()) {
+        Cocktailbox(navController, viewModel, name, ingredients, difficulty, alcoholic, taste)
     }
 }
 @Composable

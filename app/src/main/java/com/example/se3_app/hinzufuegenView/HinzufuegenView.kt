@@ -45,17 +45,18 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.se3_app.MainViewModel
 import com.example.se3_app.startView.navigateToDestination
 
 @Composable
-fun HinzufuegenView(navController: NavController, viewModel: HinzufuegenViewModel) {
+fun HinzufuegenView(navController: NavController, viewModel: MainViewModel) {
     HinzufuegenViewContent(navController, viewModel)
 
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HinzufuegenViewContent(navController: NavController, viewModel: HinzufuegenViewModel) {
+fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewModel) {
     var selectedItem by remember { mutableStateOf(0) }
     val items = listOf("Home", "Cocktails", "Merkliste", "Einkaufsliste")
     val icons = listOf(

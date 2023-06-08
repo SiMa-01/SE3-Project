@@ -53,6 +53,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.TextFieldValue
+import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
 import com.example.se3_app.ui.theme.dunkelGelb
 import com.example.se3_app.ui.theme.hellGelb
@@ -60,7 +61,7 @@ import com.example.se3_app.ui.theme.neueIdee
 
 
 @Composable
-fun CocktailSearchView(navController: NavController, viewModel: CocktailSearchViewModel) {
+fun CocktailSearchView(navController: NavController, viewModel: MainViewModel) {
     CocktailSearchViewContent(navController, viewModel)
 
 }
@@ -72,7 +73,7 @@ val font = FontFamily(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CocktailSearchViewContent(navController: NavController, viewModel: CocktailSearchViewModel) {
+fun CocktailSearchViewContent(navController: NavController, viewModel: MainViewModel) {
 
     val options = listOf("Option 1", "Option 2", "Option 3", "Option 4", "Option 5")
     var expanded by remember { mutableStateOf(false) }
@@ -270,59 +271,7 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: CocktailS
                                         Text("Zutatenfilter", fontFamily = font)
                                     }
                                 }
-                                /*
-                                    Column {
-                                        val zutaten = arrayOf("apple", "banana", "cherry", "apple", "banana", "cherry")// TODO Marcel: Hier nehmen wir dann das Array der Zutaten zurück
-                                        var counter = 0
-                                        for (x in zutaten){
-                                            val checkedState = remember { mutableStateOf(false) }
-                                            Row{
-                                                Checkbox(
-                                                    checked = checkedState.value,
-                                                    onCheckedChange = { checkedState.value = it },
-                                                )
-                                                Text(text = zutaten[counter], fontSize = 15.sp, modifier = Modifier.padding(vertical = 14.dp))
-                                                counter = counter + 1
-                                            }
-                                        }
-                                    }
-                                 */
-                                /*ExposedDropdownMenuBox(
-                                    expanded = expanded,
-                                    onExpandedChange = {
-                                        expanded = !expanded
-                                    }
-                                ) {
-                                    TextField(
-                                        modifier = Modifier.menuAnchor(),
-                                        readOnly = true,
-                                        value = selectedOptionText,
-                                        onValueChange = { },
-                                        label = { Text("Label") },
-                                        trailingIcon = {
-                                            ExposedDropdownMenuDefaults.TrailingIcon(
-                                                expanded = expanded
-                                            )
-                                        },
-                                        colors = ExposedDropdownMenuDefaults.textFieldColors()
-                                    )
-                                    ExposedDropdownMenu(
-                                        expanded = expanded,
-                                        onDismissRequest = {
-                                            expanded = false
-                                        }
-                                    ) {
-                                        options.forEach { selectionOption ->
-                                            DropdownMenuItem(
-                                                text = { Text(text = selectionOption) },
-                                                onClick = {
-                                                    selectedOptionText = selectionOption
-                                                    expanded = false
-                                                }
-                                            )
-                                        }
-                                    }
-                                }*/
+
                             }
                         }
                     }

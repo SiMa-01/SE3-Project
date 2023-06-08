@@ -33,12 +33,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.se3_app.MainViewModel
 import com.example.se3_app.startView.navigateToDestination
 import com.example.se3_app.startView.Cocktailbox
 
 
 @Composable
-fun ResultView(navController: NavController, viewModel: ResultViewModel) {
+fun ResultView(navController: NavController, viewModel: MainViewModel) {
     ResultViewContent(navController, viewModel)
 
 }
@@ -46,7 +47,7 @@ fun ResultView(navController: NavController, viewModel: ResultViewModel) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ResultViewContent(navController: NavController, viewModel: ResultViewModel) {
+fun ResultViewContent(navController: NavController, viewModel: MainViewModel) {
     var selectedItem by remember { mutableStateOf(0) }
     val items = listOf("Home", "Cocktails", "Merkliste", "Einkaufsliste")
     val icons = listOf(
@@ -124,9 +125,9 @@ fun ResultViewContent(navController: NavController, viewModel: ResultViewModel) 
     }
 }
 @Composable
-fun ResultCocktailbox(navController: NavController, resultViewModel: ResultViewModel, name: String, ingredients: Array<String>, difficulty: String, alcoholic: Boolean, taste: String) {
-    if (resultViewModel.errorMessage.isEmpty()) {
-        Cocktailbox(navController, name, ingredients, difficulty, alcoholic, taste)
+fun ResultCocktailbox(navController: NavController, viewModel: MainViewModel, name: String, ingredients: Array<String>, difficulty: String, alcoholic: Boolean, taste: String) {
+    if (viewModel.errorMessage.isEmpty()) {
+        Cocktailbox(navController, viewModel, name, ingredients, difficulty, alcoholic, taste)
     }
 }
 
