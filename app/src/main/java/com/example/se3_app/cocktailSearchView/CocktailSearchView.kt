@@ -101,6 +101,12 @@ fun CocktailSearchViewContent(
     ingredientsViewModel: IngredientsViewModel
 ) {
 
+    var name: String? = null
+    var taste: String? = null
+    val incredience: List<String> = emptyList() //TODO da muss die übergebene hin
+    var alcoholic: String? = null
+    var difficulty: String? = null
+
 
     var expanded by remember { mutableStateOf(false) }
     var selectedOptionText by remember { mutableStateOf(options[0]) }
@@ -225,21 +231,21 @@ fun CocktailSearchViewContent(
                             val maxValue = 2
                             val values = listOf("egal", "ja", "nein")
 
-                            val selectedValue = remember { mutableStateOf(minValue) }
+                            val alcoholic = remember { mutableStateOf(minValue) }
                             Slider(
-                                value = selectedValue.value.toFloat(),
+                                value = alcoholic.value.toFloat(),
                                 colors = SliderDefaults.colors(
                                     thumbColor = chipFarbe6,
                                     activeTrackColor = chipFarbe1
                                 ),
                                 onValueChange = { newValue ->
-                                    selectedValue.value = newValue.toInt()
+                                    alcoholic.value = newValue.toInt()
                                 },
                                 valueRange = minValue.toFloat()..maxValue.toFloat(),
                                 steps = maxValue - minValue
                             )
 
-                            val text = values[selectedValue.value]
+                            val text = values[alcoholic.value]
                             Text(
                                 text = text,
                                 fontFamily = font
@@ -357,21 +363,21 @@ fun CocktailSearchViewContent(
                             val maxValue = 3
                             val values = listOf("egal", "simpel", "mittel", "schwer")
 
-                            val selectedValue = remember { mutableStateOf(minValue) }
+                            val difficulty = remember { mutableStateOf(minValue) }
                             Slider(
-                                value = selectedValue.value.toFloat(),
+                                value = difficulty.value.toFloat(),
                                 colors = SliderDefaults.colors(
                                     thumbColor = chipFarbe6,
                                     activeTrackColor = chipFarbe1
                                 ),
                                 onValueChange = { newValue ->
-                                    selectedValue.value = newValue.toInt()
+                                    difficulty.value = newValue.toInt()
                                 },
                                 valueRange = minValue.toFloat()..maxValue.toFloat(),
                                 steps = maxValue - minValue
                             )
 
-                            val text = values[selectedValue.value]
+                            val text = values[difficulty.value]
                             Text(
                                 text = text,
                                 fontFamily = font,
@@ -480,7 +486,10 @@ fun CocktailSearchViewContent(
 
             ) {
                 FloatingActionButton(
-                    onClick = { navController.navigate("ResultView") }, //andere Seite einfügen
+                    onClick = {
+                        viewModel.searchCocktails(name!!, taste!!, incredience, alcoholic!!, difficulty!!)
+                        navController.navigate("ResultView")
+                              },
                     modifier = Modifier
                         .height(40.dp)
                         .fillMaxWidth(),

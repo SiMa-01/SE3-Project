@@ -115,6 +115,8 @@ fun ResultViewContent(navController: NavController, viewModel: MainViewModel) {
                 4 //TODO jeweils dann den Index hochzählen lassen
             )
 
+            
+
         }
     }
 

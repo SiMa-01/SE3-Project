@@ -159,7 +159,10 @@ fun StartViewContent(
                     .padding(vertical = 5.dp)
             ) {
                 FloatingActionButton(
-                    onClick = { navController.navigate("CocktailSearchView") }, //andere Seite einfügen
+                    onClick = {
+                        viewModel.getAllTastes()
+                        navController.navigate("CocktailSearchView")
+                              },
                     modifier = Modifier
                         .weight(1f)
                         .height(80.dp),
@@ -168,7 +171,10 @@ fun StartViewContent(
                     Text("Cocktail suchen", fontFamily = font, fontSize = 15.sp)
                 }
                 FloatingActionButton(
-                    onClick = { navController.navigate("HinzufuegenView") }, //andere Seite einfügen
+                    onClick = {
+                        viewModel.getAllTastes()
+                        navController.navigate("HinzufuegenView")
+                              },
                     modifier = Modifier
                         .weight(1f)
                         .padding(horizontal = 5.dp)

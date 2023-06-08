@@ -19,6 +19,7 @@ class MainViewModel: ViewModel() {
     var cocktailsAll: MutableList<CocktailDto> by mutableStateOf(mutableListOf())
     lateinit var tastes: List<String>
     lateinit var addedCocktail: CocktailDto
+    var cocktailsSearch: MutableList<CocktailDto> by mutableStateOf(mutableListOf())
 
 
     fun getCocktailByName(name: String) {
@@ -71,14 +72,20 @@ class MainViewModel: ViewModel() {
         }
     }
 
-    fun searchCocktails(){
+    fun searchCocktails(name:String, taste:String, incredience: List<String>, stringAlcoholic:String, difficuty:String){
+        var alcoholic: Boolean? = null;
+        if (stringAlcoholic == "ja"){
+            var alcoholic: Boolean = true;
+        }
+        else if (stringAlcoholic == "nein"){
+            var alcoholic: Boolean = false;
+        }
         viewModelScope.launch {
             errorMessage = ""
             loading = true
-
             try {
-                val allCocktails = cocktailService.findCocktails()
-                cocktailsAll = allCocktails.toMutableList()
+                val searchCocktails = cocktailService.findCocktails(name, taste, incredience, alcoholic, difficuty)
+                cocktailsSearch = searchCocktails.toMutableList()
                 loading = false
             } catch (e: Exception) {
                 loading = false

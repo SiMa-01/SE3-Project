@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -54,6 +55,7 @@ import androidx.navigation.NavController
 import com.example.se3_app.Dto.AddCocktailDto
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
+import com.example.se3_app.cocktailSearchView.CocktailSearchViewContent
 import com.example.se3_app.cocktailSearchView.font
 import com.example.se3_app.cocktailSearchView.options
 import com.example.se3_app.ingredientsView.IngredientsViewModel
@@ -66,10 +68,18 @@ import com.example.se3_app.ui.theme.chipFarbe6
 val newCocktail = AddCocktailDto("", emptyArray(),"", true, "", "")
 @Composable
 fun HinzufuegenView(navController: NavController, viewModel: MainViewModel, ingredientsViewModel: IngredientsViewModel) {
-    HinzufuegenViewContent(navController, viewModel, ingredientsViewModel)
 
-
-
+    if (viewModel.loading) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
+    } else {
+        options = viewModel.tastes
+        HinzufuegenViewContent(navController, viewModel, ingredientsViewModel)
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
