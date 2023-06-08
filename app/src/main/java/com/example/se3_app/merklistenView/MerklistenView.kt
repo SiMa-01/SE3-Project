@@ -91,10 +91,10 @@ fun MerklistenViewContent(navController: NavController, viewModel: MainViewModel
         ){
             Text("Deine Lieblingscocktails:", fontSize = 20.sp)
             Spacer(modifier = Modifier.height(8.dp))
-            val name="Gin Tonic"
-            val difficulty="EASY"
+            val name="Caipirinha"
+            val difficulty="MEDIUM"
             var alcoholic by remember { mutableStateOf(true)}
-            val taste ="Sweet"
+            val taste ="Sour"
 
             MerklistenCocktailbox(
                 navController,
