@@ -49,6 +49,7 @@ import com.example.se3_app.MainViewModel
 import com.example.se3_app.ingredientsView.ChipEachRow
 import com.example.se3_app.startView.Cocktailbox
 import com.example.se3_app.startView.navigateToDestination
+import com.example.se3_app.ui.theme.chipFarbe3
 
 var cocktail = emptyList<CocktailDto>()
 
@@ -198,7 +199,7 @@ fun RezeptViewContent(navController: NavController, viewModel: MainViewModel) {
 @Composable
 fun RezeptCocktailbox(navController: NavController, viewModel: MainViewModel, name: String, ingredients: Array<String>, difficulty: String, alcoholic: Boolean, taste: String) {
     if (viewModel.errorMessage.isEmpty()) {
-        Cocktailbox(navController, viewModel, name, ingredients, difficulty, alcoholic, taste)
+        Cocktailbox(navController, viewModel, name, difficulty, alcoholic, taste, chipFarbe3)
     }
 }
 @Composable

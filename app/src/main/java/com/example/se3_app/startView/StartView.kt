@@ -42,6 +42,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
 import com.example.se3_app.ingredientsView.IngredientsViewModel
+import com.example.se3_app.ui.theme.chipFarbe1
+import com.example.se3_app.ui.theme.chipFarbe2
+import com.example.se3_app.ui.theme.chipFarbe3
+import com.example.se3_app.ui.theme.chipFarbe4
+import com.example.se3_app.ui.theme.chipFarbe5
+import com.example.se3_app.ui.theme.chipFarbe6
 import com.example.se3_app.ui.theme.green
 import com.example.se3_app.ui.theme.neueIdee
 import com.example.se3_app.ui.theme.orange
@@ -140,7 +146,7 @@ fun StartViewContent(
             val taste = viewModel.cocktailsAll[0].taste
 
             StartCocktailbox(
-                navController, viewModel, name!!, ingredients!!, difficulty!!, alcoholic, taste!!
+                navController, viewModel, name!! , difficulty!!, alcoholic, taste!!, 4
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -156,7 +162,8 @@ fun StartViewContent(
                     onClick = { navController.navigate("CocktailSearchView") }, //andere Seite einfügen
                     modifier = Modifier
                         .weight(1f)
-                        .height(80.dp), containerColor = neueIdee
+                        .height(80.dp),
+                    containerColor = chipFarbe2
                 ) {
                     Text("Cocktail suchen", fontFamily = font, fontSize = 15.sp)
                 }
@@ -166,7 +173,7 @@ fun StartViewContent(
                         .weight(1f)
                         .padding(horizontal = 5.dp)
                         .height(80.dp),
-                    containerColor = neueIdee
+                    containerColor = chipFarbe2
                 ) {
                     Text(
                         "Rezept hinzufügen", fontFamily = font, fontSize = 15.sp
@@ -183,10 +190,10 @@ fun StartViewContent(
                     navController,
                     viewModel,
                     viewModel.cocktailsAll[randomList[0]].name.toString(),
-                    it,
                     viewModel.cocktailsAll[randomList[0]].difficulty.toString(),
                     viewModel.cocktailsAll[randomList[0]].alcoholic,
-                    viewModel.cocktailsAll[randomList[0]].taste.toString()
+                    viewModel.cocktailsAll[randomList[0]].taste.toString(),
+                    1
                 )
             }
 
@@ -195,10 +202,10 @@ fun StartViewContent(
                     navController,
                     viewModel,
                     viewModel.cocktailsAll[randomList[1]].name.toString(),
-                    it,
                     viewModel.cocktailsAll[randomList[1]].difficulty.toString(),
                     viewModel.cocktailsAll[randomList[1]].alcoholic,
-                    viewModel.cocktailsAll[randomList[1]].taste.toString()
+                    viewModel.cocktailsAll[randomList[1]].taste.toString(),
+                    2
                 )
             }
             viewModel.cocktailsAll[randomList[2]].ingredients?.let {
@@ -206,10 +213,10 @@ fun StartViewContent(
                     navController,
                     viewModel,
                     viewModel.cocktailsAll[randomList[2]].name.toString(),
-                    it,
                     viewModel.cocktailsAll[randomList[2]].difficulty.toString(),
                     viewModel.cocktailsAll[randomList[2]].alcoholic,
-                    viewModel.cocktailsAll[randomList[2]].taste.toString()
+                    viewModel.cocktailsAll[randomList[2]].taste.toString(),
+                    3
                 )
             }
 
@@ -218,10 +225,10 @@ fun StartViewContent(
                     navController,
                     viewModel,
                     viewModel.cocktailsAll[randomList[3]].name.toString(),
-                    it,
                     viewModel.cocktailsAll[randomList[3]].difficulty.toString(),
                     viewModel.cocktailsAll[randomList[3]].alcoholic,
-                    viewModel.cocktailsAll[randomList[3]].taste.toString()
+                    viewModel.cocktailsAll[randomList[3]].taste.toString(),
+                    4
                 )
             }
 
@@ -230,10 +237,10 @@ fun StartViewContent(
                     navController,
                     viewModel,
                     viewModel.cocktailsAll[randomList[4]].name.toString(),
-                    it,
                     viewModel.cocktailsAll[randomList[4]].difficulty.toString(),
                     viewModel.cocktailsAll[randomList[4]].alcoholic,
-                    viewModel.cocktailsAll[randomList[4]].taste.toString()
+                    viewModel.cocktailsAll[randomList[4]].taste.toString(),
+                    5
                 )
             }
 
@@ -242,10 +249,10 @@ fun StartViewContent(
                     navController,
                     viewModel,
                     viewModel.cocktailsAll[randomList[5]].name.toString(),
-                    it,
                     viewModel.cocktailsAll[randomList[5]].difficulty.toString(),
                     viewModel.cocktailsAll[randomList[5]].alcoholic,
-                    viewModel.cocktailsAll[randomList[5]].taste.toString()
+                    viewModel.cocktailsAll[randomList[5]].taste.toString(),
+                    6
                 )
             }
             viewModel.cocktailsAll[randomList[6]].ingredients?.let {
@@ -253,10 +260,10 @@ fun StartViewContent(
                     navController,
                     viewModel,
                     viewModel.cocktailsAll[randomList[6]].name.toString(),
-                    it,
                     viewModel.cocktailsAll[randomList[6]].difficulty.toString(),
                     viewModel.cocktailsAll[randomList[6]].alcoholic,
-                    viewModel.cocktailsAll[randomList[6]].taste.toString()
+                    viewModel.cocktailsAll[randomList[6]].taste.toString(),
+                    7
                 )
             }
 
@@ -296,30 +303,51 @@ fun StartCocktailbox(
     navController: NavController,
     viewModel: MainViewModel,
     name: String,
-    ingredients: Array<String>,
     difficulty: String,
     alcoholic: Boolean,
-    taste: String
+    taste: String,
+    index: Int
 ) {
     if (viewModel.errorMessage.isEmpty()) {
-        Cocktailbox(navController, viewModel, name, ingredients, difficulty, alcoholic, taste)
+        CocktailboxMitIndex(navController, viewModel, name, difficulty, alcoholic, taste, index)
     }
 }
 
 
-// Das ist die allgemeine Methode auf die alle gehen
 
 
-// das ist ein Versuch
+
+
+@Composable
+fun CocktailboxMitIndex(
+    navController: NavController,
+    viewModel: MainViewModel,
+    name: String,
+    difficulty: String,
+    alcoholic: Boolean,
+    taste: String,
+    index: Int,
+) {
+    val color: Color;
+    if (index % 6 == 0) color = chipFarbe1
+    else if (index % 5 == 0) color = chipFarbe2
+    else if (index % 4 == 0) color = chipFarbe3
+    else if (index % 3 == 0) color = chipFarbe4
+    else if (index % 2 == 0) color = chipFarbe5
+    else color = chipFarbe6
+
+    Cocktailbox(navController, viewModel, name, difficulty, alcoholic, taste, color)
+}
+
 @Composable
 fun Cocktailbox(
     navController: NavController,
     viewModel: MainViewModel,
     name: String,
-    ingredients: Array<String>,
     difficulty: String,
     alcoholic: Boolean,
-    taste: String
+    taste: String,
+    color: Color,
 ) {
 
 
@@ -329,7 +357,7 @@ fun Cocktailbox(
             navController.navigate("RezeptView")
                   },
         modifier = Modifier.fillMaxWidth(),
-        containerColor = neueIdee
+        containerColor = color
 
     ) {
         Box(
@@ -387,9 +415,9 @@ fun Cocktailbox(
                                     .weight(1f)
                             ) {
                                 Icon(
-                                    Icons.Filled.Star,
+                                    Icons.Filled.Favorite,
                                     contentDescription = "Zur Merkliste",
-                                    tint = if (isClicked.value) Color.Yellow else Color.Unspecified
+                                    tint = if (isClicked.value) Color.Red else Color.Unspecified
                                 )
                                 if (isClicked.value) {
                                 }                              //Post methoden in Merkliste

@@ -34,8 +34,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.se3_app.MainViewModel
+import com.example.se3_app.merklistenView.MerklistenCocktailbox
 import com.example.se3_app.startView.navigateToDestination
 import com.example.se3_app.startView.Cocktailbox
+import com.example.se3_app.startView.CocktailboxMitIndex
+import com.example.se3_app.ui.theme.chipFarbe3
 
 
 @Composable
@@ -93,13 +96,16 @@ fun ResultViewContent(navController: NavController, viewModel: MainViewModel) {
             Text("Damit empfehlen wir dir diese Cocktails: ", fontSize = 20.sp)
 
             Spacer(modifier = Modifier.height(8.dp))
-            val name="Gin Tonic"
-            var ingredients= arrayOf("Gin", "Tonic", "Eis")
-            val difficulty="EASY"
-            var alcoholic by remember { mutableStateOf(true)}
-            val taste ="Sweet"
+            ResultCocktailbox(
+                navController,
+                viewModel,
+                name ="Caipirinha" ,
+                difficulty ="MEDIUM" ,
+                alcoholic = true,
+                taste ="Sour",
+                4 //TODO jeweils dann den Index hochzählen lassen
+            )
 
-            ResultCocktailbox(navController, viewModel, name, ingredients, difficulty, alcoholic, taste)
         }
     }
 
@@ -125,9 +131,9 @@ fun ResultViewContent(navController: NavController, viewModel: MainViewModel) {
     }
 }
 @Composable
-fun ResultCocktailbox(navController: NavController, viewModel: MainViewModel, name: String, ingredients: Array<String>, difficulty: String, alcoholic: Boolean, taste: String) {
+fun ResultCocktailbox(navController: NavController, viewModel: MainViewModel, name: String, difficulty: String, alcoholic: Boolean, taste: String, index: Int) {
     if (viewModel.errorMessage.isEmpty()) {
-        Cocktailbox(navController, viewModel, name, ingredients, difficulty, alcoholic, taste)
+        CocktailboxMitIndex(navController, viewModel, name, difficulty, alcoholic, taste, index)
     }
 }
 

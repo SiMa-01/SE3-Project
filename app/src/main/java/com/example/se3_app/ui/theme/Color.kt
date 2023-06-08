@@ -21,6 +21,8 @@ val chipFarbe2 = Color(0xFFFBEEE0)
 val chipFarbe3 = Color(0xFFFEFCDB)
 val chipFarbe4 = Color(0xFFE7FCE0)
 val chipFarbe5 = Color(0xFFD8FDFD)
+val chipFarbe6 = Color(0xFFD8D9FD)
+
 
 
 
