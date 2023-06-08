@@ -71,6 +71,23 @@ class MainViewModel: ViewModel() {
         }
     }
 
+    fun searchCocktails(){
+        viewModelScope.launch {
+            errorMessage = ""
+            loading = true
+
+            try {
+                val allCocktails = cocktailService.findCocktails()
+                cocktailsAll = allCocktails.toMutableList()
+                loading = false
+            } catch (e: Exception) {
+                loading = false
+                errorMessage = e.message.toString()
+                println("fehler $errorMessage")
+            }
+        }
+    }
+
     fun addCocktail(addCocktailDto: AddCocktailDto) {
         viewModelScope.launch {
             loading = true
