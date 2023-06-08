@@ -16,4 +16,13 @@ val neueIdee = Color(0xFFE8D94C)
 val hellGelb = Color(0xFFF5F2D3)
 val dunkelGelb = Color(0xFF706D51)
 
+val chipFarbe1 = Color(0xFFF3DDD3)
+val chipFarbe2 = Color(0xFFFBEEE0)
+val chipFarbe3 = Color(0xFFFEFCDB)
+val chipFarbe4 = Color(0xFFE7FCE0)
+val chipFarbe5 = Color(0xFFD8FDFD)
+
+
+
+
 

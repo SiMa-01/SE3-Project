@@ -29,15 +29,31 @@ import androidx.navigation.NavController
 import com.example.se3_app.ui.theme.Purple80
 import com.example.se3_app.ui.theme.PurpleGrey40
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
+import androidx.compose.material3.AlertDialogDefaults.containerColor
 import androidx.compose.material3.Button
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.runtime.*
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
+import com.example.se3_app.R
+import com.example.se3_app.cocktailSearchView.font
+import com.example.se3_app.ui.theme.chipFarbe1
+import com.example.se3_app.ui.theme.chipFarbe2
+import com.example.se3_app.ui.theme.chipFarbe3
+import com.example.se3_app.ui.theme.chipFarbe4
+import com.example.se3_app.ui.theme.chipFarbe5
+import com.example.se3_app.ui.theme.neueIdee
 import com.google.android.material.chip.Chip
 
 //import androidx.compose.foundation.layout.FlowRow
 
-
+val font = FontFamily(
+    Font(resId = R.font.arciform)
+)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IngredientsView(navController: NavController, ingredientsViewModel: IngredientsViewModel) {
@@ -56,7 +72,7 @@ fun IngredientsView(navController: NavController, ingredientsViewModel: Ingredie
     } else {
         ingredients = ingredientsViewModel.ingredients
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            ChipEachRow(list = ingredients, tempList = tempList)
+            ChipEachRow(navController, ingredientsViewModel, list = ingredients, tempList = tempList)
         }
     }
 
@@ -65,45 +81,78 @@ fun IngredientsView(navController: NavController, ingredientsViewModel: Ingredie
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
-fun ChipEachRow(
-    list: List<String>,
-    tempList: Set<Int>
-) {
+fun ChipEachRow(navController: NavController, viewModel: IngredientsViewModel, list: List<String>, tempList: Set<Int>) {
 
     var multipleChecked by rememberSaveable { mutableStateOf(tempList) }
 
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState())
+    ) {
+        FlowRow(
+            modifier = Modifier.padding(8.dp),
+            Arrangement.spacedBy(5.dp)
+        ){
+            list.forEachIndexed { index, s ->
+                FilterChip(
+                    selected = multipleChecked.contains(index),
+                    onClick = {
+                        multipleChecked = if (multipleChecked.contains(index))
+                            multipleChecked.minus(index)
+                        else
+                            multipleChecked.plus(index)
+                    },
+                    label = {
+                        Text(text = s, fontFamily = font)
+                    },
+                    border = FilterChipDefaults.filterChipBorder(
+                        borderColor = Color.Transparent,
+                        borderWidth = if (multipleChecked.contains(index)) 0.dp else 2.dp
+                    ),
+                    colors = FilterChipDefaults.filterChipColors(
+                        containerColor =
+                            if (index % 6 == 0) chipFarbe1
+                            else if (index % 4 == 0) chipFarbe2
+                            else if (index % 3 == 0) chipFarbe3
+                            else if (index % 2 == 0) chipFarbe4
+                            else chipFarbe5,
+                        selectedContainerColor = Color.Transparent,
+                    ),
+                    shape = RoundedCornerShape(8.dp),
+                    trailingIcon = {
+                        if (multipleChecked.contains(index)) {
+                            Icon(Icons.Default.Check, contentDescription = "");
+                        }
 
-
-    FlowRow(modifier = Modifier.padding(8.dp)) {
-        list.forEachIndexed { index, s ->
-            FilterChip(
-                selected = multipleChecked.contains(index),
-                onClick = {
-                    multipleChecked = if (multipleChecked.contains(index))
-                        multipleChecked.minus(index)
-                    else
-                        multipleChecked.plus(index)
-                },
-                label = {
-                    Text(text = s)
-                },
-                border = FilterChipDefaults.filterChipBorder(
-                    borderColor = if (!multipleChecked.contains(index)) PurpleGrey40 else Color.Transparent,
-                    borderWidth = if (multipleChecked.contains(index)) 0.dp else 2.dp
-                ),
-                colors = FilterChipDefaults.filterChipColors(
-                    containerColor = if (multipleChecked.contains(index)) Purple80 else Color.Transparent
-                ),
-                shape = RoundedCornerShape(8.dp),
-                trailingIcon = {
-                    if (multipleChecked.contains(index)) Icon(
-                        Icons.Default.Check,
-                        contentDescription = ""
-                    ) else null
-                }
-            )
+                        else null
+                    }
+                )
+            }
         }
+        Spacer(modifier = Modifier.height(8.dp))
+        // Der Suche Button
+        Box (
+            modifier = Modifier
+                .fillMaxSize(),
+            contentAlignment = Alignment.Center
+
+        ){
+            FloatingActionButton(
+                onClick = {navController.navigate("CocktailSearchView")},
+                modifier = Modifier
+                    .height(40.dp)
+                    .fillMaxWidth(),
+                containerColor = neueIdee
+            ) {
+                Text("Fertig", fontFamily = font,)
+            }
+            Spacer(modifier = Modifier.height(10.dp))
+        }
+
     }
+
 
 
 
