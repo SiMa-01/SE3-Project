@@ -22,14 +22,17 @@ import com.example.se3_app.firebase.sign_up.SignUpView
 import com.example.se3_app.firebase.sign_up.SignUpViewModel
 import com.example.se3_app.firebase.verify_email.VerifyEmailView
 import com.example.se3_app.firebase.verify_email.VerifyEmailViewModel
+import com.example.se3_app.helpView.HelpView
 import com.example.se3_app.hinzufuegenView.HinzufuegenView
 import com.example.se3_app.ingredientsView.IngredientsView
 import com.example.se3_app.ingredientsView.IngredientsViewModel
 import com.example.se3_app.loadingScreen.AnimatedSplashScreen
 import com.example.se3_app.merklistenView.MerklistenView
+import com.example.se3_app.pictures.PicturesView
 import com.example.se3_app.resultView.ResultView
 import com.example.se3_app.rezeptView.RezeptView
 import com.example.se3_app.startView.StartView
+
 
 
 class MainActivity : ComponentActivity() {
@@ -100,6 +103,12 @@ class MainActivity : ComponentActivity() {
             }
             composable(route = "ingredientsView") {
                 IngredientsView(navController, ingredientsViewModel)
+            }
+            composable(route = "helpView"){
+                HelpView(navController)
+            }
+            composable(route = "picturesView"){
+                PicturesView(navController)
             }
         }
     }
