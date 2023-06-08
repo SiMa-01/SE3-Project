@@ -84,6 +84,8 @@ fun IngredientsView(navController: NavController, ingredientsViewModel: Ingredie
 fun ChipEachRow(navController: NavController, viewModel: IngredientsViewModel, list: List<String>, tempList: Set<Int>) {
 
     var multipleChecked by rememberSaveable { mutableStateOf(tempList) }
+    var selectedFilters = listOf<String>()
+    //val selectedFilters =  mutableListOf<String>()
 
     Column(
         modifier = Modifier
@@ -103,6 +105,17 @@ fun ChipEachRow(navController: NavController, viewModel: IngredientsViewModel, l
                             multipleChecked.minus(index)
                         else
                             multipleChecked.plus(index)
+
+                        if (!selectedFilters.contains(s)){
+                            println("HALLO" + s)
+                            selectedFilters = selectedFilters + s
+                        }
+                        else if (selectedFilters.contains(s)) {
+                            println("In der else")
+
+                            selectedFilters = selectedFilters - s
+                        }
+                        println("ItemsInList $selectedFilters ")
                     },
                     label = {
                         Text(text = s, fontFamily = font)

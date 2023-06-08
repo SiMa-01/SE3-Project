@@ -66,9 +66,13 @@ import com.example.se3_app.ui.theme.neueIdee
 var options = emptyList<String>()
 
 @Composable
-fun CocktailSearchView(navController: NavController, viewModel: MainViewModel, ingredientsViewModel: IngredientsViewModel) {
+fun CocktailSearchView(
+    navController: NavController,
+    viewModel: MainViewModel,
+    ingredientsViewModel: IngredientsViewModel
+) {
 
-    if (viewModel.loading){
+    if (viewModel.loading) {
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
@@ -90,9 +94,11 @@ val font = FontFamily(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CocktailSearchViewContent(navController: NavController, viewModel: MainViewModel, ingredientsViewModel: IngredientsViewModel) {
-
-
+fun CocktailSearchViewContent(
+    navController: NavController,
+    viewModel: MainViewModel,
+    ingredientsViewModel: IngredientsViewModel
+) {
 
 
     var expanded by remember { mutableStateOf(false) }
@@ -139,14 +145,18 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: MainViewM
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-            Text("Wähle alle Einschränkungen für deinen Cocktail aus:", fontFamily = font, fontSize = 20.sp)
+            Text(
+                "Wähle alle Einschränkungen für deinen Cocktail aus:",
+                fontFamily = font,
+                fontSize = 20.sp
+            )
             Spacer(modifier = Modifier.height(8.dp))
 
             Box(
                 modifier = Modifier
                     .fillMaxSize()
                     .border(BorderStroke(1.dp, Color.LightGray))
-            ){
+            ) {
                 var name by remember { mutableStateOf(TextFieldValue("")) }
                 TextField(
                     value = name,
@@ -163,7 +173,7 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: MainViewM
                         focusedIndicatorColor = neueIdee, // Farbe des Fokusindikators
                         unfocusedIndicatorColor = Color.Gray // Farbe des nicht fokussierten Indikators
                     )
-                        )
+                )
 
             }
 
@@ -219,7 +229,8 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: MainViewM
                                     activeTrackColor = dunkelGelb
                                 ),
                                 onValueChange = { newValue ->
-                                    selectedValue.value = newValue.toInt()},
+                                    selectedValue.value = newValue.toInt()
+                                },
                                 valueRange = minValue.toFloat()..maxValue.toFloat(),
                                 steps = maxValue - minValue
                             )
@@ -270,9 +281,9 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: MainViewM
                         ) {
 
                             Box(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                ) {
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                            ) {
                                 Column(
                                     modifier = Modifier
                                         .fillMaxSize()
@@ -283,7 +294,8 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: MainViewM
                                     FloatingActionButton(
                                         onClick = {
                                             ingredientsViewModel.getAllIncredients()
-                                            navController.navigate("ingredientsView")},
+                                            navController.navigate("ingredientsView")
+                                        },
                                         modifier = Modifier
                                             .height(40.dp)
                                             .fillMaxWidth(),
@@ -399,15 +411,6 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: MainViewM
                             .weight(1f)
                             .height(80.dp),
                     ) {
-
-                        var isExpaned by remember {
-                            mutableStateOf(false)
-                        }
-
-                        var geschmack by remember {
-                            mutableStateOf("")
-                        }
-
                         Box(
                             modifier = Modifier
                                 .fillMaxSize(), contentAlignment = Alignment.Center
@@ -415,63 +418,47 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: MainViewM
 
                         ) {
 
-
                             ExposedDropdownMenuBox(
-                                expanded = isExpaned,
-                                onExpandedChange = { isExpaned = it }) {
+                                expanded = expanded,
+                                onExpandedChange = {
+                                    expanded = !expanded
+                                }
+                            ) {
                                 TextField(
-                                    value = geschmack,
-
-                                    onValueChange = {},
-                                    readOnly = true,
-                                    trailingIcon = {
-                                        ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpaned)
-                                    },
                                     modifier = Modifier.menuAnchor(),
-                                    colors = TextFieldDefaults.textFieldColors(
-                                        containerColor = hellGelb,
-                                        cursorColor = Color.Black, // Farbe des Cursors
-                                        focusedIndicatorColor = neueIdee, // Farbe des Fokusindikators
-                                        unfocusedIndicatorColor = Color.Gray // Farbe des nicht fokussierten Indikators
-                                    )
-
-                                    )
-
-                                ExposedDropdownMenuBox(
+                                    readOnly = true,
+                                    value = "egal",
+                                    onValueChange = { },
+                                    label = { Text("Geschmack") },
+                                    trailingIcon = {
+                                        ExposedDropdownMenuDefaults.TrailingIcon(
+                                            expanded = expanded
+                                        )
+                                    },
+                                    colors = ExposedDropdownMenuDefaults.textFieldColors()
+                                )
+                                ExposedDropdownMenu(
                                     expanded = expanded,
-                                    onExpandedChange = {
-                                        expanded = !expanded
+                                    onDismissRequest = {
+                                        expanded = false
                                     }
                                 ) {
-                                    TextField(
-                                        modifier = Modifier.menuAnchor(),
-                                        readOnly = true,
-                                        value = selectedOptionText,
-                                        onValueChange = { },
-                                        label = { Text("Label") },
-                                        trailingIcon = {
-                                            ExposedDropdownMenuDefaults.TrailingIcon(
-                                                expanded = expanded
-                                            )
-                                        },
-                                        colors = ExposedDropdownMenuDefaults.textFieldColors()
-                                    )
-                                    ExposedDropdownMenu(
-                                        expanded = expanded,
-                                        onDismissRequest = {
+                                    options.forEach { selectionOption ->
+                                        DropdownMenuItem(
+                                            text = { Text(text = selectionOption) },
+                                            onClick = {
+                                                selectedOptionText = selectionOption
+                                                expanded = false
+                                            }
+                                        )
+                                    }
+                                    DropdownMenuItem(
+                                        text = { Text(text = "egal") },
+                                        onClick = {
+                                            selectedOptionText = "egal"
                                             expanded = false
                                         }
-                                    ) {
-                                        options.forEach { selectionOption ->
-                                            DropdownMenuItem(
-                                                text = { Text(text = selectionOption) },
-                                                onClick = {
-                                                    selectedOptionText = selectionOption
-                                                    expanded = false
-                                                }
-                                            )
-                                        }
-                                    }
+                                    )
                                 }
                             }
                         }
@@ -480,20 +467,20 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: MainViewM
             }
             Spacer(modifier = Modifier.height(8.dp))
             // Der Suche Button
-            Box (
+            Box(
                 modifier = Modifier
                     .fillMaxSize(),
                 contentAlignment = Alignment.Center
 
-            ){
+            ) {
                 FloatingActionButton(
-                    onClick = {navController.navigate("ResultView")}, //andere Seite einfügen
+                    onClick = { navController.navigate("ResultView") }, //andere Seite einfügen
                     modifier = Modifier
                         .height(40.dp)
                         .fillMaxWidth(),
                     containerColor = neueIdee
                 ) {
-                    Text("Suchen", fontFamily = font,)
+                    Text("Suchen", fontFamily = font)
                 }
             }
             Spacer(modifier = Modifier.height(100.dp))
@@ -501,30 +488,30 @@ fun CocktailSearchViewContent(navController: NavController, viewModel: MainViewM
         }
 
     }
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .wrapContentSize(Alignment.BottomCenter)
-        ) {
-            BottomAppBar() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .wrapContentSize(Alignment.BottomCenter)
+    ) {
+        BottomAppBar() {
 
-                items.forEachIndexed { index, item ->
-                    NavigationBarItem(
-                        icon = {
-                            Icon(
-                                icons[index],
-                                contentDescription = "Cocktail",
-                            )
-                        },
-                        label = { Text(item) },
+            items.forEachIndexed { index, item ->
+                NavigationBarItem(
+                    icon = {
+                        Icon(
+                            icons[index],
+                            contentDescription = "Cocktail",
+                        )
+                    },
+                    label = { Text(item) },
 
-                        selected = selectedItem == 1,
-                        onClick = {
-                            selectedItem = index
-                            navigateToDestination(navController, index)
-                        }
-                    )
-                }
+                    selected = selectedItem == 1,
+                    onClick = {
+                        selectedItem = index
+                        navigateToDestination(navController, index)
+                    }
+                )
             }
         }
     }
+}
