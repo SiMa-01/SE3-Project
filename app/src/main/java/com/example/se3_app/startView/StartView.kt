@@ -114,10 +114,10 @@ fun StartViewContent(
                 )
             }
         }, actions = {
-            IconButton(onClick = {
+            IconButton(onClick = { navController.navigate("HelpView")
 
 
-            }) { //TODO Hilfe View erstellen und navigieren
+            }) {
                 Icon(Icons.Filled.Info, contentDescription = "Search Icon")
             }
         })
