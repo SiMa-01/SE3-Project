@@ -13,8 +13,7 @@ val Pink40 = Color(0xFF7D5260)
 val orange = Color(0xFFFF9800)
 val green = Color(0xFF3F8511)
 val neueIdee = Color(0xFFE8D94C)
-val hellGelb = Color(0xFFF5F2D3)
-val dunkelGelb = Color(0xFF706D51)
+
 
 val chipFarbe1 = Color(0xFFF3DDD3)
 val chipFarbe2 = Color(0xFFFBEEE0)

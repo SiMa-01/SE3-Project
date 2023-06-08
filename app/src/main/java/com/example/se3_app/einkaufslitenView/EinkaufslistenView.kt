@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -26,6 +27,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.BottomAppBar
@@ -37,6 +39,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -49,12 +52,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.se3_app.MainViewModel
+import com.example.se3_app.R
 import com.example.se3_app.startView.navigateToDestination
-
+import com.example.se3_app.ui.theme.chipFarbe2
+import com.example.se3_app.ui.theme.chipFarbe6
 
 
 @Composable
@@ -76,30 +82,33 @@ fun EinkaufsListenViewContent(navController: NavController, viewModel: MainViewM
     //Container mit allen Elementen
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxHeight()
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TopAppBar(
-            title = {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    /*Image(
-                        painter = painterResource(id = R.drawable.cocktail), // Das Logo wird aktuell noch viel zu groß angezeigt. Daher habe ich es noch nicht hingekommen
-                        contentDescription = "Logo",
-                        modifier = Modifier.padding(end = 8.dp)
-                    )*/
-                    Text("MIX'N'FIX", fontSize = 30.sp)
-                }
-            },
-            navigationIcon = {
-                IconButton(
-                    onClick = { /* Navigationsaktion ausführen */ }
-                ) {
-                    // Hier können Sie ein Navigations-Icon hinzufügen, z.B. ein Menü-Icon
-                }
-            },
-        )
+        TopAppBar(modifier = Modifier.fillMaxWidth(), navigationIcon = {
+            Icon(
+                painter = painterResource(id = R.drawable.logo_app_icon),
+                contentDescription = "Menu",
+                modifier = Modifier.size(40.dp)
+            )
+        }, title = {
+            Box(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Text(
+                    text = "MIX'N'FIX",
+                    fontFamily = com.example.se3_app.startView.font,
+                    fontSize = 30.sp,
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
+        }, actions = {
+            IconButton(onClick = { navController.navigate("HelpView")
+
+
+            }) {
+                Icon(Icons.Filled.Info, contentDescription = "Search Icon")
+            }
+        })
 
 
         //---------------------------------------------------------------------------------------------
@@ -126,7 +135,51 @@ fun EinkaufsListenViewContent(navController: NavController, viewModel: MainViewM
             {
 
 
-                val itemList by remember { mutableStateOf(mutableStateListOf("Zutat 1", "Zutat 2", "Zutat 3", "Zutat 2", "Zutat 3", "Zutat 2", "Zutat 3", "Zutat 2", "Zutat 3", "Zutat 2", "Zutat 3", "Zutat 2", "Zutat 3", "Zutat 2", "Zutat 3", "Zutat 2", "Zutat 3", "Zutat 2", "Zutat 3", "Zutat 2", "Zutat 3", "Zutat 2", "Zutat 3", "Zutat 2", "Zutat 3", "Zutat 2", "Zutat 3", "Zutat 2", "Zutat 3", "Zutat 2", "Zutat 3", "Zutat 2", "Zutat 3", "Zutat 2", "Zutat 3", "Zutat 2", "Zutat 3", "Zutat 2", "Zutat 3"))  }
+                val itemList by remember {
+                    mutableStateOf(
+                        mutableStateListOf(
+                            "Zutat 1",
+                            "Zutat 2",
+                            "Zutat 3",
+                            "Zutat 2",
+                            "Zutat 3",
+                            "Zutat 2",
+                            "Zutat 3",
+                            "Zutat 2",
+                            "Zutat 3",
+                            "Zutat 2",
+                            "Zutat 3",
+                            "Zutat 2",
+                            "Zutat 3",
+                            "Zutat 2",
+                            "Zutat 3",
+                            "Zutat 2",
+                            "Zutat 3",
+                            "Zutat 2",
+                            "Zutat 3",
+                            "Zutat 2",
+                            "Zutat 3",
+                            "Zutat 2",
+                            "Zutat 3",
+                            "Zutat 2",
+                            "Zutat 3",
+                            "Zutat 2",
+                            "Zutat 3",
+                            "Zutat 2",
+                            "Zutat 3",
+                            "Zutat 2",
+                            "Zutat 3",
+                            "Zutat 2",
+                            "Zutat 3",
+                            "Zutat 2",
+                            "Zutat 3",
+                            "Zutat 2",
+                            "Zutat 3",
+                            "Zutat 2",
+                            "Zutat 3"
+                        )
+                    )
+                }
                 val newItemState = remember { mutableStateOf("") }
 
                 //TODO Methode auslagern
@@ -143,68 +196,76 @@ fun EinkaufsListenViewContent(navController: NavController, viewModel: MainViewM
                                 item,
                                 modifier = Modifier.clickable {
                                     removeItem(item)
-                                //    showToast(context, "$item wurde von der Liste entfernt")
-                                // TODO mit dem context habe ich ein Importproblem, keine Ahnung wie ich das löse
+                                    //    showToast(context, "$item wurde von der Liste entfernt")
+                                    // TODO mit dem context habe ich ein Importproblem, keine Ahnung wie ich das löse
                                 },
 
-                            )
+                                )
                         }
                     }
 
-                            TextField(
-                                value = newItemState.value,
-                                onValueChange = { newItemState.value = it },
-                                label = { Text("Neue Zutat") },
-                                modifier = Modifier.padding(16.dp)
-                            )
-                            FloatingActionButton(
-                                onClick = {
-                                    val newItem = newItemState.value
-                                    if (newItem.isNotBlank()) {
-                                        itemList.add(newItem)
-                                        newItemState.value = ""
-                                    }
-                                },
-                                modifier = Modifier
-                                    .padding(8.dp)
-                                    .fillMaxWidth()
-                            ) {
-                                Text(text = "Zutat hinzufügen")
+                    TextField(
+                        value = newItemState.value,
+                        onValueChange = { newItemState.value = it },
+                        label = { Text("Neue Zutat") },
+                        modifier = Modifier.padding(16.dp),
+                        colors = TextFieldDefaults.textFieldColors(
+                            containerColor = chipFarbe2,
+                            cursorColor = Color.Black,
+                            focusedIndicatorColor = chipFarbe6,
+                            unfocusedIndicatorColor = Color.Gray
+                        )
+                    )
+                    FloatingActionButton(
+                        onClick = {
+                            val newItem = newItemState.value
+                            if (newItem.isNotBlank()) {
+                                itemList.add(newItem)
+                                newItemState.value = ""
                             }
-
-
-                }
-                    }
-                    Spacer(modifier = Modifier.height(100.dp))
-        }
-
-
-
-
-                }
-
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .wrapContentSize(Alignment.BottomCenter)
-                ) {
-                    BottomAppBar() {
-                        items.forEachIndexed { index, item ->
-                            NavigationBarItem(
-                                icon = { Icon(icons[index], contentDescription = null) },
-                                label = { Text(item) },
-                                selected = selectedItem == 1,
-                                onClick = {
-                                    selectedItem = 3
-                                    navigateToDestination(navController, index)
-                                }
-                            )
-                        }
+                        },
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .fillMaxWidth(),
+                        containerColor = chipFarbe6
+                    ) {
+                        Text(text = "Zutat hinzufügen")
                     }
 
 
                 }
             }
+            Spacer(modifier = Modifier.height(100.dp))
+        }
+
+
+    }
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .wrapContentSize(Alignment.BottomCenter)
+    ) {
+        BottomAppBar() {
+            items.forEachIndexed { index, item ->
+                NavigationBarItem(
+                    icon = { Icon(icons[index], contentDescription = null) },
+                    label = { Text(item) },
+                    selected = selectedItem == 1,
+                    onClick = {
+                        if (index == 1) {
+                            viewModel.getAllTastes()
+                        }
+                        selectedItem = 3
+                        navigateToDestination(navController, index)
+                    }
+                )
+            }
+        }
+
+
+    }
+}
 
 fun showToast(context: Context, message: String) {
     Toast.makeText(context, message, Toast.LENGTH_SHORT).show()

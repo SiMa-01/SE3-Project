@@ -75,7 +75,7 @@ class MainActivity : ComponentActivity() {
                 //SignInView(navController, signInViewModel)
             }
             composable(route = "hinzufuegenView") {
-                HinzufuegenView(navController, mainViewModel)
+                HinzufuegenView(navController, mainViewModel, ingredientsViewModel)
             }
             composable(route = "merklistenView") {
                 MerklistenView(navController, mainViewModel)
@@ -105,10 +105,10 @@ class MainActivity : ComponentActivity() {
                 IngredientsView(navController, ingredientsViewModel)
             }
             composable(route = "helpView"){
-                HelpView(navController)
+                HelpView(navController, mainViewModel)
             }
             composable(route = "picturesView"){
-                PicturesView(navController)
+                PicturesView(navController, mainViewModel)
             }
         }
     }

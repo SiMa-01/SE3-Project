@@ -21,6 +21,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.BottomAppBar
@@ -41,11 +42,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.se3_app.Dto.CocktailDto
 import com.example.se3_app.MainViewModel
+import com.example.se3_app.R
 import com.example.se3_app.ingredientsView.ChipEachRow
 import com.example.se3_app.startView.Cocktailbox
 import com.example.se3_app.startView.navigateToDestination
@@ -83,22 +86,31 @@ fun RezeptViewContent(navController: NavController, viewModel: MainViewModel) {
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TopAppBar(
-            title = {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text("MIX'N'FIX", fontSize = 30.sp)
-                }
-            },
-            navigationIcon = {
-                IconButton(
-                    onClick = { /* Navigationsaktion ausführen */ }
-                ) {
-                    // Hier können Sie ein Navigations-Icon hinzufügen, z.B. ein Menü-Icon
-                }
-            },
-        )
+        TopAppBar(modifier = Modifier.fillMaxWidth(), navigationIcon = {
+            Icon(
+                painter = painterResource(id = R.drawable.logo_app_icon),
+                contentDescription = "Menu",
+                modifier = Modifier.size(40.dp)
+            )
+        }, title = {
+            Box(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Text(
+                    text = "MIX'N'FIX",
+                    fontFamily = com.example.se3_app.startView.font,
+                    fontSize = 30.sp,
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
+        }, actions = {
+            IconButton(onClick = { navController.navigate("HelpView")
+
+
+            }) {
+                Icon(Icons.Filled.Info, contentDescription = "Search Icon")
+            }
+        })
 
         //----------------------------------
 
@@ -185,6 +197,9 @@ fun RezeptViewContent(navController: NavController, viewModel: MainViewModel) {
                     label = { Text(item) },
                     selected = selectedItem == 1,
                     onClick = {
+                        if (index == 1) {
+                            viewModel.getAllTastes()
+                        }
                         selectedItem = index
                         navigateToDestination(navController, index)
                     }
