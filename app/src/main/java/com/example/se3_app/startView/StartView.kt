@@ -31,6 +31,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
+import com.example.se3_app.resultView.ResultCocktailbox
+import com.example.se3_app.resultView.cocktails
 import com.example.se3_app.ui.theme.chipFarbe1
 import com.example.se3_app.ui.theme.chipFarbe2
 import com.example.se3_app.ui.theme.chipFarbe3
@@ -177,88 +179,11 @@ fun StartViewContent(
             Text("Zum inspirieren", fontSize = 20.sp, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(8.dp))
 
-            viewModel.cocktailsAll[randomList[0]].ingredients?.let {
-                StartCocktailbox(
-                    navController,
-                    viewModel,
-                    viewModel.cocktailsAll[randomList[0]].name.toString(),
-                    viewModel.cocktailsAll[randomList[0]].difficulty.toString(),
-                    viewModel.cocktailsAll[randomList[0]].alcoholic,
-                    viewModel.cocktailsAll[randomList[0]].taste.toString(),
-                    1
-                )
+            var i: Int = 0
+            while(i < 8){
+                ResultCocktailbox(navController, viewModel, viewModel.cocktailsAll[i].name.toString(), viewModel.cocktailsAll[i].difficulty.toString(), viewModel.cocktailsAll[i].alcoholic, viewModel.cocktailsAll[i].taste.toString(), i)
+                i++
             }
-
-            viewModel.cocktailsAll[randomList[1]].ingredients?.let {
-                StartCocktailbox(
-                    navController,
-                    viewModel,
-                    viewModel.cocktailsAll[randomList[1]].name.toString(),
-                    viewModel.cocktailsAll[randomList[1]].difficulty.toString(),
-                    viewModel.cocktailsAll[randomList[1]].alcoholic,
-                    viewModel.cocktailsAll[randomList[1]].taste.toString(),
-                    2
-                )
-            }
-            viewModel.cocktailsAll[randomList[2]].ingredients?.let {
-                StartCocktailbox(
-                    navController,
-                    viewModel,
-                    viewModel.cocktailsAll[randomList[2]].name.toString(),
-                    viewModel.cocktailsAll[randomList[2]].difficulty.toString(),
-                    viewModel.cocktailsAll[randomList[2]].alcoholic,
-                    viewModel.cocktailsAll[randomList[2]].taste.toString(),
-                    3
-                )
-            }
-
-            viewModel.cocktailsAll[randomList[3]].ingredients?.let {
-                StartCocktailbox(
-                    navController,
-                    viewModel,
-                    viewModel.cocktailsAll[randomList[3]].name.toString(),
-                    viewModel.cocktailsAll[randomList[3]].difficulty.toString(),
-                    viewModel.cocktailsAll[randomList[3]].alcoholic,
-                    viewModel.cocktailsAll[randomList[3]].taste.toString(),
-                    4
-                )
-            }
-
-            viewModel.cocktailsAll[randomList[4]].ingredients?.let {
-                StartCocktailbox(
-                    navController,
-                    viewModel,
-                    viewModel.cocktailsAll[randomList[4]].name.toString(),
-                    viewModel.cocktailsAll[randomList[4]].difficulty.toString(),
-                    viewModel.cocktailsAll[randomList[4]].alcoholic,
-                    viewModel.cocktailsAll[randomList[4]].taste.toString(),
-                    5
-                )
-            }
-
-            viewModel.cocktailsAll[randomList[5]].ingredients?.let {
-                StartCocktailbox(
-                    navController,
-                    viewModel,
-                    viewModel.cocktailsAll[randomList[5]].name.toString(),
-                    viewModel.cocktailsAll[randomList[5]].difficulty.toString(),
-                    viewModel.cocktailsAll[randomList[5]].alcoholic,
-                    viewModel.cocktailsAll[randomList[5]].taste.toString(),
-                    6
-                )
-            }
-            viewModel.cocktailsAll[randomList[6]].ingredients?.let {
-                StartCocktailbox(
-                    navController,
-                    viewModel,
-                    viewModel.cocktailsAll[randomList[6]].name.toString(),
-                    viewModel.cocktailsAll[randomList[6]].difficulty.toString(),
-                    viewModel.cocktailsAll[randomList[6]].alcoholic,
-                    viewModel.cocktailsAll[randomList[6]].taste.toString(),
-                    7
-                )
-            }
-
 
             //Damit die NavigationBar drüber passt
             Spacer(modifier = Modifier.height(100.dp))
