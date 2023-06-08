@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -37,18 +38,32 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.se3_app.Dto.CocktailDto
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
+import com.example.se3_app.cocktailSearchView.CocktailSearchViewContent
+import com.example.se3_app.cocktailSearchView.options
 import com.example.se3_app.merklistenView.MerklistenCocktailbox
 import com.example.se3_app.startView.navigateToDestination
 import com.example.se3_app.startView.Cocktailbox
 import com.example.se3_app.startView.CocktailboxMitIndex
 import com.example.se3_app.ui.theme.chipFarbe3
 
+var cocktails = emptyList<CocktailDto>()
 
 @Composable
 fun ResultView(navController: NavController, viewModel: MainViewModel) {
-    ResultViewContent(navController, viewModel)
+    if (viewModel.loading) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
+    } else {
+        cocktails = viewModel.cocktailsSearch
+        ResultViewContent(navController, viewModel)
+    }
 
 }
 
@@ -105,22 +120,15 @@ fun ResultViewContent(navController: NavController, viewModel: MainViewModel) {
             Text("Damit empfehlen wir dir diese Cocktails: ", fontSize = 20.sp)
 
             Spacer(modifier = Modifier.height(8.dp))
-            ResultCocktailbox(
-                navController,
-                viewModel,
-                name ="Caipirinha" ,
-                difficulty ="MEDIUM" ,
-                alcoholic = true,
-                taste ="Sour",
-                4 //TODO jeweils dann den Index hochzählen lassen
-            )
 
-            
-
+            cocktails.forEachIndexed {index, s ->
+                ResultCocktailbox(navController, viewModel, cocktails[index].name.toString(), cocktails[index].difficulty.toString(), cocktails[index].alcoholic, cocktails[index].taste.toString(), index )
+            }
         }
+        Spacer(modifier = Modifier.height(100.dp))
+
     }
 
-    Spacer(modifier = Modifier.height(100.dp))
     Box(
         modifier = Modifier
             .fillMaxSize()

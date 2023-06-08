@@ -74,19 +74,27 @@ class MainViewModel: ViewModel() {
         }
     }
 
-    fun searchCocktails(name:String, taste:String, incredience: List<String>, stringAlcoholic:String, difficuty:String){
-        var alcoholic: Boolean? = null;
-        if (stringAlcoholic == "ja"){
-            var alcoholic: Boolean = true;
-        }
-        else if (stringAlcoholic == "nein"){
-            var alcoholic: Boolean = false;
-        }
+    fun searchCocktails(name: String? = null,  taste: String? = null, ingredients: List<String> = emptyList(), stringAlcoholic: String? = null, stringDifficulty:String? = null){
+        println("Hallo ich bin hier")
         viewModelScope.launch {
+            println("In der Methode")
+            var alcoholic: Boolean? = null
+            if (stringAlcoholic == "ja"){
+                alcoholic = true
+            }
+            else if (stringAlcoholic == "nein"){
+                alcoholic = false
+            }
+            var difficulty: String? = stringDifficulty
+            if (stringDifficulty == "egal") {
+                 difficulty = null
+            }
             errorMessage = ""
             loading = true
             try {
-                val searchCocktails = cocktailService.findCocktails(name, taste, incredience, alcoholic, difficuty)
+                println("Im try " + taste + ingredients + alcoholic + difficulty)
+                val searchCocktails = cocktailService.findCocktails(name, taste, ingredients, alcoholic, difficulty)
+                println("Das Ergebnis " + searchCocktails[0].name)
                 cocktailsSearch = searchCocktails.toMutableList()
                 loading = false
             } catch (e: Exception) {

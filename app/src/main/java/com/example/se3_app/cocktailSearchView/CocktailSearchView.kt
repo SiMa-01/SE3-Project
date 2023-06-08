@@ -97,11 +97,10 @@ fun CocktailSearchViewContent(
     viewModel: MainViewModel,
 ) {
 
-    var name: String? = null
-    var taste: String? = null
-    val incredience: List<String> = emptyList() //TODO da muss die übergebene hin
-    var alcoholic: String? = null
-    var difficulty: String? = null
+    var nameDto: String? = null
+    var tasteDto: String? = null
+    var alcoholicDto: String? = null
+    var difficultyDto: String? = null
 
 
     var expanded by remember { mutableStateOf(false) }
@@ -169,6 +168,7 @@ fun CocktailSearchViewContent(
                     value = name,
                     onValueChange = {
                         name = it
+                        nameDto = it.toString()
                     },
                     modifier = Modifier
                         .fillMaxWidth(),
@@ -242,6 +242,7 @@ fun CocktailSearchViewContent(
                             )
 
                             val text = values[alcoholic.value]
+                            alcoholicDto = values[alcoholic.value]
                             Text(
                                 text = text,
                                 fontFamily = font
@@ -374,6 +375,7 @@ fun CocktailSearchViewContent(
                             )
 
                             val text = values[difficulty.value]
+                            difficultyDto = values[difficulty.value]
                             Text(
                                 text = text,
                                 fontFamily = font,
@@ -457,6 +459,7 @@ fun CocktailSearchViewContent(
                                             onClick = {
                                                 selectedOptionText = selectionOption
                                                 expanded = false
+                                                tasteDto = selectionOption
                                             }
                                         )
                                     }
@@ -465,6 +468,7 @@ fun CocktailSearchViewContent(
                                         onClick = {
                                             selectedOptionText = "egal"
                                             expanded = false
+                                            tasteDto = "egal"
                                         }
                                     )
                                 }
@@ -483,7 +487,7 @@ fun CocktailSearchViewContent(
             ) {
                 FloatingActionButton(
                     onClick = {
-                        viewModel.searchCocktails(name!!, taste!!, incredience, alcoholic!!, difficulty!!)
+                        viewModel.searchCocktails(nameDto, tasteDto, viewModel.selectedIngredients, alcoholicDto, difficultyDto)
                         navController.navigate("ResultView")
                               },
                     modifier = Modifier
