@@ -45,12 +45,17 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.se3_app.Dto.AddCocktailDto
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.startView.navigateToDestination
 
+
+val newCocktail = AddCocktailDto("", emptyArray(),"", true, "", "")
 @Composable
 fun HinzufuegenView(navController: NavController, viewModel: MainViewModel) {
     HinzufuegenViewContent(navController, viewModel)
+
+
 
 }
 

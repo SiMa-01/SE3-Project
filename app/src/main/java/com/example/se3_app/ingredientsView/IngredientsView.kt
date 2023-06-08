@@ -1,5 +1,6 @@
 package com.example.se3_app.ingredientsView
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
@@ -39,6 +40,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
+import com.example.se3_app.Dto.CocktailDto
 import com.example.se3_app.R
 import com.example.se3_app.cocktailSearchView.font
 import com.example.se3_app.ui.theme.chipFarbe1
@@ -48,12 +50,15 @@ import com.example.se3_app.ui.theme.chipFarbe4
 import com.example.se3_app.ui.theme.chipFarbe5
 import com.example.se3_app.ui.theme.neueIdee
 import com.google.android.material.chip.Chip
+import kotlinx.serialization.descriptors.PrimitiveKind
 
 //import androidx.compose.foundation.layout.FlowRow
 
 val font = FontFamily(
     Font(resId = R.font.arciform)
 )
+var selectedFilters: MutableList<String> = emptyList<String>().toMutableList()
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IngredientsView(navController: NavController, ingredientsViewModel: IngredientsViewModel) {
@@ -79,13 +84,13 @@ fun IngredientsView(navController: NavController, ingredientsViewModel: Ingredie
 }
 
 
+
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun ChipEachRow(navController: NavController, viewModel: IngredientsViewModel, list: List<String>, tempList: Set<Int>) {
 
     var multipleChecked by rememberSaveable { mutableStateOf(tempList) }
-    var selectedFilters = listOf<String>()
-    //val selectedFilters =  mutableListOf<String>()
+
 
     Column(
         modifier = Modifier
@@ -106,15 +111,11 @@ fun ChipEachRow(navController: NavController, viewModel: IngredientsViewModel, l
                         else
                             multipleChecked.plus(index)
 
-                        if (!selectedFilters.contains(s)){
-                            println("HALLO" + s)
-                            selectedFilters = selectedFilters + s
-                        }
-                        else if (selectedFilters.contains(s)) {
-                            println("In der else")
 
-                            selectedFilters = selectedFilters - s
-                        }
+                        selectedFilters = if (selectedFilters.contains(s))
+                            selectedFilters.minus(s).toMutableList()
+                        else
+                            selectedFilters.plus(s).toMutableList()
                         println("ItemsInList $selectedFilters ")
                     },
                     label = {

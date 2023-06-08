@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.se3_app.Dto.AddCocktailDto
 import com.example.se3_app.Dto.CocktailDto
 import com.example.se3_app.service.CocktailService
 import kotlinx.coroutines.launch
@@ -17,6 +18,7 @@ class MainViewModel: ViewModel() {
     var cocktailByName: MutableList<CocktailDto> by mutableStateOf(mutableListOf())
     var cocktailsAll: MutableList<CocktailDto> by mutableStateOf(mutableListOf())
     lateinit var tastes: List<String>
+    lateinit var addedCocktail: CocktailDto
 
 
     fun getCocktailByName(name: String) {
@@ -65,6 +67,19 @@ class MainViewModel: ViewModel() {
                 loading = false
                 errorMessage = e.message.toString()
                 println("fehler $errorMessage")
+            }
+        }
+    }
+
+    fun addCocktail(addCocktailDto: AddCocktailDto) {
+        viewModelScope.launch {
+            loading = true
+            try {
+                addedCocktail = cocktailService.addCocktail(addCocktailDto)
+                loading = false
+            } catch (e: Exception) {
+                loading = false
+                errorMessage = e.message.toString()
             }
         }
     }

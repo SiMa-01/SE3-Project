@@ -3,6 +3,7 @@ package com.example.se3_app.service
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.example.se3_app.Dto.AddCocktailDto
 import com.example.se3_app.Dto.CocktailDto
 import com.example.se3_app.Dto.ListDto
 import com.example.se3_app.api.ApiManager
@@ -60,9 +61,9 @@ class CocktailService {
         return tastes
     }
 
-    suspend fun addCocktail(cocktailDto: CocktailDto): CocktailDto{
-        val cocktail: CocktailDto = apiManager.httpClient.post("add/") {
-            body = cocktailDto
+    suspend fun addCocktail(addCocktailDto: AddCocktailDto): CocktailDto{
+        val cocktail: CocktailDto = apiManager.httpClient.post("cocktails") {
+            body = addCocktailDto
         }
         return cocktail
     }
