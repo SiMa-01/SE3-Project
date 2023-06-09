@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.example.se3_app.Dto.AddCocktailDto
 import com.example.se3_app.Dto.CocktailDto
-import com.example.se3_app.Dto.ListDto
 import com.example.se3_app.api.ApiManager
 import io.ktor.client.request.get
 import io.ktor.client.request.post

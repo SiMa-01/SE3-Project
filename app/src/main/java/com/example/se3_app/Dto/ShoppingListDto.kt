@@ -3,9 +3,8 @@ package com.example.se3_app.Dto
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ListDto(
+data class ShoppingListDto(
     val _id: String?,
     val userId: String?,
-    val type: String?,
-    val list: Array<String?>?
+    val list: MutableSet<String>?
 )
