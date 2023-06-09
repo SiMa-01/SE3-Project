@@ -148,6 +148,7 @@ fun StartViewContent(
             ) {
                 FloatingActionButton(
                     onClick = {
+                        viewModel.selectedIngredients.clear()
                         viewModel.getAllTastes()
                         navController.navigate("CocktailSearchView")
                               },
@@ -161,6 +162,7 @@ fun StartViewContent(
                 FloatingActionButton(
                     onClick = {
                         viewModel.getAllTastes()
+                        viewModel.selectedIngredients.clear()
                         navController.navigate("HinzufuegenView")
                               },
                     modifier = Modifier
@@ -203,6 +205,7 @@ fun StartViewContent(
                     selected = selectedItem == 1,
                     onClick = {
                         if (index == 1) {
+                            viewModel.selectedIngredients.clear()
                             viewModel.getAllTastes()
                         }
                         selectedItem = index

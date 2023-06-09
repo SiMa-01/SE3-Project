@@ -489,6 +489,7 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                             println(newCocktail)
                             //viewModel.addCocktail(newCocktail)
                             Toast.makeText(context, "Neuer Cocktail mit dem Namen ${text.text} angelegt", Toast.LENGTH_SHORT).show()
+                            viewModel.selectedIngredients.clear()
                         }
                               }, //andere Seite einfügen
                     modifier = Modifier

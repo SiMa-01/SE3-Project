@@ -438,7 +438,7 @@ fun CocktailSearchViewContent(
                                 TextField(
                                     modifier = Modifier.menuAnchor(),
                                     readOnly = true,
-                                    value = "egal",
+                                    value = selectedOptionText,
                                     onValueChange = { },
                                     label = { Text("Geschmack") },
                                     trailingIcon = {
@@ -502,7 +502,7 @@ fun CocktailSearchViewContent(
                         println("Die Liste im on Click " + viewModel.filterListe)*/
 
                         navController.navigate("ResultView")
-                        //viewModel.selectedIngredients.clear()
+                        viewModel.selectedIngredients.clear()
                               },
                     modifier = Modifier
                         .height(40.dp)
