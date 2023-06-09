@@ -13,7 +13,7 @@ class CocktailService {
     var errorMessage: String by mutableStateOf("")
 
     suspend fun findCocktails(
-            name: String? = null,
+        name: String? = null,
         taste: String? = null,
         ingredients: List<String> = emptyList(),
         alcoholic: Boolean? = null,
