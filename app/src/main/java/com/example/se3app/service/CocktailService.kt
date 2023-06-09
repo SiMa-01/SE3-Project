@@ -19,7 +19,7 @@ class CocktailService {
         alcoholic: Boolean? = null,
         difficulty: String? = null
     ): List<CocktailDto> {
-                var stringURL = "cocktails?"
+        var stringURL = "cocktails?"
 
        if (!name.isNullOrBlank()) {
             stringURL = "${stringURL}name=$name&"
