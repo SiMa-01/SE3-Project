@@ -40,6 +40,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.se3_app.Dto.CocktailDto
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
@@ -91,6 +92,22 @@ fun IngredientsView(navController: NavController, ingredientsViewModel: MainView
 fun ChipEachRow(navController: NavController, viewModel: MainViewModel, list: List<String>, tempList: Set<Int>) {
 
     var multipleChecked by rememberSaveable { mutableStateOf(tempList) }
+
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        //verticalArrangement = Arrangement.SpaceBetween,
+    ) {
+        Box(
+            modifier = Modifier
+        ) {
+            Text(
+                text = "Zutaten",
+                fontFamily = font,
+                fontSize = 30.sp,
+                modifier = Modifier.align(Alignment.Center),
+            )
+        }
 
 
     Column(
@@ -146,14 +163,18 @@ fun ChipEachRow(navController: NavController, viewModel: MainViewModel, list: Li
                 )
             }
         }
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(40.dp))
     }
+    }
+
     // Der Suche Button
+
     Box(
         modifier = Modifier
-            .fillMaxSize(),
-        contentAlignment = Alignment.Center
-
+            .fillMaxSize()
+            .padding(20.dp)
+            .padding(horizontal = 10.dp)
+            .wrapContentSize(Alignment.BottomCenter)
     ) {
         FloatingActionButton(
             onClick = {
