@@ -102,7 +102,7 @@ fun ChipEachRow(navController: NavController, viewModel: MainViewModel, list: Li
         FlowRow(
             modifier = Modifier.padding(8.dp),
             Arrangement.spacedBy(5.dp)
-        ){
+        ) {
             list.forEachIndexed { index, s ->
                 FilterChip(
                     selected = multipleChecked.contains(index),
@@ -130,49 +130,48 @@ fun ChipEachRow(navController: NavController, viewModel: MainViewModel, list: Li
                     ),
                     colors = FilterChipDefaults.filterChipColors(
                         containerColor =
-                            if (index % 6 == 0) chipFarbe1
-                            else if (index % 4 == 0) chipFarbe2
-                            else if (index % 3 == 0) chipFarbe3
-                            else if (index % 2 == 0) chipFarbe4
-                            else chipFarbe5,
+                        if (index % 6 == 0) chipFarbe1
+                        else if (index % 4 == 0) chipFarbe2
+                        else if (index % 3 == 0) chipFarbe3
+                        else if (index % 2 == 0) chipFarbe4
+                        else chipFarbe5,
                         selectedContainerColor = Color.Transparent,
                     ),
                     shape = RoundedCornerShape(8.dp),
                     trailingIcon = {
                         if (multipleChecked.contains(index)) {
                             Icon(Icons.Default.Check, contentDescription = "");
-                        }
-
-                        else null
+                        } else null
                     }
                 )
             }
         }
         Spacer(modifier = Modifier.height(8.dp))
-        // Der Suche Button
-        Box (
-            modifier = Modifier
-                .fillMaxSize(),
-            contentAlignment = Alignment.Center
-
-        ){
-            FloatingActionButton(
-                onClick = {navController.navigate("CocktailSearchView")},
-                modifier = Modifier
-                    .height(40.dp)
-                    .fillMaxWidth(),
-                containerColor = neueIdee
-            ) {
-                Text("Fertig", fontFamily = font,)
-            }
-            Spacer(modifier = Modifier.height(10.dp))
-        }
-
     }
+    // Der Suche Button
+    Box(
+        modifier = Modifier
+            .fillMaxSize(),
+        contentAlignment = Alignment.Center
 
-
-
-
+    ) {
+        FloatingActionButton(
+            onClick = {
+                if (viewModel.cameFrom == 1) {
+                    navController.navigate("CocktailSearchView")
+                } else if (viewModel.cameFrom == 2) {
+                    navController.navigate("HinzufuegenView")
+                }
+            },
+            modifier = Modifier
+                .height(40.dp)
+                .fillMaxWidth(),
+            containerColor = neueIdee
+        ) {
+            Text("Fertig", fontFamily = font,)
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+    }
 
 }
 

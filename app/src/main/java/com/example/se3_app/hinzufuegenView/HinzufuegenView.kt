@@ -280,6 +280,7 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                                     FloatingActionButton(
                                         onClick = {
                                             viewModel.getAllIncredients()
+                                            viewModel.cameFrom = 2
                                             navController.navigate("ingredientsView")
                                         },
                                         modifier = Modifier

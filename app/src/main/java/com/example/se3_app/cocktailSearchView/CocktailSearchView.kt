@@ -301,6 +301,7 @@ fun CocktailSearchViewContent(
                                     FloatingActionButton(
                                         onClick = {
                                             viewModel.getAllIncredients()
+                                            viewModel.cameFrom = 1
                                             navController.navigate("ingredientsView")
                                         },
                                         modifier = Modifier

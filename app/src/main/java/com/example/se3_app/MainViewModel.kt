@@ -22,6 +22,7 @@ class MainViewModel: ViewModel() {
     var cocktailsSearch: MutableList<CocktailDto> by mutableStateOf(mutableListOf())
     var selectedIngredients:  MutableList<String> = emptyList<String>().toMutableList()
     lateinit var ingredients: List<String>
+    var cameFrom: Int = 0
 
 
     fun getCocktailByName(name: String) {
