@@ -4,7 +4,7 @@ data class AddCocktailDto(
     val name: String?,
     val ingredients: Array<String>?,
     val difficulty: String?,
-    val alcoholic: Boolean,
+    val alcoholic: Boolean?,
     val taste: String?,
     val preparation: String?
 )

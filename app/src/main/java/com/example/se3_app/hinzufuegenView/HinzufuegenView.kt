@@ -1,5 +1,6 @@
 package com.example.se3_app.hinzufuegenView
 
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -46,6 +47,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
@@ -62,7 +64,7 @@ import com.example.se3_app.ui.theme.chipFarbe2
 import com.example.se3_app.ui.theme.chipFarbe6
 
 
-val newCocktail = AddCocktailDto("", emptyArray(),"", true, "", "")
+//val newCocktail = AddCocktailDto("", emptyArray(),"", true, "", "")
 @Composable
 fun HinzufuegenView(navController: NavController, viewModel: MainViewModel) {
 
@@ -82,6 +84,15 @@ fun HinzufuegenView(navController: NavController, viewModel: MainViewModel) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewModel) {
+
+    val context  = LocalContext.current
+
+    var nameDto: String? = null
+    var tasteDto: String? = null
+    var alcoholicDto: Boolean? = null
+    var difficultyDto: String? = null
+    var preparationDto: String? = null
+
     var selectedItem by remember { mutableStateOf(0) }
     val items = listOf("Home", "Cocktails", "Merkliste", "Einkaufsliste")
     val icons = listOf(
@@ -138,6 +149,7 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                 value = text,
                 onValueChange = {
                     text = it
+                    nameDto = text.text
                 },
                 label = { Text(text = "Der Name deines Cocktails") },
                 placeholder = { Text(text = "Cocktainame") },
@@ -206,6 +218,11 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                             )
 
                             val text = values[selectedValue.value]
+                            if(text == "ja"){
+                                alcoholicDto = true
+                            } else if (text == "nein"){
+                                alcoholicDto = false
+                            }
                             Text(
                                 text = text,
                             )
@@ -336,6 +353,7 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                             )
 
                             val text = values[selectedValue.value]
+                            difficultyDto = values[selectedValue.value]
                             Text(
                                 text = text,
                             )
@@ -400,7 +418,7 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                                 TextField(
                                     modifier = Modifier.menuAnchor(),
                                     readOnly = true,
-                                    value = "egal",
+                                    value = "tropisch",
                                     onValueChange = { },
                                     label = { Text("Geschmack") },
                                     trailingIcon = {
@@ -423,6 +441,7 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                                             onClick = {
                                                 selectedOptionText = selectionOption
                                                 expanded = false
+                                                tasteDto = selectionOption
                                             }
                                         )
                                     }
@@ -443,6 +462,7 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                 value = beschreibungsText,
                 onValueChange = {
                     beschreibungsText = it
+                    preparationDto = beschreibungsText.text
                 },
                 label = { Text(text = "Beschreibe deinen Cocktail") },
                 placeholder = {
@@ -469,7 +489,15 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
 
             ) {
                 FloatingActionButton(
-                    onClick = { navController.navigate("RezeptView") }, //andere Seite einfügen
+                    onClick = {
+                        val newCocktail = AddCocktailDto(nameDto, viewModel.selectedIngredients.toTypedArray(), difficultyDto, alcoholicDto, preparationDto, tasteDto)
+                        if(text.text.isNullOrEmpty() || viewModel.selectedIngredients.isNullOrEmpty() || beschreibungsText.text.isNullOrEmpty()){
+                            Toast.makeText(context, "Der Name, Zutaten und die Beschreibung dürfen nicht leer sein!", Toast.LENGTH_SHORT).show()
+                        } else {
+                            viewModel.addCocktail(newCocktail)
+                            Toast.makeText(context, "Neuer Cocktail mit dem Namen ${text.text} angelegt", Toast.LENGTH_SHORT).show()
+                        }
+                              }, //andere Seite einfügen
                     modifier = Modifier
                         .height(40.dp).fillMaxWidth(),
                     containerColor = chipFarbe6

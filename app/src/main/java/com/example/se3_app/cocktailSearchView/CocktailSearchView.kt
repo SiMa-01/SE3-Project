@@ -489,6 +489,7 @@ fun CocktailSearchViewContent(
                     onClick = {
                         viewModel.searchCocktails(nameDto, tasteDto, viewModel.selectedIngredients, alcoholicDto, difficultyDto)
                         navController.navigate("ResultView")
+                        viewModel.selectedIngredients.clear()
                               },
                     modifier = Modifier
                         .height(40.dp)
