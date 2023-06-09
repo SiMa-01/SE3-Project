@@ -10,7 +10,7 @@ import io.ktor.client.request.get
 import io.ktor.client.request.post
 
 class CocktailService {
-    private val apiManager = ApiManager()
+        private val apiManager = ApiManager()
     var errorMessage: String by mutableStateOf("")
 
     suspend fun findCocktails(
