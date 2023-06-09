@@ -48,6 +48,7 @@ import com.example.se3_app.startView.navigateToDestination
 import com.example.se3_app.startView.Cocktailbox
 import com.example.se3_app.startView.CocktailboxMitIndex
 import com.example.se3_app.ui.theme.chipFarbe3
+import kotlinx.coroutines.delay
 
 var cocktails = emptyList<CocktailDto>()
 
@@ -113,8 +114,6 @@ fun ResultViewContent(navController: NavController, viewModel: MainViewModel) {
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-            Text("Deine gewählten Filter: ", fontSize = 14.sp) // TODO: Marcel hier muss von der vorherigen Seite die Filiter hin
-
             Spacer(modifier = Modifier.height(8.dp))
 
             Text("Damit empfehlen wir dir diese Cocktails: ", fontSize = 20.sp)
@@ -151,6 +150,7 @@ fun ResultViewContent(navController: NavController, viewModel: MainViewModel) {
             }
         }
     }
+
 }
 @Composable
 fun ResultCocktailbox(navController: NavController, viewModel: MainViewModel, name: String, difficulty: String, alcoholic: Boolean, taste: String, index: Int) {
@@ -158,7 +158,6 @@ fun ResultCocktailbox(navController: NavController, viewModel: MainViewModel, na
         CocktailboxMitIndex(navController, viewModel, name, difficulty, alcoholic, taste, index)
     }
 }
-
 
 
 

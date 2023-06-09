@@ -81,8 +81,6 @@ fun CocktailSearchView(
         options = viewModel.tastes
         CocktailSearchViewContent(navController, viewModel)
     }
-
-
 }
 
 val font = FontFamily(
@@ -96,6 +94,7 @@ fun CocktailSearchViewContent(
     navController: NavController,
     viewModel: MainViewModel,
 ) {
+
 
     var nameDto: String? = null
     var tasteDto: String? = null
@@ -168,7 +167,8 @@ fun CocktailSearchViewContent(
                     value = name,
                     onValueChange = {
                         name = it
-                        nameDto = it.toString()
+                        println("Mein Dto " + nameDto)
+                        println(name)
                     },
                     modifier = Modifier
                         .fillMaxWidth(),
@@ -181,6 +181,7 @@ fun CocktailSearchViewContent(
                         unfocusedIndicatorColor = Color.Gray // Farbe des nicht fokussierten Indikators
                     )
                 )
+                nameDto = name.text
 
             }
 
@@ -489,8 +490,19 @@ fun CocktailSearchViewContent(
                 FloatingActionButton(
                     onClick = {
                         viewModel.searchCocktails(nameDto, tasteDto, viewModel.selectedIngredients, alcoholicDto, difficultyDto)
+                        /*println("Im on Click " + nameDto)
+                        if (nameDto != null) viewModel.filterListe.add("Name: " + nameDto.toString())
+                        if (tasteDto != null) viewModel.filterListe.add("Geschmack: " + tasteDto.toString())
+                        if (!viewModel.selectedIngredients.isNullOrEmpty()){
+                            viewModel.filterListe.add("Zutatenfilter: ")
+                            for (item in viewModel.selectedIngredients) { viewModel.filterListe.add(item) }
+                        }
+                        if (alcoholicDto != "egal") viewModel.filterListe.add("Alkoholisch: " + alcoholicDto.toString())
+                        if (difficultyDto != "egal") viewModel.filterListe.add("Schwierigkeit: " + difficultyDto.toString())
+                        println("Die Liste im on Click " + viewModel.filterListe)*/
+
                         navController.navigate("ResultView")
-                        viewModel.selectedIngredients.clear()
+                        //viewModel.selectedIngredients.clear()
                               },
                     modifier = Modifier
                         .height(40.dp)
