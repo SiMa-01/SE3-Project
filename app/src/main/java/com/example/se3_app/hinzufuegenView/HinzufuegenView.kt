@@ -396,19 +396,11 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                             .weight(1f)
                             .height(80.dp),
                     ) {
-
-                        var isExpaned by remember {
-                            mutableStateOf(false)
-                        }
-
-                        var geschmack by remember {
-                            mutableStateOf("")
-                        }
-
                         Box(
                             modifier = Modifier
                                 .fillMaxSize(), contentAlignment = Alignment.Center
                         ) {
+
                             ExposedDropdownMenuBox(
                                 expanded = expanded,
                                 modifier = Modifier.background(chipFarbe2),
@@ -419,8 +411,8 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                                 TextField(
                                     modifier = Modifier.menuAnchor(),
                                     readOnly = true,
-                                    value = "tropisch",
-                                    onValueChange = { },
+                                    value = selectedOptionText,
+                                    onValueChange = {},
                                     label = { Text("Geschmack") },
                                     trailingIcon = {
                                         ExposedDropdownMenuDefaults.TrailingIcon(
@@ -446,7 +438,6 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                                             }
                                         )
                                     }
-
                                 }
                             }
                         }
@@ -495,7 +486,8 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                         if(text.text.isNullOrEmpty() || viewModel.selectedIngredients.isNullOrEmpty() || beschreibungsText.text.isNullOrEmpty()){
                             Toast.makeText(context, "Der Name, Zutaten und die Beschreibung dürfen nicht leer sein!", Toast.LENGTH_SHORT).show()
                         } else {
-                            viewModel.addCocktail(newCocktail)
+                            println(newCocktail)
+                            //viewModel.addCocktail(newCocktail)
                             Toast.makeText(context, "Neuer Cocktail mit dem Namen ${text.text} angelegt", Toast.LENGTH_SHORT).show()
                         }
                               }, //andere Seite einfügen
