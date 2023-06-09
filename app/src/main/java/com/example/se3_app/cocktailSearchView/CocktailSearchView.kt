@@ -62,7 +62,7 @@ import com.example.se3_app.ui.theme.chipFarbe1
 import com.example.se3_app.ui.theme.chipFarbe2
 import com.example.se3_app.ui.theme.chipFarbe6
 
-var options = emptyList<String>()
+var options = mutableListOf<String>()
 
 @Composable
 fun CocktailSearchView(
@@ -78,7 +78,7 @@ fun CocktailSearchView(
             CircularProgressIndicator()
         }
     } else {
-        options = viewModel.tastes
+        options = viewModel.tastes as MutableList<String>
         CocktailSearchViewContent(navController, viewModel)
     }
 }
@@ -86,7 +86,6 @@ fun CocktailSearchView(
 val font = FontFamily(
     Font(resId = R.font.arciform)
 )
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -96,10 +95,15 @@ fun CocktailSearchViewContent(
 ) {
 
 
+
     var nameDto: String? = null
     var tasteDto: String? = null
     var alcoholicDto: String? = null
+    var alcoholicFloat: Float? = null
     var difficultyDto: String? = null
+    var difficultyInt: Int? = null
+
+
 
 
     var expanded by remember { mutableStateOf(false) }
@@ -162,13 +166,14 @@ fun CocktailSearchViewContent(
                     .fillMaxSize()
                     .border(BorderStroke(1.dp, Color.LightGray))
             ) {
-                var name by remember { mutableStateOf(TextFieldValue("")) }
+                var name by remember { mutableStateOf(TextFieldValue(viewModel.comeBack[0].toString())) }
+
                 TextField(
+
                     value = name,
-                    onValueChange = {
-                        name = it
-                        println("Mein Dto " + nameDto)
-                        println(name)
+
+                    onValueChange = { newValue ->
+                        name = newValue
                     },
                     modifier = Modifier
                         .fillMaxWidth(),
@@ -182,7 +187,6 @@ fun CocktailSearchViewContent(
                     )
                 )
                 nameDto = name.text
-
             }
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -226,9 +230,11 @@ fun CocktailSearchViewContent(
                         ) {
                             val minValue = 0
                             val maxValue = 2
+                            val istValue: Float = viewModel.comeBack[1] as Float
                             val values = listOf("egal", "ja", "nein")
 
-                            val alcoholic = remember { mutableStateOf(minValue) }
+                            var alcoholic = remember { mutableStateOf(istValue) }
+
                             Slider(
                                 value = alcoholic.value.toFloat(),
                                 colors = SliderDefaults.colors(
@@ -236,14 +242,15 @@ fun CocktailSearchViewContent(
                                     activeTrackColor = chipFarbe1
                                 ),
                                 onValueChange = { newValue ->
-                                    alcoholic.value = newValue.toInt()
+                                    alcoholic.value = newValue.toFloat()
                                 },
                                 valueRange = minValue.toFloat()..maxValue.toFloat(),
-                                steps = maxValue - minValue
+                                steps = maxValue - minValue - 1
                             )
 
-                            val text = values[alcoholic.value]
-                            alcoholicDto = values[alcoholic.value]
+                            val text = values[alcoholic.value.toInt()]
+                            alcoholicDto = values[alcoholic.value.toInt()]
+                            alcoholicFloat = alcoholic.value
                             Text(
                                 text = text,
                                 fontFamily = font
@@ -303,6 +310,11 @@ fun CocktailSearchViewContent(
                                         onClick = {
                                             viewModel.getAllIncredients()
                                             viewModel.cameFrom = 1
+                                            if (nameDto != null) viewModel.comeBack[0] = nameDto.toString()
+                                            if (alcoholicFloat != null) viewModel.comeBack[1] = alcoholicFloat!!
+                                            if (difficultyInt != null) viewModel.comeBack[2] = difficultyInt!!
+                                            if (tasteDto != null) viewModel.comeBack[3] = tasteDto.toString()
+
                                             navController.navigate("ingredientsView")
                                         },
                                         modifier = Modifier
@@ -360,9 +372,10 @@ fun CocktailSearchViewContent(
                         ) {
                             val minValue = 0
                             val maxValue = 3
+                            val istValue: Int = viewModel.comeBack[2] as Int
                             val values = listOf("egal", "simpel", "mittel", "schwer")
 
-                            val difficulty = remember { mutableStateOf(minValue) }
+                            val difficulty = remember { mutableStateOf(istValue) }
                             Slider(
                                 value = difficulty.value.toFloat(),
                                 colors = SliderDefaults.colors(
@@ -373,11 +386,12 @@ fun CocktailSearchViewContent(
                                     difficulty.value = newValue.toInt()
                                 },
                                 valueRange = minValue.toFloat()..maxValue.toFloat(),
-                                steps = maxValue - minValue
+                                steps = maxValue - minValue - 1
                             )
 
                             val text = values[difficulty.value]
                             difficultyDto = values[difficulty.value]
+                            difficultyInt = difficulty.value
                             Text(
                                 text = text,
                                 fontFamily = font,
@@ -424,45 +438,38 @@ fun CocktailSearchViewContent(
                         Box(
                             modifier = Modifier
                                 .fillMaxSize(), contentAlignment = Alignment.Center
-
-
                         ) {
+                            println("dürfte jetzt ein Egal drin sein " + options)
 
+                            var expanded by remember { mutableStateOf(false) }
+                            var selectedOptionText by remember { mutableStateOf(viewModel.comeBack[3].toString()) }
+                            tasteDto = selectedOptionText
                             ExposedDropdownMenuBox(
                                 expanded = expanded,
-                                modifier = Modifier.background(chipFarbe2),
-                                onExpandedChange = {
-                                    expanded = !expanded
-                                }
+                                onExpandedChange = { expanded = !expanded },
                             ) {
                                 TextField(
                                     modifier = Modifier.menuAnchor(),
                                     readOnly = true,
                                     value = selectedOptionText,
-                                    onValueChange = { },
-                                    label = { Text("Geschmack") },
-                                    trailingIcon = {
-                                        ExposedDropdownMenuDefaults.TrailingIcon(
-                                            expanded = expanded
-                                        )
-                                    },
-                                    colors = ExposedDropdownMenuDefaults.textFieldColors()
+                                    onValueChange = {},
+                                    label = { Text("Label") },
+                                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                                    colors = ExposedDropdownMenuDefaults.textFieldColors(),
                                 )
                                 ExposedDropdownMenu(
                                     expanded = expanded,
-                                    modifier = Modifier.background(chipFarbe2),
-                                    onDismissRequest = {
-                                        expanded = false
-                                    }
+                                    onDismissRequest = { expanded = false },
                                 ) {
                                     options.forEach { selectionOption ->
                                         DropdownMenuItem(
-                                            text = { Text(text = selectionOption) },
+                                            text = { Text(selectionOption) },
                                             onClick = {
                                                 selectedOptionText = selectionOption
                                                 expanded = false
-                                                tasteDto = selectionOption
-                                            }
+                                                println("Der ausgewählte Geschmack: "+ selectedOptionText)
+                                            },
+                                            contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
                                         )
                                     }
                                     DropdownMenuItem(
@@ -470,9 +477,9 @@ fun CocktailSearchViewContent(
                                         onClick = {
                                             selectedOptionText = "egal"
                                             expanded = false
-                                            tasteDto = "egal"
                                         }
                                     )
+                                    tasteDto = selectedOptionText
                                 }
                             }
                         }
@@ -489,6 +496,7 @@ fun CocktailSearchViewContent(
             ) {
                 FloatingActionButton(
                     onClick = {
+                        println ("in der onclick: " + tasteDto)
                         viewModel.searchCocktails(nameDto, tasteDto, viewModel.selectedIngredients, alcoholicDto, difficultyDto)
                         /*println("Im on Click " + nameDto)
                         if (nameDto != null) viewModel.filterListe.add("Name: " + nameDto.toString())

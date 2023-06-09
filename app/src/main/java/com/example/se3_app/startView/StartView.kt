@@ -149,6 +149,7 @@ fun StartViewContent(
                 FloatingActionButton(
                     onClick = {
                         viewModel.selectedIngredients.clear()
+                        viewModel.comeBack = arrayOf("", 0f, 0, "egal", "")
                         viewModel.getAllTastes()
                         navController.navigate("CocktailSearchView")
                               },
@@ -161,6 +162,7 @@ fun StartViewContent(
                 }
                 FloatingActionButton(
                     onClick = {
+                        viewModel.comeBack2 = arrayOf("", false, 0, "bitter", "")
                         viewModel.getAllTastes()
                         viewModel.selectedIngredients.clear()
                         navController.navigate("HinzufuegenView")
@@ -205,6 +207,7 @@ fun StartViewContent(
                     selected = selectedItem == 1,
                     onClick = {
                         if (index == 1) {
+                            viewModel.comeBack = arrayOf("", 0f, 0, "egal", "")
                             viewModel.selectedIngredients.clear()
                             viewModel.getAllTastes()
                         }

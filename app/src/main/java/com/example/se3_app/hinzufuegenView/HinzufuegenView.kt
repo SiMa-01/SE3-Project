@@ -35,6 +35,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -76,7 +78,7 @@ fun HinzufuegenView(navController: NavController, viewModel: MainViewModel) {
             CircularProgressIndicator()
         }
     } else {
-        options = viewModel.tastes
+        options = viewModel.tastes as MutableList<String>
         HinzufuegenViewContent(navController, viewModel)
     }
 }
@@ -90,7 +92,9 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
     var nameDto: String? = null
     var tasteDto: String? = null
     var alcoholicDto: Boolean? = null
+    var alcoholicBoolean: Boolean? = null
     var difficultyDto: String? = null
+    var difficultyInt: Int? = null
     var preparationDto: String? = null
 
     var selectedItem by remember { mutableStateOf(0) }
@@ -142,7 +146,7 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
             Spacer(modifier = Modifier.height(8.dp))
 
             //Eingabefeld des Nutzers
-            var text by remember { mutableStateOf(TextFieldValue("")) }
+            var text by remember { mutableStateOf(TextFieldValue(viewModel.comeBack2[0].toString())) }
             TextField(
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -160,6 +164,7 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                     unfocusedIndicatorColor = Color.Gray // Farbe des nicht fokussierten Indikators
                 )
             )
+            nameDto = text.text
 
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -199,33 +204,31 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            val minValue = 0
-                            val maxValue = 1
-                            val values = listOf("ja", "nein")
 
-                            val selectedValue = remember { mutableStateOf(minValue) }
-                            Slider(
-                                value = selectedValue.value.toFloat(),
-                                colors = SliderDefaults.colors(
-                                    thumbColor = chipFarbe6,
-                                    activeTrackColor = chipFarbe1
-                                ),
-                                onValueChange = { newValue ->
-                                    selectedValue.value = newValue.toInt()
-                                },
-                                valueRange = minValue.toFloat()..maxValue.toFloat(),
-                                steps = maxValue - minValue
-                            )
-
-                            val text = values[selectedValue.value]
-                            if(text == "ja"){
-                                alcoholicDto = true
-                            } else if (text == "nein"){
-                                alcoholicDto = false
+                            var switchOn by remember {
+                                mutableStateOf(viewModel.comeBack2[1] as Boolean)
                             }
-                            Text(
-                                text = text,
-                            )
+
+                            Column(
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Switch(
+                                    checked = switchOn,
+                                    onCheckedChange = { switchOn_ ->
+                                        switchOn = switchOn_
+                                    },
+                                    colors = SwitchDefaults.colors(
+                                        uncheckedTrackColor = chipFarbe6,
+                                        uncheckedThumbColor = Color.White,
+                                        uncheckedBorderColor = Color.Transparent,
+                                        checkedTrackColor = chipFarbe6
+                                    )
+                                )
+                                alcoholicBoolean = switchOn
+                                if (switchOn) difficultyDto = "ja" else difficultyDto = "nein"
+                                Text(text = if (switchOn) "ja" else "nein")
+                            }
                         }
                     }
                 }
@@ -281,6 +284,12 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                                         onClick = {
                                             viewModel.getAllIncredients()
                                             viewModel.cameFrom = 2
+                                            if (nameDto != null) viewModel.comeBack2[0] = nameDto.toString()
+                                            if (alcoholicBoolean != null) viewModel.comeBack2[1] = alcoholicBoolean!!
+                                            if (difficultyInt != null) viewModel.comeBack2[2] = difficultyInt!!
+                                            if (tasteDto != null) viewModel.comeBack2[3] = tasteDto.toString()
+                                            if (preparationDto != null) viewModel.comeBack2[4] = preparationDto.toString()
+
                                             navController.navigate("ingredientsView")
                                         },
                                         modifier = Modifier
@@ -335,11 +344,13 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
+
                             val minValue = 0
                             val maxValue = 2
+                            val istValue: Int = viewModel.comeBack2[2] as Int
                             val values = listOf("simpel", "mittel", "schwer")
 
-                            val selectedValue = remember { mutableStateOf(minValue) }
+                            val selectedValue = remember { mutableStateOf(istValue) }
                             Slider(
                                 value = selectedValue.value.toFloat(),
                                 colors = SliderDefaults.colors(
@@ -350,11 +361,12 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                                     selectedValue.value = newValue.toInt()
                                 },
                                 valueRange = minValue.toFloat()..maxValue.toFloat(),
-                                steps = maxValue - minValue
+                                steps = maxValue - minValue - 1
                             )
 
                             val text = values[selectedValue.value]
                             difficultyDto = values[selectedValue.value]
+                            difficultyInt = selectedValue.value
                             Text(
                                 text = text,
                             )
@@ -401,6 +413,43 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                                 .fillMaxSize(), contentAlignment = Alignment.Center
                         ) {
 
+                            var expanded by remember { mutableStateOf(false) }
+                            var selectedOptionText by remember { mutableStateOf(viewModel.comeBack2[3].toString()) }
+                            tasteDto = selectedOptionText
+                            ExposedDropdownMenuBox(
+                                expanded = expanded,
+                                onExpandedChange = { expanded = !expanded },
+                            ) {
+                                TextField(
+                                    modifier = Modifier.menuAnchor(),
+                                    readOnly = true,
+                                    value = selectedOptionText,
+                                    onValueChange = {},
+                                    label = { Text("Label") },
+                                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                                    colors = ExposedDropdownMenuDefaults.textFieldColors(),
+                                )
+                                ExposedDropdownMenu(
+                                    expanded = expanded,
+                                    onDismissRequest = { expanded = false },
+                                ) {
+                                    options.forEach { selectionOption ->
+                                        DropdownMenuItem(
+                                            text = { Text(selectionOption) },
+                                            onClick = {
+                                                selectedOptionText = selectionOption
+                                                expanded = false
+                                                println("Der ausgewählte Geschmack: "+ selectedOptionText)
+                                            },
+                                            contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
+                                        )
+                                    }
+                                    tasteDto = selectedOptionText
+                                }
+                            }
+
+
+                            /*
                             ExposedDropdownMenuBox(
                                 expanded = expanded,
                                 modifier = Modifier.background(chipFarbe2),
@@ -439,7 +488,7 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                                         )
                                     }
                                 }
-                            }
+                            }*/
                         }
                     }
                 }
@@ -447,7 +496,7 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
             Spacer(modifier = Modifier.height(8.dp))
 
             //Eingabefeld des Nutzers
-            var beschreibungsText by remember { mutableStateOf(TextFieldValue("")) }
+            var beschreibungsText by remember { mutableStateOf(TextFieldValue(viewModel.comeBack2[4].toString())) }
             TextField(
                 modifier = Modifier
                     .fillMaxWidth().height(300.dp),
@@ -470,6 +519,7 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                     unfocusedIndicatorColor = Color.Gray // Farbe des nicht fokussierten Indikators
                 )
             )
+            preparationDto = beschreibungsText.text
 
             Spacer(modifier = Modifier.height(8.dp))
 

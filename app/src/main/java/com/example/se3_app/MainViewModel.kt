@@ -24,6 +24,8 @@ class MainViewModel: ViewModel() {
     lateinit var ingredients: List<String>
 
     var cameFrom: Int = 0
+    var comeBack: Array<Any> = arrayOf("", 0f, 0, "egal", "")
+    var comeBack2: Array<Any> = arrayOf("", false, 0, "bitter", "")
 
     var filterListe: MutableList<String> = emptyList<String>().toMutableList()
 
@@ -77,7 +79,7 @@ class MainViewModel: ViewModel() {
         }
     }
 
-    fun searchCocktails(name: String? = null,  taste: String? = null, ingredients: List<String> = emptyList(), stringAlcoholic: String? = null, stringDifficulty:String? = null){
+    fun searchCocktails(name: String? = null,  stringTaste: String? = null, ingredients: List<String> = emptyList(), stringAlcoholic: String? = null, stringDifficulty:String? = null){
         println("Hallo ich bin hier")
         viewModelScope.launch {
             println("In der Methode")
@@ -91,6 +93,10 @@ class MainViewModel: ViewModel() {
             var difficulty: String? = stringDifficulty
             if (stringDifficulty == "egal") {
                  difficulty = null
+            }
+            var taste: String? = stringTaste
+            if (stringTaste == "egal") {
+                taste = null
             }
             errorMessage = ""
             loading = true
