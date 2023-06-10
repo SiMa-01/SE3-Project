@@ -13,19 +13,20 @@ class ShoppingListService {
     private val apiManager = ApiManager2()
     var errorMessage: String by mutableStateOf("")
 
+    suspend fun addShoppinglistUser(userId: String?){
+        val shoppingList: ShoppingListDto = apiManager.httpClient.post("shoppinglist?userId=$userId")
+    }
+
     suspend fun getShoppingList(userId: String? = null): List<ShoppingListDto> {
         val shoppingList: List<ShoppingListDto> = apiManager.httpClient.get("shoppinglist?userId=$userId")
         return shoppingList
     }
 
-    suspend fun addShoppingList(shoppingListDto: ShoppingListDto, userId: String? = null): ShoppingListDto {
-        val shoppingList: ShoppingListDto = apiManager.httpClient.post("shoppinglist?userId=$userId") {
-            body = shoppingListDto
-        }
-        return shoppingList
+    suspend fun addShoppingList(element: String?, userId: String? = null) {
+        val shoppingList: ShoppingListDto = apiManager.httpClient.post("shoppinglist/listelement?userId=$userId&element=$element")
     }
 
     suspend fun deleteShoppingList(userId: String? = null, element: String? = null) {
-        apiManager.httpClient.delete<String>("shoppinglist/listelement?userId=$userId")
+        apiManager.httpClient.delete<String>("shoppinglist/listelement?userId=$userId&element=$element")
     }
 }

@@ -15,20 +15,24 @@ class FavoriteListService {
     var errorMessage: String by mutableStateOf("")
 
 
+    suspend fun addFavoriteUser(userId: String?){
+        val favoritList: ShoppingListDto = apiManager.httpClient.post("favoritecocktail?userId=$userId")
+    }
+
     suspend fun getFavouriteList(userId: String? = null): List<ShoppingListDto> {
         val favoritList: List<ShoppingListDto> = apiManager.httpClient.get("favoritecocktail?userId=$userId")
         return favoritList
     }
 
     suspend fun addFavoritList(shoppingListDto: ShoppingListDto, userId: String? = null): ShoppingListDto {
-        val favoritList: ShoppingListDto = apiManager.httpClient.post("favoritecocktail?userId=$userId") {
+        val favoritList: ShoppingListDto = apiManager.httpClient.post("favoritecocktail/listelement?userId=$userId") {
             body = shoppingListDto
         }
         return favoritList
     }
 
-    suspend fun deleteFavoritList(userId: String?, element: CocktailDto) {
-        apiManager.httpClient.delete<String>("favoritecocktail?userId=$userId")
+    suspend fun deleteFavoritList(userId: String?, cocktailId: String?) {
+        val favoritList: ShoppingListDto = apiManager.httpClient.delete("favoritecocktail/listelement?userId=$userId&cocktailId=$cocktailId")
     }
 
 }
