@@ -2,7 +2,6 @@ package com.example.se3_app.hinzufuegenView
 
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -55,7 +54,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.se3_app.Dto.AddCocktailDto
+import com.example.se3_app.Dto.CocktailDto
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
 import com.example.se3_app.cocktailSearchView.font
@@ -64,6 +63,7 @@ import com.example.se3_app.startView.navigateToDestination
 import com.example.se3_app.ui.theme.chipFarbe1
 import com.example.se3_app.ui.theme.chipFarbe2
 import com.example.se3_app.ui.theme.chipFarbe6
+import kotlin.random.Random
 
 
 //val newCocktail = AddCocktailDto("", emptyArray(),"", true, "", "")
@@ -226,7 +226,7 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                                     )
                                 )
                                 alcoholicBoolean = switchOn
-                                if (switchOn) difficultyDto = "ja" else difficultyDto = "nein"
+                                alcoholicDto = switchOn
                                 Text(text = if (switchOn) "ja" else "nein")
                             }
                         }
@@ -532,14 +532,20 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
             ) {
                 FloatingActionButton(
                     onClick = {
-                        val newCocktail = AddCocktailDto(nameDto, viewModel.selectedIngredients.toTypedArray(), difficultyDto, alcoholicDto, preparationDto, tasteDto)
+                        val newCocktail = CocktailDto(Random.nextInt(0, 1000 + 1).toString(), nameDto, viewModel.selectedIngredients.toTypedArray(), difficultyDto, alcoholicDto!!, tasteDto, preparationDto)
                         if(text.text.isNullOrEmpty() || viewModel.selectedIngredients.isNullOrEmpty() || beschreibungsText.text.isNullOrEmpty()){
                             Toast.makeText(context, "Der Name, Zutaten und die Beschreibung dürfen nicht leer sein!", Toast.LENGTH_SHORT).show()
                         } else {
-                            println(newCocktail)
-                            //viewModel.addCocktail(newCocktail)
-                            Toast.makeText(context, "Neuer Cocktail mit dem Namen ${text.text} angelegt", Toast.LENGTH_SHORT).show()
-                            viewModel.selectedIngredients.clear()
+                            println("Neuer Cocktail $newCocktail")
+                            viewModel.addCocktail(newCocktail)
+                            if (viewModel.loading) {
+                                    var i = 0
+                                    i++
+                            } else {
+                                println("Cocktail added ${viewModel.addedCocktail}")
+                                Toast.makeText(context, "Neuer Cocktail mit dem Namen ${text.text} angelegt", Toast.LENGTH_SHORT).show()
+                                viewModel.selectedIngredients.clear()
+                            }
                         }
                               }, //andere Seite einfügen
                     modifier = Modifier

@@ -122,7 +122,7 @@ fun ChipEachRow(navController: NavController, viewModel: MainViewModel, list: Li
         ) {
             list.forEachIndexed { index, s ->
                 FilterChip(
-                    selected = multipleChecked.contains(index),
+                    selected = viewModel.selectedIngredients.contains(s),
                     onClick = {
                         multipleChecked = if (multipleChecked.contains(index))
                             multipleChecked.minus(index)
@@ -134,7 +134,7 @@ fun ChipEachRow(navController: NavController, viewModel: MainViewModel, list: Li
                             selectedFilters.minus(s).toMutableList()
                         else
                             selectedFilters.plus(s).toMutableList()
-                        //println("ItemsInList $selectedFilters ")
+                        println("ItemsInList $selectedFilters ")
                         viewModel.selectedIngredients = selectedFilters
                         println("ItemsInViewModel ${viewModel.selectedIngredients} ")
                     },
@@ -156,7 +156,7 @@ fun ChipEachRow(navController: NavController, viewModel: MainViewModel, list: Li
                     ),
                     shape = RoundedCornerShape(8.dp),
                     trailingIcon = {
-                        if (multipleChecked.contains(index)) {
+                        if (viewModel.selectedIngredients.contains(s)) {
                             Icon(Icons.Default.Check, contentDescription = "");
                         } else null
                     }

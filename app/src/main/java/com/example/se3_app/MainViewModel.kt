@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.se3_app.Dto.AddCocktailDto
 import com.example.se3_app.Dto.CocktailDto
 import com.example.se3_app.service.CocktailService
 import kotlinx.coroutines.launch
@@ -132,11 +131,11 @@ class MainViewModel: ViewModel() {
         }
     }
 
-    fun addCocktail(addCocktailDto: AddCocktailDto) {
+    fun addCocktail(cocktailDto: CocktailDto) {
         viewModelScope.launch {
             loading = true
             try {
-                addedCocktail = cocktailService.addCocktail(addCocktailDto)
+                addedCocktail = cocktailService.addCocktail(cocktailDto)
                 loading = false
             } catch (e: Exception) {
                 loading = false
