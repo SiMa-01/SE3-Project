@@ -33,11 +33,13 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.se3_app.ListViewModel
+import kotlinx.coroutines.delay
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignInView(navController: NavController, signInViewModel: SignInViewModel) {
+fun SignInView(navController: NavController, signInViewModel: SignInViewModel, listViewModel: ListViewModel) {
     val context  = LocalContext.current
     Box(modifier = Modifier.fillMaxSize()) {
         ClickableText(
@@ -88,7 +90,8 @@ fun SignInView(navController: NavController, signInViewModel: SignInViewModel) {
                     } else {
                         signInViewModel.signInWithEmailAndPassword(username.value.text, password.value.text)
                         if (signInViewModel.anmeldungOk && signInViewModel.veriviziert){
-                            navController.navigate("startView")
+                                listViewModel.userId = signInViewModel.userId!!
+                                navController.navigate("splashScreen")
                         }
                         if(signInViewModel.anmeldungOk && !signInViewModel.veriviziert){
                             Toast.makeText(context, "E-Mail-Adresse nicht verifiziert", Toast.LENGTH_SHORT).show()
@@ -119,4 +122,5 @@ fun SignInView(navController: NavController, signInViewModel: SignInViewModel) {
         )
     }
 }
+
 

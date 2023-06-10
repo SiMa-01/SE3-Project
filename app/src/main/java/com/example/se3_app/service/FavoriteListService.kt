@@ -4,6 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.example.se3_app.Dto.CocktailDto
+import com.example.se3_app.Dto.FavoriteCocktailDto
 import com.example.se3_app.Dto.ShoppingListDto
 import com.example.se3_app.api.ApiManager2
 import io.ktor.client.request.delete
@@ -16,19 +17,19 @@ class FavoriteListService {
 
 
     suspend fun addFavoriteUser(userId: String?){
-        val favoritList: ShoppingListDto = apiManager.httpClient.post("favoritecocktail?userId=$userId")
+        val favoritList: FavoriteCocktailDto = apiManager.httpClient.post("favoritecocktail?userId=$userId")
     }
 
-    suspend fun getFavouriteList(userId: String? = null): List<ShoppingListDto> {
-        val favoritList: List<ShoppingListDto> = apiManager.httpClient.get("favoritecocktail?userId=$userId")
+    suspend fun getFavouriteList(userId: String? = null): List<FavoriteCocktailDto> {
+        val favoritList: List<FavoriteCocktailDto> = apiManager.httpClient.get("favoritecocktail?userId=$userId")
         return favoritList
     }
 
-    suspend fun addFavoritList(shoppingListDto: ShoppingListDto, userId: String? = null): ShoppingListDto {
-        val favoritList: ShoppingListDto = apiManager.httpClient.post("favoritecocktail/listelement?userId=$userId") {
-            body = shoppingListDto
+    suspend fun addFavoritList(cocktailDto: CocktailDto, userId: String? = null): FavoriteCocktailDto {
+        val favoriteCocktailDto: FavoriteCocktailDto = apiManager.httpClient.post("favoritecocktail/listelement?userId=$userId") {
+            body = cocktailDto
         }
-        return favoritList
+        return favoriteCocktailDto
     }
 
     suspend fun deleteFavoritList(userId: String?, cocktailId: String?) {

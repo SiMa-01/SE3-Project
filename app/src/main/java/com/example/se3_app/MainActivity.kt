@@ -54,6 +54,7 @@ class MainActivity : ComponentActivity() {
     fun CocktailApp() {
 
         val mainViewModel = MainViewModel()
+        val listViewModel = ListViewModel()
 
         val signInViewModel = SignInViewModel()
         val signUpViewModel = SignUpViewModel()
@@ -86,7 +87,7 @@ class MainActivity : ComponentActivity() {
                 RezeptView(navController, mainViewModel)
             }
             composable(route = "signInView") {
-                SignInView(navController, signInViewModel)
+                SignInView(navController, signInViewModel, listViewModel)
             }
             composable(route = "signUpView") {
                 SignUpView(navController, signUpViewModel)
