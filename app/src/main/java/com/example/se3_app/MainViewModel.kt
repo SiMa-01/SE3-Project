@@ -26,7 +26,6 @@ class MainViewModel : ViewModel() {
     var comeBack: Array<Any> = arrayOf("", 0f, 0, "egal", "")
     var comeBack2: Array<Any> = arrayOf("", false, 0, "bitter", "")
 
-    var filterListe: MutableList<String> = emptyList<String>().toMutableList()
 
     fun getCocktailByName(name: String) {
         viewModelScope.launch {

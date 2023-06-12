@@ -224,12 +224,14 @@ fun StartViewContent(
                             viewModel.comeBack = arrayOf("", 0f, 0, "egal", "")
                             viewModel.selectedIngredients.clear()
                             viewModel.getAllTastes()
-                        }
-                        else if (index == 2) {
+                        } else if (index == 2) {
 
-                            listViewModel.itemsInFavoriteList.forEachIndexed{index, s->
+                            listViewModel.itemsInFavoriteList.forEachIndexed { index, s ->
 
-                                listViewModel.addFavoritList(listViewModel.userId, listViewModel.itemsInFavoriteList[index])
+                                listViewModel.addFavoritList(
+                                    listViewModel.userId,
+                                    listViewModel.itemsInFavoriteList[index]
+                                )
                             }
                             listViewModel.getFavouriteList(listViewModel.userId)
 
@@ -312,9 +314,6 @@ fun Cocktailbox(
     //var cocktail: MutableList<CocktailDto> = CocktailDto("", "", ingredient, "", false, "", "").toM
     val context = LocalContext.current
 
-    viewModel.getCocktailByName(name)
-
-
 
     FloatingActionButton(
         onClick = {
@@ -370,17 +369,6 @@ fun Cocktailbox(
                             IconButton(
                                 onClick = {
                                     isClicked.value = !isClicked.value
-                                    if (isClicked.value) {
-
-                                        val cocktail = viewModel.cocktailByName
-
-                                        listViewModel.itemsInFavoriteList.add(cocktail[0])
-
-                                    } else {
-                                        //listViewModel.itemsInFavoriteList.remove(name)
-                                    }
-                                    println("Die Liste: " + listViewModel.itemsInFavoriteList)
-
                                 },
                                 modifier = Modifier
                                     .size(24.dp)
@@ -391,7 +379,14 @@ fun Cocktailbox(
                                     contentDescription = "Zur Merkliste",
                                     tint = if (isClicked.value) Color.Red else Color.Unspecified
                                 )
-
+                                LaunchedEffect(isClicked.value) {
+                                    viewModel.getCocktailByName(name)
+                                    delay(3000)
+                                    listViewModel.addFavoritList(
+                                        listViewModel.userId,
+                                        viewModel.cocktailByName[0]
+                                    )
+                                }
                             }
                         }
 
@@ -501,19 +496,8 @@ fun navigateToDestination(navController: NavController, index: Int) {
     }
 }
 
-@Composable
-fun loading(listViewModel: ListViewModel, mainViewModel: MainViewModel) {
-
-    if (mainViewModel.loading) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            CircularProgressIndicator()
-        }
-    } else {
-    }
-
+suspend fun loading() {
+    delay(3000)
 }
 
 
