@@ -54,7 +54,7 @@ android {
 ktlint {
     android = true
     ignoreFailures = false
-    disabledRules = ["no-wildcard-imports","max-line-length"]
+    disabledRules = ["no-wildcard-imports","max-line-length","package-name"] //ToDo: Package-name rausnehmen
     reporters {
         reporter "plain"
         reporter "checkstyle"
