@@ -1,10 +1,21 @@
 package com.example.se3_app.startView
 
-import androidx.compose.foundation.layout.*
+import android.widget.Toast
+import kotlinx.coroutines.*
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.layout.*
+
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
+import androidx.navigation.NavController
+import java.util.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
@@ -12,31 +23,28 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
+import com.example.se3_app.Dto.CocktailDto
+import com.example.se3_app.ListViewModel
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
 import com.example.se3_app.resultView.ResultCocktailbox
+import com.example.se3_app.resultView.ResultViewContent
+import com.example.se3_app.resultView.cocktails
 import com.example.se3_app.ui.theme.chipFarbe1
 import com.example.se3_app.ui.theme.chipFarbe2
 import com.example.se3_app.ui.theme.chipFarbe3
 import com.example.se3_app.ui.theme.chipFarbe4
 import com.example.se3_app.ui.theme.chipFarbe5
 import com.example.se3_app.ui.theme.chipFarbe6
-import java.util.*
-import kotlinx.coroutines.*
+
 
 fun generateRandomNumbers(): List<Int> {
     val randomNumbers = mutableListOf<Int>()
@@ -59,33 +67,32 @@ val font = FontFamily(
 @Composable
 fun StartView(
     navController: NavController,
-    viewModel: MainViewModel
+    viewModel: MainViewModel,
+    listViewModel: ListViewModel
 ) {
-    StartViewContent(navController, viewModel)
+    StartViewContent(navController, viewModel, listViewModel)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StartViewContent(
     navController: NavController,
-    viewModel: MainViewModel
+    viewModel: MainViewModel,
+    listViewModel: ListViewModel
 ) {
     // Das müssen wir vermutlich überall hin kopieren
 
     val buttonFarbe = Color(0x6A6C84FF)
+    val context = LocalContext.current
 
     var selectedItem by remember { mutableStateOf(0) }
     val items = listOf("Home", "Cocktails", "Merkliste", "Einkaufsliste")
-    val icons = listOf(
-        Icons.Filled.Home,
-        Icons.Filled.Search,
-        Icons.Filled.Favorite,
-        Icons.Filled.List
-    )
+    val icons =
+        listOf(Icons.Filled.Home, Icons.Filled.Search, Icons.Filled.Favorite, Icons.Filled.List)
     Column(
         modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
-        // verticalArrangement = Arrangement.SpaceBetween,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        //verticalArrangement = Arrangement.SpaceBetween,
     ) {
         TopAppBar(modifier = Modifier.fillMaxWidth(), navigationIcon = {
             Icon(
@@ -94,25 +101,27 @@ fun StartViewContent(
                 modifier = Modifier.size(40.dp)
             )
         }, title = {
-                Box(
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    Text(
-                        text = "MIX'N'FIX",
-                        fontFamily = font,
-                        fontSize = 30.sp,
-                        modifier = Modifier.align(Alignment.Center)
-                    )
-                }
-            }, actions = {
-                IconButton(onClick = {
-                    navController.navigate("HelpView")
-                }) {
-                    Icon(Icons.Filled.Info, contentDescription = "Search Icon")
-                }
-            })
+            Box(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Text(
+                    text = "MIX'N'FIX",
+                    fontFamily = font,
+                    fontSize = 30.sp,
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
+        }, actions = {
+            IconButton(onClick = {
+                navController.navigate("HelpView")
 
-        // --------------------------------------------------------------------------------------------------------------
+
+            }) {
+                Icon(Icons.Filled.Info, contentDescription = "Search Icon")
+            }
+        })
+
+        //--------------------------------------------------------------------------------------------------------------
 
         Column(
             modifier = Modifier
@@ -130,13 +139,7 @@ fun StartViewContent(
             val taste = viewModel.cocktailsAll[0].taste
 
             StartCocktailbox(
-                navController,
-                viewModel,
-                name!!,
-                difficulty!!,
-                alcoholic,
-                taste!!,
-                4
+                navController, viewModel, name!!, difficulty!!, alcoholic, taste!!, 4, listViewModel
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -176,9 +179,7 @@ fun StartViewContent(
                     containerColor = chipFarbe2
                 ) {
                     Text(
-                        "Rezept hinzufügen",
-                        fontFamily = font,
-                        fontSize = 15.sp
+                        "Rezept hinzufügen", fontFamily = font, fontSize = 15.sp
                     )
                 }
             }
@@ -196,13 +197,15 @@ fun StartViewContent(
                     viewModel.cocktailsAll[i].difficulty.toString(),
                     viewModel.cocktailsAll[i].alcoholic,
                     viewModel.cocktailsAll[i].taste.toString(),
-                    i
+                    i,
+                    listViewModel
                 )
                 i++
             }
 
-            // Damit die NavigationBar drüber passt
+            //Damit die NavigationBar drüber passt
             Spacer(modifier = Modifier.height(100.dp))
+
         }
     }
 
@@ -213,8 +216,7 @@ fun StartViewContent(
     ) {
         BottomAppBar() {
             items.forEachIndexed { index, item ->
-                NavigationBarItem(
-                    icon = { Icon(icons[index], contentDescription = "Home") },
+                NavigationBarItem(icon = { Icon(icons[index], contentDescription = "Home") },
                     label = { Text(item) },
                     selected = selectedItem == 1,
                     onClick = {
@@ -223,12 +225,21 @@ fun StartViewContent(
                             viewModel.selectedIngredients.clear()
                             viewModel.getAllTastes()
                         }
+                        else if (index == 2) {
+
+                            listViewModel.itemsInFavoriteList.forEachIndexed{index, s->
+
+                                listViewModel.addFavoritList(listViewModel.userId, listViewModel.itemsInFavoriteList[index])
+                            }
+                            listViewModel.getFavouriteList(listViewModel.userId)
+
+                        }
                         selectedItem = index
                         navigateToDestination(navController, index)
-                    }
-                )
+                    })
             }
         }
+
     }
 }
 
@@ -241,12 +252,23 @@ fun StartCocktailbox(
     difficulty: String,
     alcoholic: Boolean,
     taste: String,
-    index: Int
+    index: Int,
+    listViewModel: ListViewModel
 ) {
     if (viewModel.errorMessage.isEmpty()) {
-        CocktailboxMitIndex(navController, viewModel, name, difficulty, alcoholic, taste, index)
+        CocktailboxMitIndex(
+            navController,
+            viewModel,
+            name,
+            difficulty,
+            alcoholic,
+            taste,
+            index,
+            listViewModel
+        )
     }
 }
+
 
 @Composable
 fun CocktailboxMitIndex(
@@ -256,24 +278,18 @@ fun CocktailboxMitIndex(
     difficulty: String,
     alcoholic: Boolean,
     taste: String,
-    index: Int
+    index: Int,
+    listViewModel: ListViewModel
 ) {
-    val color: Color
-    if (index % 6 == 0) {
-        color = chipFarbe1
-    } else if (index % 5 == 0) {
-        color = chipFarbe2
-    } else if (index % 4 == 0) {
-        color = chipFarbe3
-    } else if (index % 3 == 0) {
-        color = chipFarbe4
-    } else if (index % 2 == 0) {
-        color = chipFarbe5
-    } else {
-        color = chipFarbe6
-    }
+    val color: Color;
+    if (index % 6 == 0) color = chipFarbe1
+    else if (index % 5 == 0) color = chipFarbe2
+    else if (index % 4 == 0) color = chipFarbe3
+    else if (index % 3 == 0) color = chipFarbe4
+    else if (index % 2 == 0) color = chipFarbe5
+    else color = chipFarbe6
 
-    Cocktailbox(navController, viewModel, name, difficulty, alcoholic, taste, color)
+    Cocktailbox(navController, viewModel, name, difficulty, alcoholic, taste, color, listViewModel)
 }
 
 @Composable
@@ -284,8 +300,22 @@ fun Cocktailbox(
     difficulty: String,
     alcoholic: Boolean,
     taste: String,
-    color: Color
+    color: Color,
+    listViewModel: ListViewModel
 ) {
+
+
+    var ingredient = arrayOf<String>(" ")
+    //var cocktail:  MutableList<CocktailDto> = CocktailDto("", "", ingredient, "", false, "", "").toMutableList()
+    var cocktail: MutableList<CocktailDto> =
+        mutableListOf(CocktailDto("", "", ingredient, "", false, "", ""))
+    //var cocktail: MutableList<CocktailDto> = CocktailDto("", "", ingredient, "", false, "", "").toM
+    val context = LocalContext.current
+
+    viewModel.getCocktailByName(name)
+
+
+
     FloatingActionButton(
         onClick = {
             viewModel.getCocktailByName(name)
@@ -293,12 +323,11 @@ fun Cocktailbox(
         },
         modifier = Modifier.fillMaxWidth(),
         containerColor = color
-
     ) {
         Box(
-            modifier = Modifier.padding(horizontal = 5.dp)
+            modifier = Modifier.padding(horizontal = 5.dp),
 
-        ) {
+            ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -324,6 +353,7 @@ fun Cocktailbox(
                             horizontalArrangement = Arrangement.End,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
+
                             Text(
                                 text = name,
                                 fontFamily = font,
@@ -334,16 +364,24 @@ fun Cocktailbox(
                                 overflow = TextOverflow.Ellipsis
                             )
 
-                            /*Box(
-                                modifier = Modifier
-
-                            ) {*/
-                            // wenn der Button geklickt wird -> zur Merkliste hinzufügen
+                            //wenn der Button geklickt wird -> zur Merkliste hinzufügen
                             val isClicked = remember { mutableStateOf(false) }
+
                             IconButton(
                                 onClick = {
                                     isClicked.value = !isClicked.value
-                                }, // hier muss der Post rein
+                                    if (isClicked.value) {
+
+                                        val cocktail = viewModel.cocktailByName
+
+                                        listViewModel.itemsInFavoriteList.add(cocktail[0])
+
+                                    } else {
+                                        //listViewModel.itemsInFavoriteList.remove(name)
+                                    }
+                                    println("Die Liste: " + listViewModel.itemsInFavoriteList)
+
+                                },
                                 modifier = Modifier
                                     .size(24.dp)
                                     .weight(1f)
@@ -353,12 +391,8 @@ fun Cocktailbox(
                                     contentDescription = "Zur Merkliste",
                                     tint = if (isClicked.value) Color.Red else Color.Unspecified
                                 )
-                                if (isClicked.value) {
-                                } // Post methoden in Merkliste
-                                else {
-                                } // da passiert nix
+
                             }
-                            // }
                         }
 
                         Spacer(modifier = Modifier.height(8.dp))
@@ -372,8 +406,8 @@ fun Cocktailbox(
                             Box(
                                 modifier = Modifier.weight(1f)
                             ) {
-                                // Den Schwierigkeitsgrad durch Farben darstellen
-                                if (difficulty == "einfach") { /*  Box(
+                                //Den Schwierigkeitsgrad durch Farben darstellen
+                                if (difficulty == "einfach") {/*  Box(
                                           modifier = Modifier
                                               .size(10.dp)
                                               .background(green)
@@ -383,6 +417,7 @@ fun Cocktailbox(
                                         contentDescription = "einfach",
                                         modifier = Modifier.size(30.dp)
                                     )
+
                                 } else if (difficulty == "mittel") {
                                     Row() {
                                         /* Box(
@@ -396,7 +431,8 @@ fun Cocktailbox(
                                             modifier = Modifier.size(30.dp)
                                         )
                                     }
-                                } else if (difficulty == "schwierig") { /*Box(
+
+                                } else if (difficulty == "schwierig") {/*Box(
                                         modifier = Modifier
                                             .size(10.dp)
                                             .background(Color.Red)
@@ -406,9 +442,10 @@ fun Cocktailbox(
                                         contentDescription = "schwierig",
                                         modifier = Modifier.size(30.dp)
                                     )
+
                                 }
                             }
-                            // Die Schwierigkeit daneben schreiben
+                            //Die Schwierigkeit daneben schreiben
                             /*Box() {
                                 if (difficulty == "schwierig"){
                                     Text(
@@ -424,30 +461,27 @@ fun Cocktailbox(
                                 }
                             }*/
 
-                            // Den Alkoholgehalt durch Alkohol darstellen
+                            //Den Alkoholgehalt durch Alkohol darstellen
                             Box(
                                 modifier = Modifier.weight(1f)
                             ) {
                                 if (alcoholic) {
                                     Text(
-                                        "%",
-                                        fontFamily = font,
-                                        fontSize = 15.sp
+                                        "%", fontFamily = font, fontSize = 15.sp
                                     )
                                 } else {
                                     Text(
-                                        "kein %",
-                                        fontFamily = font,
-                                        fontSize = 15.sp
+                                        "kein %", fontFamily = font, fontSize = 15.sp
                                     )
                                 }
                             }
-                            // Den Geschmack nennen
+                            //Den Geschmack nennen
                             Box(
                                 modifier = Modifier.weight(1f)
                             ) {
                                 Text(taste, fontSize = 15.sp)
                             }
+
                         }
                     }
                 }
@@ -457,6 +491,7 @@ fun Cocktailbox(
     Spacer(modifier = Modifier.height(8.dp))
 }
 
+
 fun navigateToDestination(navController: NavController, index: Int) {
     when (index) {
         0 -> navController.navigate("StartView")
@@ -465,3 +500,22 @@ fun navigateToDestination(navController: NavController, index: Int) {
         3 -> navController.navigate("EinkaufslistenView")
     }
 }
+
+@Composable
+fun loading(listViewModel: ListViewModel, mainViewModel: MainViewModel) {
+
+    if (mainViewModel.loading) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
+    } else {
+    }
+
+}
+
+
+
+

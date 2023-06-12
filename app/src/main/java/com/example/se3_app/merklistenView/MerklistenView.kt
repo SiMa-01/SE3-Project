@@ -3,6 +3,7 @@ package com.example.se3_app.merklistenView
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,6 +20,7 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -36,27 +38,47 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.se3_app.Dto.CocktailDto
+import com.example.se3_app.Dto.FavoriteCocktailDto
+import com.example.se3_app.ListViewModel
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
-import com.example.se3_app.startView.CocktailboxMitIndex
+import com.example.se3_app.resultView.ResultViewContent
+import com.example.se3_app.resultView.cocktails
 import com.example.se3_app.startView.navigateToDestination
+import com.example.se3_app.startView.Cocktailbox
+import com.example.se3_app.startView.CocktailboxMitIndex
+
+var list = emptyList<FavoriteCocktailDto>()
 
 @Composable
-fun MerklistenView(navController: NavController, viewModel: MainViewModel) {
-    MerklistenViewContent(navController, viewModel)
+fun MerklistenView(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
+    if (viewModel.loading || listViewModel.loading) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
+    } else {
+        list = listViewModel.userFavoriteList
+        MerklistenViewContent(navController, viewModel, listViewModel)
+
+    }
+
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MerklistenViewContent(navController: NavController, viewModel: MainViewModel) {
+fun MerklistenViewContent(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
     var selectedItem by remember { mutableStateOf(0) }
     val items = listOf("Home", "Cocktails", "Merkliste", "Einkaufsliste")
     val icons = listOf(
-        Icons.Filled.Home,
-        Icons.Filled.Search,
-        Icons.Filled.Favorite,
-        Icons.Filled.List
+        Icons.Filled.Home, Icons.Filled.Search,
+        Icons.Filled.Favorite, Icons.Filled.List
     )
+    println("Meine Liste" + list)
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -68,23 +90,24 @@ fun MerklistenViewContent(navController: NavController, viewModel: MainViewModel
                 modifier = Modifier.size(40.dp)
             )
         }, title = {
-                Box(
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    Text(
-                        text = "MIX'N'FIX",
-                        fontFamily = com.example.se3_app.startView.font,
-                        fontSize = 30.sp,
-                        modifier = Modifier.align(Alignment.Center)
-                    )
-                }
-            }, actions = {
-                IconButton(onClick = {
-                    navController.navigate("HelpView")
-                }) {
-                    Icon(Icons.Filled.Info, contentDescription = "Search Icon")
-                }
-            })
+            Box(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Text(
+                    text = "MIX'N'FIX",
+                    fontFamily = com.example.se3_app.startView.font,
+                    fontSize = 30.sp,
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
+        }, actions = {
+            IconButton(onClick = { navController.navigate("HelpView")
+
+
+            }) {
+                Icon(Icons.Filled.Info, contentDescription = "Search Icon")
+            }
+        })
         TopAppBar(modifier = Modifier.fillMaxWidth(), navigationIcon = {
             Icon(
                 painter = painterResource(id = R.drawable.logo_app_icon),
@@ -92,36 +115,39 @@ fun MerklistenViewContent(navController: NavController, viewModel: MainViewModel
                 modifier = Modifier.size(40.dp)
             )
         }, title = {
-                Box(
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    Text(
-                        text = "MIX'N'FIX",
-                        fontFamily = com.example.se3_app.startView.font,
-                        fontSize = 30.sp,
-                        modifier = Modifier.align(Alignment.Center)
-                    )
-                }
-            }, actions = {
-                IconButton(onClick = {
-                    navController.navigate("HelpView")
-                }) {
-                    Icon(Icons.Filled.Info, contentDescription = "Search Icon")
-                }
-            })
+            Box(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Text(
+                    text = "MIX'N'FIX",
+                    fontFamily = com.example.se3_app.startView.font,
+                    fontSize = 30.sp,
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
+        }, actions = {
+            IconButton(onClick = { navController.navigate("HelpView")
+
+
+            }) {
+                Icon(Icons.Filled.Info, contentDescription = "Search Icon")
+            }
+        })
+
+
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState())
-        ) {
+        ){
             Text("Deine Lieblingscocktails:", fontSize = 20.sp)
             Spacer(modifier = Modifier.height(8.dp))
-            val name = "Caipirinha"
-            val difficulty = "MEDIUM"
-            var alcoholic by remember { mutableStateOf(true) }
-            val taste = "Sour"
+            val name="Caipirinha"
+            val difficulty="MEDIUM"
+            var alcoholic by remember { mutableStateOf(true)}
+            val taste ="Sour"
 
             MerklistenCocktailbox(
                 navController,
@@ -130,76 +156,55 @@ fun MerklistenViewContent(navController: NavController, viewModel: MainViewModel
                 difficulty,
                 alcoholic,
                 taste,
-                1
+                1,
+                listViewModel
             )
-            MerklistenCocktailbox(
-                navController = navController,
-                viewModel = viewModel,
-                name = "Caipirinha",
-                difficulty = "MEDIUM",
-                alcoholic = true,
-                taste = "Sour",
-                2
-            )
-            MerklistenCocktailbox(
-                navController = navController,
-                viewModel = viewModel,
-                name = "Caipirinha",
-                difficulty = "MEDIUM",
-                alcoholic = true,
-                taste = "Sour",
-                3
-            )
-            MerklistenCocktailbox(
-                navController = navController,
-                viewModel = viewModel,
-                name = "Caipirinha",
-                difficulty = "MEDIUM",
-                alcoholic = true,
-                taste = "Sour",
-                4
-            )
+
+            listViewModel.getFavouriteList(listViewModel.userId)
+            val favoritenListe = listViewModel.userFavoriteList
+            favoritenListe.forEachIndexed { index, s ->
+                MerklistenCocktailbox(navController, viewModel, favoritenListe[0].list[index].name.toString(), favoritenListe[0].list[index].difficulty.toString(), favoritenListe[0].list[index].alcoholic, favoritenListe[0].list[index].taste.toString(), index, listViewModel )
+            }
+
             Spacer(modifier = Modifier.height(100.dp))
+
         }
-    }
 
-    Spacer(modifier = Modifier.height(100.dp))
+        }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .wrapContentSize(Alignment.BottomCenter)
-    ) {
-        BottomAppBar() {
-            items.forEachIndexed { index, item ->
-                NavigationBarItem(
-                    icon = { Icon(icons[index], contentDescription = null) },
-                    label = { Text(item) },
-                    selected = selectedItem == 1,
-                    onClick = {
-                        if (index == 1) {
-                            viewModel.getAllTastes()
+
+        Spacer(modifier = Modifier.height(100.dp))
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .wrapContentSize(Alignment.BottomCenter)
+        ) {
+            BottomAppBar() {
+                items.forEachIndexed { index, item ->
+                    NavigationBarItem(
+                        icon = { Icon(icons[index], contentDescription = null) },
+                        label = { Text(item) },
+                        selected = selectedItem == 1,
+                        onClick = {
+                            if (index == 1) {
+                                viewModel.getAllTastes()
+                            }
+                            selectedItem = 2
+                            navigateToDestination(navController, index)
                         }
-                        selectedItem = 2
-                        navigateToDestination(navController, index)
-                    }
-                )
+                    )
+                }
             }
         }
     }
-}
-
 @Composable
-fun MerklistenCocktailbox(
-    navController: NavController,
-    viewModel: MainViewModel,
-    name: String,
-    difficulty: String,
-    alcoholic: Boolean,
-    taste: String,
-    index: Int
-) {
+fun MerklistenCocktailbox(navController: NavController, viewModel: MainViewModel , name: String, difficulty: String, alcoholic: Boolean, taste: String, index: Int, listViewModel: ListViewModel) {
     if (viewModel.errorMessage.isEmpty()) {
-        CocktailboxMitIndex(navController, viewModel, name, difficulty, alcoholic, taste, index)
+        CocktailboxMitIndex(navController, viewModel, name, difficulty, alcoholic, taste, index, listViewModel)
     }
 }
+
+
+
+

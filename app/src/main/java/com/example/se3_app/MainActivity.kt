@@ -60,9 +60,9 @@ class MainActivity : ComponentActivity() {
 
         val navController = rememberNavController()
 
-        NavHost(navController, startDestination = "splashScreen") {
+        NavHost(navController, startDestination = "signInView") {
             composable(route = "startView") {
-                StartView(navController, mainViewModel)
+                StartView(navController, mainViewModel, listViewModel)
             }
             composable(route = "cocktailSearchView") {
                 CocktailSearchView(navController, mainViewModel)
@@ -75,13 +75,13 @@ class MainActivity : ComponentActivity() {
                 HinzufuegenView(navController, mainViewModel)
             }
             composable(route = "merklistenView") {
-                MerklistenView(navController, mainViewModel)
+                MerklistenView(navController, mainViewModel, listViewModel)
             }
             composable(route = "resultView") {
-                ResultView(navController, mainViewModel)
+                ResultView(navController, mainViewModel, listViewModel)
             }
             composable(route = "rezeptView") {
-                RezeptView(navController, mainViewModel)
+                RezeptView(navController, mainViewModel, listViewModel)
             }
             composable(route = "signInView") {
                 SignInView(navController, signInViewModel, listViewModel)
@@ -96,7 +96,7 @@ class MainActivity : ComponentActivity() {
                 VerifyEmailView(navController, verifyEmailViewModel)
             }
             composable(route = "splashScreen") {
-                AnimatedSplashScreen(navController, mainViewModel)
+                AnimatedSplashScreen(navController, mainViewModel, listViewModel)
             }
             composable(route = "ingredientsView") {
                 IngredientsView(navController, mainViewModel)

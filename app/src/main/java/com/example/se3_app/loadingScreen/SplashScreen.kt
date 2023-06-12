@@ -22,12 +22,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.se3_app.ListViewModel
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
+import com.example.se3_app.resultView.ResultCocktailbox
+import com.example.se3_app.resultView.cocktails
 import kotlinx.coroutines.delay
 
 @Composable
-fun AnimatedSplashScreen(navController: NavController, viewModel: MainViewModel) {
+fun AnimatedSplashScreen(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
     var startAnimation by remember { mutableStateOf(false) }
 
     val alphaAnim = animateFloatAsState(
@@ -41,8 +44,14 @@ fun AnimatedSplashScreen(navController: NavController, viewModel: MainViewModel)
         startAnimation = true
         viewModel.getAllCocktails()
         delay(3000)
+        listViewModel.getFavouriteList(listViewModel.userId)
+        delay(3000)
+        listViewModel.userFavoriteList.forEachIndexed{ index, s ->
+          //  listViewModel.itemsInFavoriteList.add(s.list[index].name.toString())
+        }
+        delay(3000)
 
-        while (viewModel.loading) {
+        while (viewModel.loading || listViewModel.loading) {
             delay(1000) // Wartezeit vor der erneuten Überprüfung
         }
 
