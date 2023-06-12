@@ -49,7 +49,7 @@ jobs:
       - name: "ktlint"
         uses: "vroy/gha-kotlin-linter@v1"
         with:
-          flags: "--disabled_rules=no-wildcard-imports"
+          disabled_rules: "import-wildcard"
 
   test:
     runs-on: ubuntu-latest
