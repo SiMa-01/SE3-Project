@@ -16,7 +16,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -30,30 +29,31 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.se3_app.ListViewModel
-import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignUpView(navController: NavController, signUpViewModel: SignUpViewModel) {
-    val context  = LocalContext.current
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier.padding(20.dp).fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
         val username = remember { mutableStateOf(TextFieldValue()) }
         val password = remember { mutableStateOf(TextFieldValue()) }
 
-        Text(text = "Registrieren", style = TextStyle(fontSize = 40.sp, fontFamily = FontFamily.SansSerif))
+        Text(
+            text = "Registrieren",
+            style = TextStyle(fontSize = 40.sp, fontFamily = FontFamily.SansSerif)
+        )
 
         Spacer(modifier = Modifier.height(20.dp))
         TextField(
             label = { Text(text = "E-Mail") },
             value = username.value,
-            onValueChange = { username.value = it })
+            onValueChange = { username.value = it }
+        )
 
         Spacer(modifier = Modifier.height(20.dp))
         TextField(
@@ -61,20 +61,27 @@ fun SignUpView(navController: NavController, signUpViewModel: SignUpViewModel) {
             value = password.value,
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            onValueChange = { password.value = it })
+            onValueChange = { password.value = it }
+        )
 
         Spacer(modifier = Modifier.height(20.dp))
         Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
             Button(
                 onClick = {
-                    if(username.value.text.isEmpty() || password.value.text.isEmpty()){
-                        Toast.makeText(context, "E-Mail-Adresse und Passwort darf nicht leer sein!", Toast.LENGTH_SHORT).show()
+                    if (username.value.text.isEmpty() || password.value.text.isEmpty()) {
+                        Toast.makeText(
+                            context,
+                            "E-Mail-Adresse und Passwort darf nicht leer sein!",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     } else {
-                        signUpViewModel.registerWithEmailAndPassword(username.value.text, password.value.text)
+                        signUpViewModel.registerWithEmailAndPassword(
+                            username.value.text,
+                            password.value.text
+                        )
                         navController.navigate("verifyEmailView")
                     }
-
-                          },
+                },
                 shape = RoundedCornerShape(50.dp),
                 modifier = Modifier
                     .fillMaxWidth()

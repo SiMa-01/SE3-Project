@@ -1,47 +1,38 @@
 package com.example.se3_app.ingredientsView
 
-import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material3.AlertDialogDefaults.containerColor
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.runtime.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import com.example.se3_app.ui.theme.Purple80
-import com.example.se3_app.ui.theme.PurpleGrey40
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
-import androidx.compose.material3.AlertDialogDefaults.containerColor
-import androidx.compose.material3.Button
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.runtime.*
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.se3_app.Dto.CocktailDto
+import androidx.navigation.NavController
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
 import com.example.se3_app.cocktailSearchView.font
@@ -51,10 +42,8 @@ import com.example.se3_app.ui.theme.chipFarbe3
 import com.example.se3_app.ui.theme.chipFarbe4
 import com.example.se3_app.ui.theme.chipFarbe5
 import com.example.se3_app.ui.theme.neueIdee
-import com.google.android.material.chip.Chip
-import kotlinx.serialization.descriptors.PrimitiveKind
 
-//import androidx.compose.foundation.layout.FlowRow
+// import androidx.compose.foundation.layout.FlowRow
 
 val font = FontFamily(
     Font(resId = R.font.arciform)
@@ -64,12 +53,11 @@ var selectedFilters: MutableList<String> = emptyList<String>().toMutableList()
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IngredientsView(navController: NavController, ingredientsViewModel: MainViewModel) {
-
     var ingredients = listOf("Apfel", "Banane", "Birne", "Orange", "Ananas")
 
     val tempList: Set<Int> = emptySet()
 
-    if (ingredientsViewModel.loading){
+    if (ingredientsViewModel.loading) {
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
@@ -79,24 +67,30 @@ fun IngredientsView(navController: NavController, ingredientsViewModel: MainView
     } else {
         ingredients = ingredientsViewModel.ingredients
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            ChipEachRow(navController, ingredientsViewModel, list = ingredients, tempList = tempList)
+            ChipEachRow(
+                navController,
+                ingredientsViewModel,
+                list = ingredients,
+                tempList = tempList
+            )
         }
     }
-
 }
-
-
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
-fun ChipEachRow(navController: NavController, viewModel: MainViewModel, list: List<String>, tempList: Set<Int>) {
-
+fun ChipEachRow(
+    navController: NavController,
+    viewModel: MainViewModel,
+    list: List<String>,
+    tempList: Set<Int>
+) {
     var multipleChecked by rememberSaveable { mutableStateOf(tempList) }
 
     Column(
         modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        //verticalArrangement = Arrangement.SpaceBetween,
+        horizontalAlignment = Alignment.CenterHorizontally
+        // verticalArrangement = Arrangement.SpaceBetween,
     ) {
         Box(
             modifier = Modifier
@@ -105,66 +99,74 @@ fun ChipEachRow(navController: NavController, viewModel: MainViewModel, list: Li
                 text = "Zutaten",
                 fontFamily = font,
                 fontSize = 30.sp,
-                modifier = Modifier.align(Alignment.Center),
+                modifier = Modifier.align(Alignment.Center)
             )
         }
 
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-            .verticalScroll(rememberScrollState())
-    ) {
-        FlowRow(
-            modifier = Modifier.padding(8.dp),
-            Arrangement.spacedBy(5.dp)
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+                .verticalScroll(rememberScrollState())
         ) {
-            list.forEachIndexed { index, s ->
-                FilterChip(
-                    selected = viewModel.selectedIngredients.contains(s),
-                    onClick = {
-                        multipleChecked = if (multipleChecked.contains(index))
-                            multipleChecked.minus(index)
-                        else
-                            multipleChecked.plus(index)
+            FlowRow(
+                modifier = Modifier.padding(8.dp),
+                Arrangement.spacedBy(5.dp)
+            ) {
+                list.forEachIndexed { index, s ->
+                    FilterChip(
+                        selected = viewModel.selectedIngredients.contains(s),
+                        onClick = {
+                            multipleChecked = if (multipleChecked.contains(index)) {
+                                multipleChecked.minus(index)
+                            } else {
+                                multipleChecked.plus(index)
+                            }
 
-
-                        selectedFilters = if (selectedFilters.contains(s))
-                            selectedFilters.minus(s).toMutableList()
-                        else
-                            selectedFilters.plus(s).toMutableList()
-                        println("ItemsInList $selectedFilters ")
-                        viewModel.selectedIngredients = selectedFilters
-                        println("ItemsInViewModel ${viewModel.selectedIngredients} ")
-                    },
-                    label = {
-                        Text(text = s, fontFamily = font)
-                    },
-                    border = FilterChipDefaults.filterChipBorder(
-                        borderColor = Color.Transparent,
-                        borderWidth = if (multipleChecked.contains(index)) 0.dp else 2.dp
-                    ),
-                    colors = FilterChipDefaults.filterChipColors(
-                        containerColor =
-                        if (index % 6 == 0) chipFarbe1
-                        else if (index % 4 == 0) chipFarbe2
-                        else if (index % 3 == 0) chipFarbe3
-                        else if (index % 2 == 0) chipFarbe4
-                        else chipFarbe5,
-                        selectedContainerColor = Color.Transparent,
-                    ),
-                    shape = RoundedCornerShape(8.dp),
-                    trailingIcon = {
-                        if (viewModel.selectedIngredients.contains(s)) {
-                            Icon(Icons.Default.Check, contentDescription = "");
-                        } else null
-                    }
-                )
+                            selectedFilters = if (selectedFilters.contains(s)) {
+                                selectedFilters.minus(s).toMutableList()
+                            } else {
+                                selectedFilters.plus(s).toMutableList()
+                            }
+                            println("ItemsInList $selectedFilters ")
+                            viewModel.selectedIngredients = selectedFilters
+                            println("ItemsInViewModel ${viewModel.selectedIngredients} ")
+                        },
+                        label = {
+                            Text(text = s, fontFamily = font)
+                        },
+                        border = FilterChipDefaults.filterChipBorder(
+                            borderColor = Color.Transparent,
+                            borderWidth = if (multipleChecked.contains(index)) 0.dp else 2.dp
+                        ),
+                        colors = FilterChipDefaults.filterChipColors(
+                            containerColor =
+                            if (index % 6 == 0) {
+                                chipFarbe1
+                            } else if (index % 4 == 0) {
+                                chipFarbe2
+                            } else if (index % 3 == 0) {
+                                chipFarbe3
+                            } else if (index % 2 == 0) {
+                                chipFarbe4
+                            } else {
+                                chipFarbe5
+                            },
+                            selectedContainerColor = Color.Transparent
+                        ),
+                        shape = RoundedCornerShape(8.dp),
+                        trailingIcon = {
+                            if (viewModel.selectedIngredients.contains(s)) {
+                                Icon(Icons.Default.Check, contentDescription = "")
+                            } else {
+                                null
+                            }
+                        }
+                    )
+                }
             }
+            Spacer(modifier = Modifier.height(40.dp))
         }
-        Spacer(modifier = Modifier.height(40.dp))
-    }
     }
 
     // Der Suche Button
@@ -189,10 +191,8 @@ fun ChipEachRow(navController: NavController, viewModel: MainViewModel, list: Li
                 .fillMaxWidth(),
             containerColor = neueIdee
         ) {
-            Text("Fertig", fontFamily = font,)
+            Text("Fertig", fontFamily = font)
         }
         Spacer(modifier = Modifier.height(10.dp))
     }
-
 }
-

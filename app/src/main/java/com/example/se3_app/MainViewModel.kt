@@ -9,7 +9,7 @@ import com.example.se3_app.Dto.CocktailDto
 import com.example.se3_app.service.CocktailService
 import kotlinx.coroutines.launch
 
-class MainViewModel: ViewModel() {
+class MainViewModel : ViewModel() {
 
     var errorMessage: String by mutableStateOf("")
     var loading: Boolean by mutableStateOf(false)
@@ -19,7 +19,7 @@ class MainViewModel: ViewModel() {
     lateinit var tastes: List<String>
     lateinit var addedCocktail: CocktailDto
     var cocktailsSearch: MutableList<CocktailDto> by mutableStateOf(mutableListOf())
-    var selectedIngredients:  MutableList<String> = emptyList<String>().toMutableList()
+    var selectedIngredients: MutableList<String> = emptyList<String>().toMutableList()
     lateinit var ingredients: List<String>
 
     var cameFrom: Int = 0
@@ -62,7 +62,7 @@ class MainViewModel: ViewModel() {
         }
     }
 
-    fun getAllTastes(){
+    fun getAllTastes() {
         viewModelScope.launch {
             errorMessage = ""
             loading = true
@@ -78,20 +78,25 @@ class MainViewModel: ViewModel() {
         }
     }
 
-    fun searchCocktails(name: String? = null,  stringTaste: String? = null, ingredients: List<String> = emptyList(), stringAlcoholic: String? = null, stringDifficulty:String? = null){
+    fun searchCocktails(
+        name: String? = null,
+        stringTaste: String? = null,
+        ingredients: List<String> = emptyList(),
+        stringAlcoholic: String? = null,
+        stringDifficulty: String? = null
+    ) {
         println("Hallo ich bin hier")
         viewModelScope.launch {
             println("In der Methode")
             var alcoholic: Boolean? = null
-            if (stringAlcoholic == "ja"){
+            if (stringAlcoholic == "ja") {
                 alcoholic = true
-            }
-            else if (stringAlcoholic == "nein"){
+            } else if (stringAlcoholic == "nein") {
                 alcoholic = false
             }
             var difficulty: String? = stringDifficulty
             if (stringDifficulty == "egal") {
-                 difficulty = null
+                difficulty = null
             }
             var taste: String? = stringTaste
             if (stringTaste == "egal") {
@@ -101,7 +106,13 @@ class MainViewModel: ViewModel() {
             loading = true
             try {
                 println("Im try " + taste + ingredients + alcoholic + difficulty)
-                val searchCocktails = cocktailService.findCocktails(name, taste, ingredients, alcoholic, difficulty)
+                val searchCocktails = cocktailService.findCocktails(
+                    name,
+                    taste,
+                    ingredients,
+                    alcoholic,
+                    difficulty
+                )
                 println("Das Ergebnis " + searchCocktails[0].name)
                 cocktailsSearch = searchCocktails.toMutableList()
                 loading = false
@@ -113,7 +124,7 @@ class MainViewModel: ViewModel() {
         }
     }
 
-    fun getAllIncredients(){
+    fun getAllIncredients() {
         viewModelScope.launch {
             errorMessage = ""
             loading = true

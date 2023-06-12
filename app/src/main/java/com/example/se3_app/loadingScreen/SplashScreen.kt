@@ -42,7 +42,6 @@ fun AnimatedSplashScreen(navController: NavController, viewModel: MainViewModel)
         viewModel.getAllCocktails()
         delay(3000)
 
-
         while (viewModel.loading) {
             delay(1000) // Wartezeit vor der erneuten Überprüfung
         }
@@ -58,7 +57,7 @@ fun Splash(alpha: Float, viewModel: MainViewModel) {
     Box(
         modifier = Modifier
             .background(Color.White)
-            .fillMaxSize(),
+            .fillMaxSize()
     ) {
         Column(
             modifier = Modifier
@@ -66,7 +65,6 @@ fun Splash(alpha: Float, viewModel: MainViewModel) {
                 .padding(vertical = 100.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
             Image(
                 painter = painterResource(id = R.drawable.logo_app),
                 contentDescription = "App Logo",
@@ -81,7 +79,7 @@ fun Splash(alpha: Float, viewModel: MainViewModel) {
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(horizontal = 16.dp),
-                    color = Color.Blue //progress color
+                    color = Color.Blue // progress color
                 )
             }
         }

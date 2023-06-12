@@ -65,11 +65,9 @@ import com.example.se3_app.ui.theme.chipFarbe2
 import com.example.se3_app.ui.theme.chipFarbe6
 import kotlin.random.Random
 
-
-//val newCocktail = AddCocktailDto("", emptyArray(),"", true, "", "")
+// val newCocktail = AddCocktailDto("", emptyArray(),"", true, "", "")
 @Composable
 fun HinzufuegenView(navController: NavController, viewModel: MainViewModel) {
-
     if (viewModel.loading) {
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -86,8 +84,7 @@ fun HinzufuegenView(navController: NavController, viewModel: MainViewModel) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewModel) {
-
-    val context  = LocalContext.current
+    val context = LocalContext.current
 
     var nameDto: String? = null
     var tasteDto: String? = null
@@ -100,8 +97,10 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
     var selectedItem by remember { mutableStateOf(0) }
     val items = listOf("Home", "Cocktails", "Merkliste", "Einkaufsliste")
     val icons = listOf(
-        Icons.Filled.Home, Icons.Filled.Search,
-        Icons.Filled.Favorite, Icons.Filled.List
+        Icons.Filled.Home,
+        Icons.Filled.Search,
+        Icons.Filled.Favorite,
+        Icons.Filled.List
     )
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
@@ -114,24 +113,23 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                 modifier = Modifier.size(40.dp)
             )
         }, title = {
-            Box(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                Text(
-                    text = "MIX'N'FIX",
-                    fontFamily = com.example.se3_app.startView.font,
-                    fontSize = 30.sp,
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
-        }, actions = {
-            IconButton(onClick = { navController.navigate("HelpView")
-
-
-            }) {
-                Icon(Icons.Filled.Info, contentDescription = "Search Icon")
-            }
-        })
+                Box(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    Text(
+                        text = "MIX'N'FIX",
+                        fontFamily = com.example.se3_app.startView.font,
+                        fontSize = 30.sp,
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+            }, actions = {
+                IconButton(onClick = {
+                    navController.navigate("HelpView")
+                }) {
+                    Icon(Icons.Filled.Info, contentDescription = "Search Icon")
+                }
+            })
 
         var expanded by remember { mutableStateOf(false) }
         var selectedOptionText by remember { mutableStateOf(options[0]) }
@@ -145,7 +143,7 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
             Text("Eigenschaften deines neuen Cocktails:", fontSize = 20.sp)
             Spacer(modifier = Modifier.height(8.dp))
 
-            //Eingabefeld des Nutzers
+            // Eingabefeld des Nutzers
             var text by remember { mutableStateOf(TextFieldValue(viewModel.comeBack2[0].toString())) }
             TextField(
                 modifier = Modifier
@@ -177,14 +175,12 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 5.dp)
-                )
-                {
-
+                ) {
                     Box(
                         modifier = Modifier
                             .weight(1f)
                             .padding(horizontal = 5.dp)
-                            .height(80.dp),
+                            .height(80.dp)
                     ) {
                         Text(
                             text = "Enthält der Cocktail Alkohol?",
@@ -195,7 +191,7 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                     Box(
                         modifier = Modifier
                             .weight(1f)
-                            .height(80.dp),
+                            .height(80.dp)
                     ) {
                         Column(
                             modifier = Modifier
@@ -204,7 +200,6 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-
                             var switchOn by remember {
                                 mutableStateOf(viewModel.comeBack2[1] as Boolean)
                             }
@@ -246,9 +241,7 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 5.dp)
-                )
-                {
-
+                ) {
                     Box(
                         modifier = Modifier
                             .weight(1f)
@@ -262,13 +255,13 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                     }
                     Box(
                         modifier = Modifier
-                            .weight(1f),
+                            .weight(1f)
                     ) {
                         Box(
                             modifier = Modifier
-                                .fillMaxSize(), contentAlignment = Alignment.Center
+                                .fillMaxSize(),
+                            contentAlignment = Alignment.Center
                         ) {
-
                             Box(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -300,7 +293,6 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                                         Text("Zutatenfilter", fontFamily = font)
                                     }
                                 }
-
                             }
                         }
                     }
@@ -318,13 +310,12 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 5.dp)
-                )
-                {
+                ) {
                     Box(
                         modifier = Modifier
                             .weight(1f)
                             .padding(horizontal = 5.dp)
-                            .height(80.dp),
+                            .height(80.dp)
                     ) {
                         Text(
                             text = "Welchen Schwierigkeitsgrad hat der Cocktail?",
@@ -335,7 +326,7 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                     Box(
                         modifier = Modifier
                             .weight(1f)
-                            .height(80.dp),
+                            .height(80.dp)
                     ) {
                         Column(
                             modifier = Modifier
@@ -344,7 +335,6 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-
                             val minValue = 0
                             val maxValue = 2
                             val istValue: Int = viewModel.comeBack2[2] as Int
@@ -368,7 +358,7 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                             difficultyDto = values[selectedValue.value]
                             difficultyInt = selectedValue.value
                             Text(
-                                text = text,
+                                text = text
                             )
                         }
                     }
@@ -387,14 +377,12 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 5.dp)
-                )
-                {
-
+                ) {
                     Box(
                         modifier = Modifier
                             .weight(1f)
                             .padding(horizontal = 5.dp)
-                            .height(80.dp),
+                            .height(80.dp)
                     ) {
                         Text(
                             text = "Welchem Geschmack ist er zuzuordnen?",
@@ -406,19 +394,23 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                     Box(
                         modifier = Modifier
                             .weight(1f)
-                            .height(80.dp),
+                            .height(80.dp)
                     ) {
                         Box(
                             modifier = Modifier
-                                .fillMaxSize(), contentAlignment = Alignment.Center
+                                .fillMaxSize(),
+                            contentAlignment = Alignment.Center
                         ) {
-
                             var expanded by remember { mutableStateOf(false) }
-                            var selectedOptionText by remember { mutableStateOf(viewModel.comeBack2[3].toString()) }
+                            var selectedOptionText by remember {
+                                mutableStateOf(
+                                    viewModel.comeBack2[3].toString()
+                                )
+                            }
                             tasteDto = selectedOptionText
                             ExposedDropdownMenuBox(
                                 expanded = expanded,
-                                onExpandedChange = { expanded = !expanded },
+                                onExpandedChange = { expanded = !expanded }
                             ) {
                                 TextField(
                                     modifier = Modifier.menuAnchor(),
@@ -426,12 +418,16 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                                     value = selectedOptionText,
                                     onValueChange = {},
                                     label = { Text("Label") },
-                                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                                    colors = ExposedDropdownMenuDefaults.textFieldColors(),
+                                    trailingIcon = {
+                                        ExposedDropdownMenuDefaults.TrailingIcon(
+                                            expanded = expanded
+                                        )
+                                    },
+                                    colors = ExposedDropdownMenuDefaults.textFieldColors()
                                 )
                                 ExposedDropdownMenu(
                                     expanded = expanded,
-                                    onDismissRequest = { expanded = false },
+                                    onDismissRequest = { expanded = false }
                                 ) {
                                     options.forEach { selectionOption ->
                                         DropdownMenuItem(
@@ -439,15 +435,16 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                                             onClick = {
                                                 selectedOptionText = selectionOption
                                                 expanded = false
-                                                println("Der ausgewählte Geschmack: "+ selectedOptionText)
+                                                println(
+                                                    "Der ausgewählte Geschmack: " + selectedOptionText
+                                                )
                                             },
-                                            contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
+                                            contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
                                         )
                                     }
                                     tasteDto = selectedOptionText
                                 }
                             }
-
 
                             /*
                             ExposedDropdownMenuBox(
@@ -495,8 +492,12 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
             }
             Spacer(modifier = Modifier.height(8.dp))
 
-            //Eingabefeld des Nutzers
-            var beschreibungsText by remember { mutableStateOf(TextFieldValue(viewModel.comeBack2[4].toString())) }
+            // Eingabefeld des Nutzers
+            var beschreibungsText by remember {
+                mutableStateOf(
+                    TextFieldValue(viewModel.comeBack2[4].toString())
+                )
+            }
             TextField(
                 modifier = Modifier
                     .fillMaxWidth().height(300.dp),
@@ -532,22 +533,38 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
             ) {
                 FloatingActionButton(
                     onClick = {
-                        val newCocktail = CocktailDto(Random.nextInt(0, 1000 + 1).toString(), nameDto, viewModel.selectedIngredients.toTypedArray(), difficultyDto, alcoholicDto!!, tasteDto, preparationDto)
-                        if(text.text.isNullOrEmpty() || viewModel.selectedIngredients.isNullOrEmpty() || beschreibungsText.text.isNullOrEmpty()){
-                            Toast.makeText(context, "Der Name, Zutaten und die Beschreibung dürfen nicht leer sein!", Toast.LENGTH_SHORT).show()
+                        val newCocktail = CocktailDto(
+                            Random.nextInt(0, 1000 + 1).toString(),
+                            nameDto,
+                            viewModel.selectedIngredients.toTypedArray(),
+                            difficultyDto,
+                            alcoholicDto!!,
+                            tasteDto,
+                            preparationDto
+                        )
+                        if (text.text.isNullOrEmpty() || viewModel.selectedIngredients.isNullOrEmpty() || beschreibungsText.text.isNullOrEmpty()) {
+                            Toast.makeText(
+                                context,
+                                "Der Name, Zutaten und die Beschreibung dürfen nicht leer sein!",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         } else {
                             println("Neuer Cocktail $newCocktail")
                             viewModel.addCocktail(newCocktail)
                             if (viewModel.loading) {
-                                    var i = 0
-                                    i++
+                                var i = 0
+                                i++
                             } else {
                                 println("Cocktail added ${viewModel.addedCocktail}")
-                                Toast.makeText(context, "Neuer Cocktail mit dem Namen ${text.text} angelegt", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    context,
+                                    "Neuer Cocktail mit dem Namen ${text.text} angelegt",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                                 viewModel.selectedIngredients.clear()
                             }
                         }
-                              }, //andere Seite einfügen
+                    }, // andere Seite einfügen
                     modifier = Modifier
                         .height(40.dp).fillMaxWidth(),
                     containerColor = chipFarbe6
@@ -556,9 +573,7 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                 }
             }
             Spacer(modifier = Modifier.height(200.dp))
-
         }
-
     }
     Box(
         modifier = Modifier
@@ -582,5 +597,4 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
             }
         }
     }
-
 }

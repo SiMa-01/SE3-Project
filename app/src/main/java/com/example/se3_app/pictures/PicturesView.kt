@@ -12,18 +12,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBarItem
@@ -36,12 +32,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -53,10 +47,10 @@ val font = FontFamily(
     Font(resId = R.font.arciform)
 )
 
-
 @Composable
 fun PicturesView(
-    navController: NavController, viewModel: MainViewModel
+    navController: NavController,
+    viewModel: MainViewModel
 ) {
     PicrturesViewContent(navController, viewModel)
 }
@@ -66,12 +60,14 @@ fun PicturesView(
 fun PicrturesViewContent(
     navController: NavController,
     viewModel: MainViewModel
-    ) {
-
+) {
     var selectedItem by remember { mutableStateOf(0) }
     val items = listOf("Home", "Cocktails", "Merkliste", "Einkaufsliste")
     val icons = listOf(
-        Icons.Filled.Home, Icons.Filled.Search, Icons.Filled.Favorite, Icons.Filled.List
+        Icons.Filled.Home,
+        Icons.Filled.Search,
+        Icons.Filled.Favorite,
+        Icons.Filled.List
     )
 
     Column(
@@ -85,25 +81,23 @@ fun PicrturesViewContent(
                 modifier = Modifier.size(40.dp)
             )
         }, title = {
-            Box(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                Text(
-                    text = "MIX'N'FIX",
-                    fontFamily = com.example.se3_app.startView.font,
-                    fontSize = 30.sp,
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
-        }, actions = {
-            IconButton(onClick = { navController.navigate("HelpView")
-
-
-            }) {
-                Icon(Icons.Filled.Info, contentDescription = "Search Icon")
-            }
-        })
-
+                Box(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    Text(
+                        text = "MIX'N'FIX",
+                        fontFamily = com.example.se3_app.startView.font,
+                        fontSize = 30.sp,
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+            }, actions = {
+                IconButton(onClick = {
+                    navController.navigate("HelpView")
+                }) {
+                    Icon(Icons.Filled.Info, contentDescription = "Search Icon")
+                }
+            })
 
         val Bild: Painter = painterResource(R.drawable.bild)
         val Bild1: Painter = painterResource(R.drawable.bild1)
@@ -113,7 +107,6 @@ fun PicrturesViewContent(
         val Bild5: Painter = painterResource(R.drawable.bild5)
         val Bild6: Painter = painterResource(R.drawable.bild6)
         val Bild7: Painter = painterResource(R.drawable.bild7)
-
 
         Image(
             painter = Bild,
@@ -127,7 +120,7 @@ fun PicrturesViewContent(
 
         Row(
             modifier = Modifier.padding(5.dp)
-        ){
+        ) {
             Image(
                 painter = Bild1,
                 contentDescription = "Bild1",
@@ -162,7 +155,7 @@ fun PicrturesViewContent(
 
         Row(
             modifier = Modifier.padding(5.dp)
-        ){
+        ) {
             Image(
                 painter = Bild4,
                 contentDescription = "Bild4",
@@ -188,7 +181,6 @@ fun PicrturesViewContent(
         )
 
         Spacer(modifier = Modifier.height(100.dp))
-
     }
     Box(
         modifier = Modifier
@@ -197,7 +189,8 @@ fun PicrturesViewContent(
     ) {
         BottomAppBar() {
             items.forEachIndexed { index, item ->
-                NavigationBarItem(icon = { Icon(icons[index], contentDescription = "Home") },
+                NavigationBarItem(
+                    icon = { Icon(icons[index], contentDescription = "Home") },
                     label = { Text(item) },
                     selected = selectedItem == 1,
                     onClick = {
@@ -206,9 +199,9 @@ fun PicrturesViewContent(
                         }
                         selectedItem = index
                         navigateToDestination(navController, index)
-                    })
+                    }
+                )
             }
         }
-
     }
 }

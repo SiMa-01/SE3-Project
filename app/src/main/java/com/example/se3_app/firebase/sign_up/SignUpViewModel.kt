@@ -11,7 +11,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.launch
 
-class SignUpViewModel: ViewModel(){
+class SignUpViewModel : ViewModel() {
     var errorMessage: String by mutableStateOf("")
     var exception: Exception? = null
     var loading: Boolean by mutableStateOf(false)
@@ -54,7 +54,7 @@ class SignUpViewModel: ViewModel(){
                     loading2 = false
                 } else {
                     // Registrierung fehlgeschlagen
-                    exception= task.exception
+                    exception = task.exception
                     loading2 = false
                     registrierungOk = false
                 }

@@ -5,7 +5,6 @@ package com.example.se3_app.einkaufslitenView
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -13,14 +12,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -31,7 +28,6 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -42,7 +38,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -62,13 +57,10 @@ import com.example.se3_app.startView.navigateToDestination
 import com.example.se3_app.ui.theme.chipFarbe2
 import com.example.se3_app.ui.theme.chipFarbe6
 
-
 @Composable
 fun EinkaufslistenView(navController: NavController, viewModel: MainViewModel) {
     EinkaufsListenViewContent(navController, viewModel)
-
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -76,10 +68,12 @@ fun EinkaufsListenViewContent(navController: NavController, viewModel: MainViewM
     var selectedItem by remember { mutableStateOf(0) }
     val items = listOf("Home", "Cocktails", "Merkliste", "Einkaufsliste")
     val icons = listOf(
-        Icons.Filled.Home, Icons.Filled.Search,
-        Icons.Filled.Favorite, Icons.Filled.List
+        Icons.Filled.Home,
+        Icons.Filled.Search,
+        Icons.Filled.Favorite,
+        Icons.Filled.List
     )
-    //Container mit allen Elementen
+    // Container mit allen Elementen
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -91,50 +85,41 @@ fun EinkaufsListenViewContent(navController: NavController, viewModel: MainViewM
                 modifier = Modifier.size(40.dp)
             )
         }, title = {
-            Box(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                Text(
-                    text = "MIX'N'FIX",
-                    fontFamily = com.example.se3_app.startView.font,
-                    fontSize = 30.sp,
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
-        }, actions = {
-            IconButton(onClick = { navController.navigate("HelpView")
+                Box(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    Text(
+                        text = "MIX'N'FIX",
+                        fontFamily = com.example.se3_app.startView.font,
+                        fontSize = 30.sp,
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+            }, actions = {
+                IconButton(onClick = {
+                    navController.navigate("HelpView")
+                }) {
+                    Icon(Icons.Filled.Info, contentDescription = "Search Icon")
+                }
+            })
 
-
-            }) {
-                Icon(Icons.Filled.Info, contentDescription = "Search Icon")
-            }
-        })
-
-
-        //---------------------------------------------------------------------------------------------
+        // ---------------------------------------------------------------------------------------------
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState())
-        )
-
-        {
-
+        ) {
             Text("Zutaten, die du manuelle hinzugefügt hast ", fontSize = 20.sp)
             Spacer(modifier = Modifier.height(10.dp))
-
 
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 5.dp)
                     .border(BorderStroke(1.dp, Color.LightGray))
-            )
-            {
-
-
+            ) {
                 val itemList by remember {
                     mutableStateOf(
                         mutableStateListOf(
@@ -182,14 +167,12 @@ fun EinkaufsListenViewContent(navController: NavController, viewModel: MainViewM
                 }
                 val newItemState = remember { mutableStateOf("") }
 
-                //TODO Methode auslagern
+                // TODO Methode auslagern
                 fun removeItem(item: String) {
                     itemList.remove(item)
                 }
 
-
                 Column {
-
                     for (item in itemList) {
                         Row {
                             Text(
@@ -198,9 +181,9 @@ fun EinkaufsListenViewContent(navController: NavController, viewModel: MainViewM
                                     removeItem(item)
                                     //    showToast(context, "$item wurde von der Liste entfernt")
                                     // TODO mit dem context habe ich ein Importproblem, keine Ahnung wie ich das löse
-                                },
+                                }
 
-                                )
+                            )
                         }
                     }
 
@@ -231,14 +214,10 @@ fun EinkaufsListenViewContent(navController: NavController, viewModel: MainViewM
                     ) {
                         Text(text = "Zutat hinzufügen")
                     }
-
-
                 }
             }
             Spacer(modifier = Modifier.height(100.dp))
         }
-
-
     }
 
     Box(
@@ -262,35 +241,9 @@ fun EinkaufsListenViewContent(navController: NavController, viewModel: MainViewM
                 )
             }
         }
-
-
     }
 }
 
 fun showToast(context: Context, message: String) {
     Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

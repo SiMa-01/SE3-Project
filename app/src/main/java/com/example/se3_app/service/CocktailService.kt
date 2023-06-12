@@ -9,7 +9,7 @@ import io.ktor.client.request.get
 import io.ktor.client.request.post
 
 class CocktailService {
-    private val apiManager = ApiManager()
+    var apiManager = ApiManager()
     var errorMessage: String by mutableStateOf("")
 
     suspend fun findCocktails(
@@ -21,7 +21,7 @@ class CocktailService {
     ): List<CocktailDto> {
         var stringURL = "cocktails?"
 
-       if (!name.isNullOrBlank()) {
+        if (!name.isNullOrBlank()) {
             stringURL = "${stringURL}name=$name&"
         }
         if (!taste.isNullOrBlank()) {
@@ -59,7 +59,7 @@ class CocktailService {
         return tastes
     }
 
-    suspend fun addCocktail(cocktailDto: CocktailDto): CocktailDto{
+    suspend fun addCocktail(cocktailDto: CocktailDto): CocktailDto {
         val cocktail: CocktailDto = apiManager.httpClient.post("cocktails") {
             println(cocktailDto)
             body = cocktailDto

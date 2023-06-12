@@ -8,7 +8,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.se3_app.ui.theme.SE3AppTheme
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -31,8 +30,7 @@ import com.example.se3_app.pictures.PicturesView
 import com.example.se3_app.resultView.ResultView
 import com.example.se3_app.rezeptView.RezeptView
 import com.example.se3_app.startView.StartView
-
-
+import com.example.se3_app.ui.theme.SE3AppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,7 +50,6 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun CocktailApp() {
-
         val mainViewModel = MainViewModel()
         val listViewModel = ListViewModel()
 
@@ -72,7 +69,7 @@ class MainActivity : ComponentActivity() {
             }
             composable(route = "einkaufslistenView") {
                 EinkaufslistenView(navController, mainViewModel)
-                //SignInView(navController, signInViewModel)
+                // SignInView(navController, signInViewModel)
             }
             composable(route = "hinzufuegenView") {
                 HinzufuegenView(navController, mainViewModel)
@@ -104,10 +101,10 @@ class MainActivity : ComponentActivity() {
             composable(route = "ingredientsView") {
                 IngredientsView(navController, mainViewModel)
             }
-            composable(route = "helpView"){
+            composable(route = "helpView") {
                 HelpView(navController, mainViewModel)
             }
-            composable(route = "picturesView"){
+            composable(route = "picturesView") {
                 PicturesView(navController, mainViewModel)
             }
         }

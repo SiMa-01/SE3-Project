@@ -29,39 +29,52 @@ import androidx.navigation.NavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ForgotPasswordView(navController: NavController, forgotPasswordViewModel: ForgotPasswordViewModel) {
-
-    val context  = LocalContext.current
+fun ForgotPasswordView(
+    navController: NavController,
+    forgotPasswordViewModel: ForgotPasswordViewModel
+) {
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier.padding(20.dp).fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
         val username = remember { mutableStateOf(TextFieldValue()) }
         val password = remember { mutableStateOf(TextFieldValue()) }
 
-        Text(text = "Passwort zurücksetzen", style = TextStyle(fontSize = 30.sp, fontFamily = FontFamily.SansSerif))
+        Text(
+            text = "Passwort zurücksetzen",
+            style = TextStyle(fontSize = 30.sp, fontFamily = FontFamily.SansSerif)
+        )
 
         Spacer(modifier = Modifier.height(20.dp))
         TextField(
             label = { Text(text = "E-Mail") },
             value = username.value,
-            onValueChange = { username.value = it })
+            onValueChange = { username.value = it }
+        )
 
         Spacer(modifier = Modifier.height(20.dp))
         Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
             Button(
                 onClick = {
-                    if(username.value.text.isEmpty()){
-                        Toast.makeText(context, "E-Mail-Adresse darf nicht leer sein!", Toast.LENGTH_SHORT).show()
+                    if (username.value.text.isEmpty()) {
+                        Toast.makeText(
+                            context,
+                            "E-Mail-Adresse darf nicht leer sein!",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     } else {
                         forgotPasswordViewModel.resetPassword(username.value.text)
                         navController.navigate("signInView")
-                        Toast.makeText(context, "Passwort zurückgesetzt und E-Mail gesendet", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            context,
+                            "Passwort zurückgesetzt und E-Mail gesendet",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
-                          },
+                },
                 shape = RoundedCornerShape(50.dp),
                 modifier = Modifier
                     .fillMaxWidth()

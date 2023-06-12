@@ -34,20 +34,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.se3_app.ListViewModel
-import kotlinx.coroutines.delay
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignInView(navController: NavController, signInViewModel: SignInViewModel, listViewModel: ListViewModel) {
-    val context  = LocalContext.current
+fun SignInView(
+    navController: NavController,
+    signInViewModel: SignInViewModel,
+    listViewModel: ListViewModel
+) {
+    val context = LocalContext.current
     Box(modifier = Modifier.fillMaxSize()) {
         ClickableText(
             text = AnnotatedString("Registrieren"),
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(20.dp),
-            onClick = { navController.navigate("SignUpView")},
+            onClick = { navController.navigate("SignUpView") },
             style = TextStyle(
                 fontSize = 14.sp,
                 fontFamily = FontFamily.Default,
@@ -61,7 +63,6 @@ fun SignInView(navController: NavController, signInViewModel: SignInViewModel, l
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
         val username = remember { mutableStateOf(TextFieldValue()) }
         val password = remember { mutableStateOf(TextFieldValue()) }
 
@@ -71,7 +72,8 @@ fun SignInView(navController: NavController, signInViewModel: SignInViewModel, l
         TextField(
             label = { Text(text = "E-Mail") },
             value = username.value,
-            onValueChange = { username.value = it })
+            onValueChange = { username.value = it }
+        )
 
         Spacer(modifier = Modifier.height(20.dp))
         TextField(
@@ -79,28 +81,40 @@ fun SignInView(navController: NavController, signInViewModel: SignInViewModel, l
             value = password.value,
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            onValueChange = { password.value = it })
+            onValueChange = { password.value = it }
+        )
 
         Spacer(modifier = Modifier.height(20.dp))
         Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
             Button(
                 onClick = {
-                    if (username.value.text.isEmpty() || password.value.text.isEmpty()){
-                        Toast.makeText(context, "Passwort und E-Mail darf nicht leer sein!", Toast.LENGTH_SHORT).show()
+                    if (username.value.text.isEmpty() || password.value.text.isEmpty()) {
+                        Toast.makeText(
+                            context,
+                            "Passwort und E-Mail darf nicht leer sein!",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     } else {
-                        signInViewModel.signInWithEmailAndPassword(username.value.text, password.value.text)
-                        if (signInViewModel.anmeldungOk && signInViewModel.veriviziert){
-                                listViewModel.userId = signInViewModel.userId!!
-                                navController.navigate("splashScreen")
+                        signInViewModel.signInWithEmailAndPassword(
+                            username.value.text,
+                            password.value.text
+                        )
+                        if (signInViewModel.anmeldungOk && signInViewModel.veriviziert) {
+                            listViewModel.userId = signInViewModel.userId!!
+                            navController.navigate("splashScreen")
                         }
-                        if(signInViewModel.anmeldungOk && !signInViewModel.veriviziert){
-                            Toast.makeText(context, "E-Mail-Adresse nicht verifiziert", Toast.LENGTH_SHORT).show()
+                        if (signInViewModel.anmeldungOk && !signInViewModel.veriviziert) {
+                            Toast.makeText(
+                                context,
+                                "E-Mail-Adresse nicht verifiziert",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                         if (!signInViewModel.anmeldungOk) {
                             Toast.makeText(context, "Anmeldung fehlgeschlagen", Toast.LENGTH_SHORT).show()
                         }
                     }
-                          },
+                },
                 shape = RoundedCornerShape(50.dp),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -114,7 +128,7 @@ fun SignInView(navController: NavController, signInViewModel: SignInViewModel, l
         Spacer(modifier = Modifier.height(20.dp))
         ClickableText(
             text = AnnotatedString("Passwort vergessen?"),
-            onClick = {navController.navigate("ForgotPasswordView") },
+            onClick = { navController.navigate("ForgotPasswordView") },
             style = TextStyle(
                 fontSize = 14.sp,
                 fontFamily = FontFamily.Default
@@ -122,5 +136,3 @@ fun SignInView(navController: NavController, signInViewModel: SignInViewModel, l
         )
     }
 }
-
-

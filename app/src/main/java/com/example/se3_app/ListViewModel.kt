@@ -8,12 +8,11 @@ import androidx.lifecycle.viewModelScope
 import com.example.se3_app.Dto.CocktailDto
 import com.example.se3_app.Dto.FavoriteCocktailDto
 import com.example.se3_app.Dto.ShoppingListDto
-import com.example.se3_app.service.CocktailService
 import com.example.se3_app.service.FavoriteListService
 import com.example.se3_app.service.ShoppingListService
 import kotlinx.coroutines.launch
 
-class ListViewModel: ViewModel() {
+class ListViewModel : ViewModel() {
     var errorMessage: String by mutableStateOf("")
     var loading: Boolean by mutableStateOf(false)
 
@@ -23,7 +22,6 @@ class ListViewModel: ViewModel() {
     private val shoppingListService = ShoppingListService()
     var userFavoriteList: MutableList<FavoriteCocktailDto> by mutableStateOf(mutableListOf())
     var userShoppingList: MutableList<ShoppingListDto> by mutableStateOf(mutableListOf())
-
 
     fun getFavouriteList(userId: String?) {
         viewModelScope.launch {
@@ -64,7 +62,7 @@ class ListViewModel: ViewModel() {
         }
     }
 
-    //--------------------------------------------------------------------------------------------------------
+    // --------------------------------------------------------------------------------------------------------
 
     fun getShoppingList(userId: String?) {
         viewModelScope.launch {
@@ -104,5 +102,4 @@ class ListViewModel: ViewModel() {
             }
         }
     }
-
 }

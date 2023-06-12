@@ -15,11 +15,9 @@ class ForgotPasswordViewModel {
     var emailRegistriert: Boolean by mutableStateOf(false)
     var emailReset: Boolean by mutableStateOf(false)
 
-
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     fun resetPassword(email: String) {
-
         val auth = FirebaseAuth.getInstance()
 
         auth.fetchSignInMethodsForEmail(email)

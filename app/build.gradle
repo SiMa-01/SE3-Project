@@ -3,6 +3,7 @@ plugins {
     id 'com.android.application' version '8.0.2'
     id 'kotlinx-serialization'
     id 'com.google.gms.google-services'
+    id 'org.jlleitschuh.gradle.ktlint' version '11.4.0'
 
 }
 
@@ -47,6 +48,17 @@ android {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
+    }
+}
+
+ktlint {
+    android = true
+    ignoreFailures = false
+    disabledRules = [""]
+    reporters {
+        reporter "plain"
+        reporter "checkstyle"
+        reporter "sarif"
     }
 }
 
@@ -95,6 +107,8 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation "com.google.accompanist:accompanist-flowlayout:0.31.3-beta"
+
+    testImplementation("io.mockk:mockk:1.12.0")
 
 }
 

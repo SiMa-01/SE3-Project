@@ -6,16 +6,18 @@ import io.ktor.client.features.*
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.*
 import io.ktor.http.*
-import kotlinx.serialization.json.Json
 import kotlin.coroutines.cancellation.CancellationException
+import kotlinx.serialization.json.Json
 
 class ApiManager2 {
     var httpClient = HttpClient(CIO) {
         install(JsonFeature) {
-            serializer = KotlinxSerializer(Json {
-                ignoreUnknownKeys = true
-                coerceInputValues = true
-            })
+            serializer = KotlinxSerializer(
+                Json {
+                    ignoreUnknownKeys = true
+                    coerceInputValues = true
+                }
+            )
         }
         defaultRequest {
             url.protocol = URLProtocol.HTTPS
@@ -28,11 +30,11 @@ class ApiManager2 {
                 var exceptionResponseText =
                     exception.message ?: "Unkown Error occurred. Please contact your administrator."
                 if (exception is ClientRequestException) {
-                    //400 errors
+                    // 400 errors
                     val exceptionResponse = exception.response
                     exceptionResponseText = exceptionResponse.toString()
                 } else if (exception is ServerResponseException) {
-                    //500 errors
+                    // 500 errors
                     val exceptionResponse = exception.response
                     exceptionResponseText = exceptionResponse.toString()
                 }

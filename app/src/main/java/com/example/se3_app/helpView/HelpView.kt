@@ -10,11 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
@@ -47,16 +43,15 @@ import androidx.navigation.NavController
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
 import com.example.se3_app.startView.navigateToDestination
-import com.example.se3_app.ui.theme.neueIdee
 
 val font = FontFamily(
     Font(resId = R.font.arciform)
 )
 
-
 @Composable
 fun HelpView(
-    navController: NavController, viewModel: MainViewModel
+    navController: NavController,
+    viewModel: MainViewModel
 ) {
     HelpViewContent(navController, viewModel)
 }
@@ -66,12 +61,14 @@ fun HelpView(
 fun HelpViewContent(
     navController: NavController,
     viewModel: MainViewModel
-    ) {
-
+) {
     var selectedItem by remember { mutableStateOf(0) }
     val items = listOf("Home", "Cocktails", "Merkliste", "Einkaufsliste")
     val icons = listOf(
-        Icons.Filled.Home, Icons.Filled.Search, Icons.Filled.Favorite, Icons.Filled.List
+        Icons.Filled.Home,
+        Icons.Filled.Search,
+        Icons.Filled.Favorite,
+        Icons.Filled.List
     )
 
     Column(
@@ -85,41 +82,44 @@ fun HelpViewContent(
                 modifier = Modifier.size(40.dp)
             )
         }, title = {
-            Box(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                Text(
-                    text = "MIX'N'FIX",
-                    fontFamily = com.example.se3_app.startView.font,
-                    fontSize = 30.sp,
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
-        }, actions = {
-            IconButton(onClick = { navController.navigate("HelpView")
-
-
-            }) {
-                Icon(Icons.Filled.Info, contentDescription = "Search Icon")
-            }
-        })
-
+                Box(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    Text(
+                        text = "MIX'N'FIX",
+                        fontFamily = com.example.se3_app.startView.font,
+                        fontSize = 30.sp,
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+            }, actions = {
+                IconButton(onClick = {
+                    navController.navigate("HelpView")
+                }) {
+                    Icon(Icons.Filled.Info, contentDescription = "Search Icon")
+                }
+            })
 
         Text("MIX'N'FIX - alle Hifethemen", fontFamily = font, fontSize = 20.sp)
         Spacer(modifier = Modifier.height(15.dp))
 
         FloatingActionButton(
-            onClick = {  }, //andere Seite einfügen
+            onClick = { }, // andere Seite einfügen
             modifier = Modifier.fillMaxWidth(),
-            containerColor = Color.White,
+            containerColor = Color.White
         ) {
-            Column( modifier = Modifier.padding(horizontal = 10.dp).fillMaxWidth()) {
+            Column(modifier = Modifier.padding(horizontal = 10.dp).fillMaxWidth()) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Icon(
                     Icons.Default.Info,
                     contentDescription = "Info"
                 )
-                Text("Der Aufbau der App", fontFamily = font, fontSize = 15.sp, fontWeight = FontWeight.Bold)
+                Text(
+                    "Der Aufbau der App",
+                    fontFamily = font,
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Bold
+                )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text("Bla", fontFamily = font, fontSize = 15.sp)
                 Spacer(modifier = Modifier.height(8.dp))
@@ -127,41 +127,55 @@ fun HelpViewContent(
         }
         Spacer(modifier = Modifier.height(15.dp))
 
-
         FloatingActionButton(
-            onClick = {  }, //andere Seite einfügen
+            onClick = { }, // andere Seite einfügen
             modifier = Modifier.fillMaxWidth(),
-            containerColor = Color.White,
+            containerColor = Color.White
         ) {
-            Column( modifier = Modifier.padding(horizontal = 10.dp).fillMaxWidth()) {
+            Column(modifier = Modifier.padding(horizontal = 10.dp).fillMaxWidth()) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Icon(Icons.Default.Person, contentDescription = "Konto")
-                Text("Hast du Fragen zu deinem Nutzerkonto?", fontFamily = font, fontSize = 15.sp, fontWeight = FontWeight.Bold)
+                Text(
+                    "Hast du Fragen zu deinem Nutzerkonto?",
+                    fontFamily = font,
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Bold
+                )
                 Spacer(modifier = Modifier.height(8.dp))
-                Text("Ich kann mich nicht einloggen!\nWie kann ich meine Kontaktdaten ändern?\nWie kann ich mich abmeldern?\nHier geht es zu allen 8 Fragen", fontFamily = font, fontSize = 15.sp)
+                Text(
+                    "Ich kann mich nicht einloggen!\nWie kann ich meine Kontaktdaten ändern?\nWie kann ich mich abmeldern?\nHier geht es zu allen 8 Fragen",
+                    fontFamily = font,
+                    fontSize = 15.sp
+                )
                 Spacer(modifier = Modifier.height(8.dp))
             }
-
         }
         Spacer(modifier = Modifier.height(15.dp))
 
         FloatingActionButton(
-            onClick = {  navController.navigate("picturesView")},
+            onClick = { navController.navigate("picturesView") },
             modifier = Modifier.fillMaxWidth(),
-            containerColor = Color.White,
+            containerColor = Color.White
         ) {
-            Column( modifier = Modifier.padding(horizontal = 10.dp).fillMaxWidth()) {
+            Column(modifier = Modifier.padding(horizontal = 10.dp).fillMaxWidth()) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Icon(Icons.Default.List, contentDescription = "Liste")
-                Text("Über die Entwicklung", fontFamily = font, fontSize = 15.sp, fontWeight = FontWeight.Bold)
+                Text(
+                    "Über die Entwicklung",
+                    fontFamily = font,
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Bold
+                )
                 Spacer(modifier = Modifier.height(8.dp))
-                Text("MIX'N'FIX startete als Projekt im Rahmen der Vorlesung Software Engineering an der DHBW Karlsruhe. Durch die Begeisterung an dem Thema entwickelte sich jedoch schnell eine Fastinazion. \nEntwicklerteam: Johanna Simml, Simon Mayer, Marcel Held, Felix Schempf und Jonas Fichtner-Pflaum", fontFamily = font, fontSize = 15.sp)
+                Text(
+                    "MIX'N'FIX startete als Projekt im Rahmen der Vorlesung Software Engineering an der DHBW Karlsruhe. Durch die Begeisterung an dem Thema entwickelte sich jedoch schnell eine Fastinazion. \nEntwicklerteam: Johanna Simml, Simon Mayer, Marcel Held, Felix Schempf und Jonas Fichtner-Pflaum",
+                    fontFamily = font,
+                    fontSize = 15.sp
+                )
                 Spacer(modifier = Modifier.height(8.dp))
             }
-
         }
         Spacer(modifier = Modifier.height(100.dp))
-
     }
     Box(
         modifier = Modifier
@@ -170,7 +184,8 @@ fun HelpViewContent(
     ) {
         BottomAppBar() {
             items.forEachIndexed { index, item ->
-                NavigationBarItem(icon = { Icon(icons[index], contentDescription = "Home") },
+                NavigationBarItem(
+                    icon = { Icon(icons[index], contentDescription = "Home") },
                     label = { Text(item) },
                     selected = selectedItem == 1,
                     onClick = {
@@ -179,9 +194,9 @@ fun HelpViewContent(
                         }
                         selectedItem = index
                         navigateToDestination(navController, index)
-                    })
+                    }
+                )
             }
         }
-
     }
 }

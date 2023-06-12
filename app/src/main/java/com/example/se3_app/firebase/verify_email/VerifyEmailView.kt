@@ -24,7 +24,7 @@ import androidx.navigation.NavController
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VerifyEmailView(navController: NavController, verifyEmailViewModel: VerifyEmailViewModel) {
-    val context  = LocalContext.current
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -33,23 +33,24 @@ fun VerifyEmailView(navController: NavController, verifyEmailViewModel: VerifyEm
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
-
-        Text(text = "Wir haben Ihnen eine E-Mail an die angegebene E-Mail Adresse gesendet, bitte bestätigen Sie diese " +
-                "über den beigefügten Link", style = TextStyle(fontSize = 20.sp, fontFamily = FontFamily.SansSerif))
+        Text(
+            text = "Wir haben Ihnen eine E-Mail an die angegebene E-Mail Adresse gesendet, bitte bestätigen Sie diese " +
+                "über den beigefügten Link",
+            style = TextStyle(fontSize = 20.sp, fontFamily = FontFamily.SansSerif)
+        )
 
         Spacer(modifier = Modifier.height(20.dp))
 
-            Button(
-                onClick = {
-                    navController.navigate("signInView")
-                          },
-                shape = RoundedCornerShape(50.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp)
-            ) {
-                Text(text = "Anmelden")
-            }
+        Button(
+            onClick = {
+                navController.navigate("signInView")
+            },
+            shape = RoundedCornerShape(50.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp)
+        ) {
+            Text(text = "Anmelden")
         }
     }
+}
