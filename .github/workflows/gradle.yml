@@ -48,6 +48,8 @@ jobs:
       
       - name: "ktlint"
         uses: "vroy/gha-kotlin-linter@v1"
+        with:
+          flags: "--disabled_rules=no-wildcard-imports"
 
   test:
     runs-on: ubuntu-latest
