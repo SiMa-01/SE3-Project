@@ -26,9 +26,11 @@ class ListViewModel : ViewModel() {
 
 
     fun getFavouriteList(userId: String?) {
+        println("Hallo ich bin hier")
         viewModelScope.launch {
             loading = true
             try {
+                println("Hallo ich bin hier 2")
                 userFavoriteList = favoriteListService.getFavouriteList(userId).toMutableList()
                 loading = false
             } catch (e: Exception) {

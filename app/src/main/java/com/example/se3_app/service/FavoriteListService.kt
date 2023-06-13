@@ -10,6 +10,7 @@ import com.example.se3_app.api.ApiManager2
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
 import io.ktor.client.request.post
+import kotlinx.coroutines.delay
 
 class FavoriteListService {
     private val apiManager = ApiManager2()
@@ -21,10 +22,15 @@ class FavoriteListService {
         )
     }
 
-    suspend fun getFavouriteList(userId: String? = null): List<FavoriteCocktailDto> {
+    suspend fun getFavouriteList(userId: String? ): List<FavoriteCocktailDto> {
+        println("Hallo ich bin hier 3 " + userId)
+        val variable = "favoritecocktail?userId=$userId"
         val favoritList: List<FavoriteCocktailDto> = apiManager.httpClient.get(
-            "favoritecocktail?userId=$userId"
+            variable
         )
+        delay(4000)
+        println("Hallo ich bin hier 4 "  + favoritList[0])
+
         return favoritList
     }
 

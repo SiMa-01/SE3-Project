@@ -66,13 +66,26 @@ val font = FontFamily(
     Font(resId = R.font.arciform)
 )
 
+var favorits = emptyList<FavoriteCocktailDto>()
+
+
 @Composable
 fun StartView(
     navController: NavController,
     viewModel: MainViewModel,
     listViewModel: ListViewModel
 ) {
-    StartViewContent(navController, viewModel, listViewModel)
+    if (viewModel.loading) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
+    } else {
+
+        StartViewContent(navController, viewModel, listViewModel)
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -192,7 +205,7 @@ fun StartViewContent(
 
             var i: Int = 0
             while (i < 8) {
-                ResultCocktailbox(
+                StartCocktailbox(
                     navController,
                     viewModel,
                     viewModel.cocktailsAll[i].name.toString(),
@@ -200,7 +213,7 @@ fun StartViewContent(
                     viewModel.cocktailsAll[i].alcoholic,
                     viewModel.cocktailsAll[i].taste.toString(),
                     i,
-                    listViewModel
+                    listViewModel,
                 )
                 i++
             }
@@ -309,30 +322,18 @@ fun Cocktailbox(
 ) {
 
     var contains = remember { mutableStateOf(false) }
-    var favorites: MutableList<FavoriteCocktailDto> = emptyList<FavoriteCocktailDto>() as MutableList<FavoriteCocktailDto>
 
-    if (listViewModel.loading) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            CircularProgressIndicator()
+    /*
+        println("favorites:" + favorites)
+
+        favorites[0].list.forEachIndexed{index, s ->
+            println("contains: forEach " + contains.value)
+            if (favorites[0].list[index].name == name){
+                contains.value = true
+                println("contains: " + contains.value)
+            }
         }
-    } else {
-        favorites = listViewModel.userFavoriteList
-    }
-
-
-    println("favorites:" + favorites)
-
-    favorites[0].list.forEachIndexed{index, s ->
-        println("contains: forEach " + contains.value)
-        if (favorites[0].list[index].name == name){
-            contains.value = true
-            println("contains: " + contains.value)
-        }
-    }
-
+    */
 
     var ingredient = arrayOf<String>(" ")
     //var cocktail:  MutableList<CocktailDto> = CocktailDto("", "", ingredient, "", false, "", "").toMutableList()
@@ -408,7 +409,7 @@ fun Cocktailbox(
                                 Icon(
                                     Icons.Filled.Favorite,
                                     contentDescription = "Zur Merkliste",
-                                    tint = if (contains.value) {
+                                    tint = if (isClicked.value) {
                                         Color.Red
                                     } else {
                                         Color.Unspecified
@@ -529,6 +530,7 @@ fun Cocktailbox(
     }
     Spacer(modifier = Modifier.height(8.dp))
 }
+
 
 
 fun navigateToDestination(navController: NavController, index: Int) {
