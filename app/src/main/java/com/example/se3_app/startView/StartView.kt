@@ -1,6 +1,5 @@
 package com.example.se3_app.startView
 
-import android.annotation.SuppressLint
 import android.widget.Toast
 import kotlinx.coroutines.*
 import androidx.compose.foundation.layout.padding
@@ -33,7 +32,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import com.example.se3_app.Dto.CocktailDto
-import com.example.se3_app.Dto.FavoriteCocktailDto
 import com.example.se3_app.ListViewModel
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
@@ -66,26 +64,13 @@ val font = FontFamily(
     Font(resId = R.font.arciform)
 )
 
-var favorits = emptyList<FavoriteCocktailDto>()
-
-
 @Composable
 fun StartView(
     navController: NavController,
     viewModel: MainViewModel,
     listViewModel: ListViewModel
 ) {
-    if (viewModel.loading) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            CircularProgressIndicator()
-        }
-    } else {
-
-        StartViewContent(navController, viewModel, listViewModel)
-    }
+    StartViewContent(navController, viewModel, listViewModel)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -205,7 +190,7 @@ fun StartViewContent(
 
             var i: Int = 0
             while (i < 8) {
-                StartCocktailbox(
+                ResultCocktailbox(
                     navController,
                     viewModel,
                     viewModel.cocktailsAll[i].name.toString(),
@@ -213,7 +198,7 @@ fun StartViewContent(
                     viewModel.cocktailsAll[i].alcoholic,
                     viewModel.cocktailsAll[i].taste.toString(),
                     i,
-                    listViewModel,
+                    listViewModel
                 )
                 i++
             }
@@ -321,25 +306,11 @@ fun Cocktailbox(
     listViewModel: ListViewModel
 ) {
 
-    var contains = remember { mutableStateOf(false) }
 
-    /*
-        println("favorites:" + favorites)
-
-        favorites[0].list.forEachIndexed{index, s ->
-            println("contains: forEach " + contains.value)
-            if (favorites[0].list[index].name == name){
-                contains.value = true
-                println("contains: " + contains.value)
-            }
-        }
-    */
 
     var ingredient = arrayOf<String>(" ")
-    //var cocktail:  MutableList<CocktailDto> = CocktailDto("", "", ingredient, "", false, "", "").toMutableList()
     var cocktail: MutableList<CocktailDto> =
         mutableListOf(CocktailDto("", "", ingredient, "", false, "", ""))
-    //var cocktail: MutableList<CocktailDto> = CocktailDto("", "", ingredient, "", false, "", "").toM
     val context = LocalContext.current
 
 
@@ -391,16 +362,15 @@ fun Cocktailbox(
                                 overflow = TextOverflow.Ellipsis
                             )
 
-                            var loading = remember { mutableStateOf(false) }
-
                             //wenn der Button geklickt wird -> zur Merkliste hinzufügen
-                            val isClicked = remember { mutableStateOf(false) }
 
-
+                            var isClicked= remember { mutableStateOf(false) }
+                            var loading = remember { mutableStateOf(false) }
+                            
                             IconButton(
                                 onClick = {
-                                    isClicked.value = !isClicked.value
                                     loading.value = true
+                                    isClicked.value = !isClicked.value
                                 },
                                 modifier = Modifier
                                     .size(24.dp)
@@ -409,28 +379,21 @@ fun Cocktailbox(
                                 Icon(
                                     Icons.Filled.Favorite,
                                     contentDescription = "Zur Merkliste",
-                                    tint = if (isClicked.value) {
-                                        Color.Red
-                                    } else {
-                                        Color.Unspecified
-                                    }
+                                    tint = if (isClicked.value) Color.Red else Color.Unspecified
                                 )
                                 LaunchedEffect(loading.value) {
-                                    viewModel.getCocktailByName(name)
-                                    delay(3000)
-                                    if (isClicked.value){
+                                    if(isClicked.value && loading.value){
+                                        viewModel.getCocktailByName(name)
+                                        delay(3000)
                                         listViewModel.addFavoritList(
                                             listViewModel.userId,
                                             viewModel.cocktailByName[0]
                                         )
+                                    } else if (!isClicked.value && loading.value){
+                                        listViewModel.deleteFavoritList(listViewModel.userId, viewModel.cocktailByName[0]._id)
+                                        delay(3000)
                                     }
-                                    else if (!isClicked.value){
-                                        listViewModel.deleteFavoritList(
-                                            listViewModel.userId,
-                                            viewModel.cocktailByName[0]._id
-                                        )
-                                    }
-                                    delay(1000)
+                                    loading.value = false
                                 }
                             }
                         }
@@ -530,7 +493,6 @@ fun Cocktailbox(
     }
     Spacer(modifier = Modifier.height(8.dp))
 }
-
 
 
 fun navigateToDestination(navController: NavController, index: Int) {

@@ -44,9 +44,13 @@ fun AnimatedSplashScreen(navController: NavController, viewModel: MainViewModel,
         startAnimation = true
         viewModel.getAllCocktails()
         delay(3000)
-        //listViewModel.getFavouriteList(listViewModel.userId)
-       // delay(3000)
-       // println("Im Splash" + listViewModel.userFavoriteList + " user Id: " + listViewModel.userId)
+        listViewModel.getFavouriteList(listViewModel.userId)
+        delay(3000)
+        listViewModel.userFavoriteList.forEachIndexed{ index, s ->
+          //  listViewModel.itemsInFavoriteList.add(s.list[index].name.toString())
+        }
+        delay(3000)
+
         while (viewModel.loading || listViewModel.loading) {
             delay(1000) // Wartezeit vor der erneuten Überprüfung
         }
