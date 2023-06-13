@@ -46,8 +46,6 @@ fun AnimatedSplashScreen(navController: NavController, viewModel: MainViewModel,
         delay(3000)
         listViewModel.getFavouriteList(listViewModel.userId)
         delay(3000)
-
-
         while (viewModel.loading || listViewModel.loading) {
             delay(1000) // Wartezeit vor der erneuten Überprüfung
         }

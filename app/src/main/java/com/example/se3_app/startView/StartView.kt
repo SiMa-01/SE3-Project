@@ -1,5 +1,6 @@
 package com.example.se3_app.startView
 
+import android.annotation.SuppressLint
 import android.widget.Toast
 import kotlinx.coroutines.*
 import androidx.compose.foundation.layout.padding
@@ -32,6 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import com.example.se3_app.Dto.CocktailDto
+import com.example.se3_app.Dto.FavoriteCocktailDto
 import com.example.se3_app.ListViewModel
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
@@ -306,6 +308,31 @@ fun Cocktailbox(
     listViewModel: ListViewModel
 ) {
 
+    var contains = remember { mutableStateOf(false) }
+    var favorites: MutableList<FavoriteCocktailDto> = emptyList<FavoriteCocktailDto>() as MutableList<FavoriteCocktailDto>
+
+    if (listViewModel.loading) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
+    } else {
+        favorites = listViewModel.userFavoriteList
+    }
+
+
+    println("favorites:" + favorites)
+
+    favorites[0].list.forEachIndexed{index, s ->
+        println("contains: forEach " + contains.value)
+        if (favorites[0].list[index].name == name){
+            contains.value = true
+            println("contains: " + contains.value)
+        }
+    }
+
 
     var ingredient = arrayOf<String>(" ")
     //var cocktail:  MutableList<CocktailDto> = CocktailDto("", "", ingredient, "", false, "", "").toMutableList()
@@ -364,9 +391,10 @@ fun Cocktailbox(
                             )
 
                             var loading = remember { mutableStateOf(false) }
+
                             //wenn der Button geklickt wird -> zur Merkliste hinzufügen
                             val isClicked = remember { mutableStateOf(false) }
-                            var favorites = listViewModel.userFavoriteList
+
 
                             IconButton(
                                 onClick = {
@@ -380,8 +408,11 @@ fun Cocktailbox(
                                 Icon(
                                     Icons.Filled.Favorite,
                                     contentDescription = "Zur Merkliste",
-
-                                    tint = if (isClicked.value ) Color.Red else Color.Unspecified
+                                    tint = if (contains.value) {
+                                        Color.Red
+                                    } else {
+                                        Color.Unspecified
+                                    }
                                 )
                                 LaunchedEffect(loading.value) {
                                     viewModel.getCocktailByName(name)
