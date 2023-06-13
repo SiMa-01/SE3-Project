@@ -29,7 +29,9 @@ class ListViewModel : ViewModel() {
         viewModelScope.launch {
             loading = true
             try {
-                userFavoriteList = favoriteListService.getFavouriteList(userId).toMutableList()
+                //userFavoriteList = favoriteListService.getFavouriteList(userId).toMutableList()
+                var liste1 = favoriteListService.getFavouriteList(userId)
+                println("testGet" + liste1)
                 loading = false
             } catch (e: Exception) {
                 loading = false
@@ -43,6 +45,7 @@ class ListViewModel : ViewModel() {
             loading = true
             try {
                 val addedFavorite = favoriteListService.addFavoritList(cocktailDto, userId)
+                println("hinzugefügt" + addedFavorite)
                 loading = false
             } catch (e: Exception) {
                 loading = false

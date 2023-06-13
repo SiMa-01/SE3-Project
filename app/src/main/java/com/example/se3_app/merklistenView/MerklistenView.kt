@@ -1,5 +1,6 @@
 package com.example.se3_app.merklistenView
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -49,11 +50,13 @@ import com.example.se3_app.startView.navigateToDestination
 import com.example.se3_app.startView.Cocktailbox
 import com.example.se3_app.startView.CocktailboxMitIndex
 
-var list = emptyList<FavoriteCocktailDto>()
 
+
+@SuppressLint("UnrememberedMutableState")
 @Composable
 fun MerklistenView(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
-    if (viewModel.loading || listViewModel.loading) {
+    var list: MutableList<FavoriteCocktailDto> by mutableStateOf(mutableListOf())
+    if (listViewModel.loading) {
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
@@ -63,9 +66,8 @@ fun MerklistenView(navController: NavController, viewModel: MainViewModel, listV
     } else {
         list = listViewModel.userFavoriteList
         MerklistenViewContent(navController, viewModel, listViewModel)
-
     }
-
+    println("Liste1" + list)
 }
 
 
@@ -78,36 +80,10 @@ fun MerklistenViewContent(navController: NavController, viewModel: MainViewModel
         Icons.Filled.Home, Icons.Filled.Search,
         Icons.Filled.Favorite, Icons.Filled.List
     )
-    println("Meine Liste" + list)
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TopAppBar(modifier = Modifier.fillMaxWidth(), navigationIcon = {
-            Icon(
-                painter = painterResource(id = R.drawable.logo_app_icon),
-                contentDescription = "Menu",
-                modifier = Modifier.size(40.dp)
-            )
-        }, title = {
-            Box(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                Text(
-                    text = "MIX'N'FIX",
-                    fontFamily = com.example.se3_app.startView.font,
-                    fontSize = 30.sp,
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
-        }, actions = {
-            IconButton(onClick = { navController.navigate("HelpView")
-
-
-            }) {
-                Icon(Icons.Filled.Info, contentDescription = "Search Icon")
-            }
-        })
         TopAppBar(modifier = Modifier.fillMaxWidth(), navigationIcon = {
             Icon(
                 painter = painterResource(id = R.drawable.logo_app_icon),
@@ -159,13 +135,6 @@ fun MerklistenViewContent(navController: NavController, viewModel: MainViewModel
                 1,
                 listViewModel
             )
-
-            listViewModel.getFavouriteList(listViewModel.userId)
-            val favoritenListe = listViewModel.userFavoriteList
-            favoritenListe.forEachIndexed { index, s ->
-                MerklistenCocktailbox(navController, viewModel, favoritenListe[0].list[index].name.toString(), favoritenListe[0].list[index].difficulty.toString(), favoritenListe[0].list[index].alcoholic, favoritenListe[0].list[index].taste.toString(), index, listViewModel )
-            }
-
             Spacer(modifier = Modifier.height(100.dp))
 
         }

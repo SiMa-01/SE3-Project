@@ -22,14 +22,14 @@ class FavoriteListService {
     }
 
     suspend fun getFavouriteList(userId: String? = null): List<FavoriteCocktailDto> {
-        val favoritList: List<FavoriteCocktailDto> = apiManager.httpClient.get(
-            "favoritecocktail?userId=$userId"
-        )
+        val stringUrl = "favoritecocktail?userId=$userId"
+        val favoritList: List<FavoriteCocktailDto> = apiManager.httpClient.get(stringUrl)
+        println("liste neu" + favoritList)
         return favoritList
     }
 
-    suspend fun addFavoritList(cocktailDto: CocktailDto, userId: String? = null): FavoriteCocktailDto {
-        val favoriteCocktailDto: FavoriteCocktailDto = apiManager.httpClient.post(
+    suspend fun addFavoritList(cocktailDto: CocktailDto, userId: String? = null): Any {
+        val favoriteCocktailDto: Any = apiManager.httpClient.post(
             "favoritecocktail/listelement?userId=$userId"
         ) {
             body = cocktailDto

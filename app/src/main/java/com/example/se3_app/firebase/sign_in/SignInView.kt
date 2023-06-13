@@ -63,8 +63,8 @@ fun SignInView(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        val username = remember { mutableStateOf(TextFieldValue()) }
-        val password = remember { mutableStateOf(TextFieldValue()) }
+        var username = remember { mutableStateOf(TextFieldValue("mayer-simon@web.de")) }
+        var password = remember { mutableStateOf(TextFieldValue("test1234")) }
 
         Text(text = "Login", style = TextStyle(fontSize = 40.sp, fontFamily = FontFamily.SansSerif))
 

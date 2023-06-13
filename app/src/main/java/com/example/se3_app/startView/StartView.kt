@@ -225,16 +225,7 @@ fun StartViewContent(
                             viewModel.selectedIngredients.clear()
                             viewModel.getAllTastes()
                         } else if (index == 2) {
-
-                            listViewModel.itemsInFavoriteList.forEachIndexed { index, s ->
-
-                                listViewModel.addFavoritList(
-                                    listViewModel.userId,
-                                    listViewModel.itemsInFavoriteList[index]
-                                )
-                            }
                             listViewModel.getFavouriteList(listViewModel.userId)
-
                         }
                         selectedItem = index
                         navigateToDestination(navController, index)
