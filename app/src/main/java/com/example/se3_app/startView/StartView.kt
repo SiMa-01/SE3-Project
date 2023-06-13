@@ -363,12 +363,15 @@ fun Cocktailbox(
                                 overflow = TextOverflow.Ellipsis
                             )
 
+                            var loading = remember { mutableStateOf(false) }
                             //wenn der Button geklickt wird -> zur Merkliste hinzufügen
                             val isClicked = remember { mutableStateOf(false) }
+                            var favorites = listViewModel.userFavoriteList
 
                             IconButton(
                                 onClick = {
                                     isClicked.value = !isClicked.value
+                                    loading.value = true
                                 },
                                 modifier = Modifier
                                     .size(24.dp)
@@ -377,15 +380,25 @@ fun Cocktailbox(
                                 Icon(
                                     Icons.Filled.Favorite,
                                     contentDescription = "Zur Merkliste",
-                                    tint = if (isClicked.value) Color.Red else Color.Unspecified
+
+                                    tint = if (isClicked.value ) Color.Red else Color.Unspecified
                                 )
-                                LaunchedEffect(isClicked.value) {
+                                LaunchedEffect(loading.value) {
                                     viewModel.getCocktailByName(name)
                                     delay(3000)
-                                    listViewModel.addFavoritList(
-                                        listViewModel.userId,
-                                        viewModel.cocktailByName[0]
-                                    )
+                                    if (isClicked.value){
+                                        listViewModel.addFavoritList(
+                                            listViewModel.userId,
+                                            viewModel.cocktailByName[0]
+                                        )
+                                    }
+                                    else if (!isClicked.value){
+                                        listViewModel.deleteFavoritList(
+                                            listViewModel.userId,
+                                            viewModel.cocktailByName[0]._id
+                                        )
+                                    }
+                                    delay(1000)
                                 }
                             }
                         }
