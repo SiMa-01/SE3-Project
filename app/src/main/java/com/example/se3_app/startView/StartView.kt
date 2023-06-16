@@ -1,6 +1,5 @@
 package com.example.se3_app.startView
 
-import android.widget.Toast
 import kotlinx.coroutines.*
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
@@ -9,7 +8,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.*
-
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
@@ -35,9 +33,9 @@ import com.example.se3_app.Dto.CocktailDto
 import com.example.se3_app.ListViewModel
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
+import com.example.se3_app.merklistenView.MerklistenViewContent
+import com.example.se3_app.merklistenView.favoriteList
 import com.example.se3_app.resultView.ResultCocktailbox
-import com.example.se3_app.resultView.ResultViewContent
-import com.example.se3_app.resultView.cocktails
 import com.example.se3_app.ui.theme.chipFarbe1
 import com.example.se3_app.ui.theme.chipFarbe2
 import com.example.se3_app.ui.theme.chipFarbe3
@@ -46,20 +44,9 @@ import com.example.se3_app.ui.theme.chipFarbe5
 import com.example.se3_app.ui.theme.chipFarbe6
 
 
-fun generateRandomNumbers(): List<Int> {
-    val randomNumbers = mutableListOf<Int>()
 
-    while (randomNumbers.size < 8) {
-        val randomNumber = (0..30).random()
-        if (!randomNumbers.contains(randomNumber)) {
-            randomNumbers.add(randomNumber)
-        }
-    }
 
-    return randomNumbers
-}
 
-val randomList = generateRandomNumbers()
 val font = FontFamily(
     Font(resId = R.font.arciform)
 )
@@ -70,7 +57,18 @@ fun StartView(
     viewModel: MainViewModel,
     listViewModel: ListViewModel
 ) {
-    StartViewContent(navController, viewModel, listViewModel)
+    if (listViewModel.loading) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
+    } else {
+        favoriteList = listViewModel.userFavoriteList
+        StartViewContent(navController, viewModel, listViewModel)
+    }
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -80,10 +78,7 @@ fun StartViewContent(
     viewModel: MainViewModel,
     listViewModel: ListViewModel
 ) {
-    // Das müssen wir vermutlich überall hin kopieren
 
-    val buttonFarbe = Color(0x6A6C84FF)
-    val context = LocalContext.current
 
     var selectedItem by remember { mutableStateOf(0) }
     val items = listOf("Home", "Cocktails", "Merkliste", "Einkaufsliste")
@@ -92,7 +87,6 @@ fun StartViewContent(
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        //verticalArrangement = Arrangement.SpaceBetween,
     ) {
         TopAppBar(modifier = Modifier.fillMaxWidth(), navigationIcon = {
             Icon(
@@ -358,7 +352,14 @@ fun Cocktailbox(
 
                             var isClicked= remember { mutableStateOf(false) }
                             var loading = remember { mutableStateOf(false) }
-                            
+
+                            favoriteList[0].list.forEachIndexed{index, s ->
+                                if (favoriteList[0].list[index].name.equals(name)){
+                                    isClicked.value = true
+                                }
+                            }
+
+
                             IconButton(
                                 onClick = {
                                     loading.value = true
@@ -402,11 +403,7 @@ fun Cocktailbox(
                                 modifier = Modifier.weight(1f)
                             ) {
                                 //Den Schwierigkeitsgrad durch Farben darstellen
-                                if (difficulty == "einfach") {/*  Box(
-                                          modifier = Modifier
-                                              .size(10.dp)
-                                              .background(green)
-                                      )*/
+                                if (difficulty == "einfach") {
                                     Icon(
                                         painter = painterResource(id = R.drawable.easy),
                                         contentDescription = "einfach",
@@ -415,11 +412,7 @@ fun Cocktailbox(
 
                                 } else if (difficulty == "mittel") {
                                     Row() {
-                                        /* Box(
-                                             modifier = Modifier
-                                                 .size(10.dp)
-                                                 .background(orange)
-                                         )*/
+
                                         Icon(
                                             painter = painterResource(id = R.drawable.medium),
                                             contentDescription = "mittel",
@@ -427,11 +420,7 @@ fun Cocktailbox(
                                         )
                                     }
 
-                                } else if (difficulty == "schwierig") {/*Box(
-                                        modifier = Modifier
-                                            .size(10.dp)
-                                            .background(Color.Red)
-                                    )*/
+                                } else if (difficulty == "schwierig") {
                                     Icon(
                                         painter = painterResource(id = R.drawable.hard),
                                         contentDescription = "schwierig",
@@ -440,21 +429,6 @@ fun Cocktailbox(
 
                                 }
                             }
-                            //Die Schwierigkeit daneben schreiben
-                            /*Box() {
-                                if (difficulty == "schwierig"){
-                                    Text(
-                                        text = "schwer",
-                                        fontSize = 15.sp,
-                                        fontWeight = FontWeight.Bold, modifier = Modifier.padding(3.dp))
-                                }
-                                else {
-                                    Text(
-                                        text = difficulty,
-                                        fontSize = 15.sp,
-                                        fontWeight = FontWeight.Bold, modifier = Modifier.padding(3.dp))
-                                }
-                            }*/
 
                             //Den Alkoholgehalt durch Alkohol darstellen
                             Box(

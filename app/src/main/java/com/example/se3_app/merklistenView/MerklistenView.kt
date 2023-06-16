@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -39,22 +38,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.se3_app.Dto.CocktailDto
 import com.example.se3_app.Dto.FavoriteCocktailDto
-import com.example.se3_app.Dto.ShoppingListDto
 import com.example.se3_app.ListViewModel
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
-import com.example.se3_app.resultView.ResultViewContent
-import com.example.se3_app.resultView.cocktails
 import com.example.se3_app.startView.navigateToDestination
-import com.example.se3_app.startView.Cocktailbox
 import com.example.se3_app.startView.CocktailboxMitIndex
 
 
 
-var list: MutableList<FavoriteCocktailDto> by mutableStateOf(mutableListOf())
-var listShopping: MutableList<ShoppingListDto> by mutableStateOf(mutableListOf())
+var favoriteList: MutableList<FavoriteCocktailDto> by mutableStateOf(mutableListOf())
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
@@ -69,10 +62,7 @@ fun MerklistenView(navController: NavController, viewModel: MainViewModel, listV
             CircularProgressIndicator()
         }
     } else {
-        list = listViewModel.userFavoriteList
-        listShopping = listViewModel.userShoppingList
-        println("Liste1 " + list)
-        println("Liste2 " + listShopping )
+        favoriteList = listViewModel.userFavoriteList
         MerklistenViewContent(navController, viewModel, listViewModel)
     }
 }
@@ -109,10 +99,8 @@ fun MerklistenViewContent(navController: NavController, viewModel: MainViewModel
                 )
             }
         }, actions = {
-            IconButton(onClick = { navController.navigate("HelpView")
-
-
-            }) {
+            IconButton(onClick = { navController.navigate("HelpView") })
+            {
                 Icon(Icons.Filled.Info, contentDescription = "Search Icon")
             }
         })
@@ -127,21 +115,20 @@ fun MerklistenViewContent(navController: NavController, viewModel: MainViewModel
         ){
             Text("Deine Lieblingscocktails:", fontSize = 20.sp)
             Spacer(modifier = Modifier.height(8.dp))
-            val name="Caipirinha"
-            val difficulty="MEDIUM"
-            var alcoholic by remember { mutableStateOf(true)}
-            val taste ="Sour"
 
-            MerklistenCocktailbox(
-                navController,
-                viewModel,
-                name,
-                difficulty,
-                alcoholic,
-                taste,
-                1,
-                listViewModel
-            )
+            favoriteList[0].list.forEachIndexed{ index, s ->
+                MerklistenCocktailbox(
+                    navController,
+                    viewModel,
+                    favoriteList[0].list[index].name.toString(),
+                    favoriteList[0].list[index].difficulty.toString(),
+                    favoriteList[0].list[index].alcoholic,
+                    favoriteList[0].list[index].taste.toString(),
+                    index,
+                    listViewModel
+                )
+            }
+
             Spacer(modifier = Modifier.height(100.dp))
 
         }
