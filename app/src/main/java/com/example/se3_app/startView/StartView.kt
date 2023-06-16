@@ -33,7 +33,6 @@ import com.example.se3_app.Dto.CocktailDto
 import com.example.se3_app.ListViewModel
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
-import com.example.se3_app.merklistenView.MerklistenViewContent
 import com.example.se3_app.merklistenView.favoriteList
 import com.example.se3_app.resultView.ResultCocktailbox
 import com.example.se3_app.ui.theme.chipFarbe1
@@ -184,7 +183,7 @@ fun StartViewContent(
 
             var i: Int = 0
             while (i < 8) {
-                ResultCocktailbox(
+                StartCocktailbox(
                     navController,
                     viewModel,
                     viewModel.cocktailsAll[i].name.toString(),
@@ -291,18 +290,16 @@ fun Cocktailbox(
     color: Color,
     listViewModel: ListViewModel
 ) {
-
+    viewModel.getCocktailByName(name)
 
 
     var ingredient = arrayOf<String>(" ")
-    var cocktail: MutableList<CocktailDto> =
-        mutableListOf(CocktailDto("", "", ingredient, "", false, "", ""))
+    //var cocktail: MutableList<CocktailDto> = mutableListOf(CocktailDto("", "", ingredient, "", false, "", ""))
     val context = LocalContext.current
 
 
     FloatingActionButton(
         onClick = {
-            viewModel.getCocktailByName(name)
             navController.navigate("RezeptView")
         },
         modifier = Modifier.fillMaxWidth(),
@@ -351,43 +348,68 @@ fun Cocktailbox(
                             //wenn der Button geklickt wird -> zur Merkliste hinzufügen
 
                             var isClicked= remember { mutableStateOf(false) }
-                            var loading = remember { mutableStateOf(false) }
+                          //  var loading = remember { mutableStateOf(false) }
 
-                            favoriteList[0].list.forEachIndexed{index, s ->
+                       /*     favoriteList[0].list.forEachIndexed{index, s ->
                                 if (favoriteList[0].list[index].name.equals(name)){
+                                    println("Die Liste in der for Each: "+ favoriteList[0].list[index].name)
                                     isClicked.value = true
                                 }
-                            }
+                            }*/
 
 
                             IconButton(
                                 onClick = {
-                                    loading.value = true
+                                    println("Der Wert sollte jetzt false sein: " + isClicked.value)
                                     isClicked.value = !isClicked.value
+                                    println("Der Wert sollte jetzt true sein: " + isClicked.value)
+                                    var cocktail = viewModel.cocktailByName
+                                    println("Der Cocktail by name: " + cocktail)
+
+                                    if (isClicked.value){
+                                        println("In der if")
+                                        favoriteList[0].list.add(cocktail[0])
+                                        println(" Die geaddete Liste " + favoriteList[0].list)
+                                        listViewModel.addFavoritList(
+                                            listViewModel.userId,
+                                            cocktail[0]
+                                        )
+                                    }
+                                    else if (!isClicked.value){
+                                        println("In der else if")
+                                        favoriteList[0].list.remove(cocktail[0])
+                                        listViewModel.deleteFavoritList(listViewModel.userId, cocktail[0]._id)
+                                    }
+
+                                  //  loading.value = true
                                 },
                                 modifier = Modifier
                                     .size(24.dp)
                                     .weight(1f)
                             ) {
+                                println("Vor dem Icon " + isClicked.value)
                                 Icon(
                                     Icons.Filled.Favorite,
                                     contentDescription = "Zur Merkliste",
                                     tint = if (isClicked.value) Color.Red else Color.Unspecified
                                 )
-                                LaunchedEffect(loading.value) {
+                             /*   LaunchedEffect(loading.value) {
+                                    var cocktail = viewModel.cocktailByName
+                                    delay(2000)
                                     if(isClicked.value && loading.value){
-                                        viewModel.getCocktailByName(name)
-                                        delay(3000)
+                                        favoriteList[0].list.add(cocktail[0])
+                                        println("Die Liste im LaunchedEffect: "+ favoriteList[0].list)
                                         listViewModel.addFavoritList(
                                             listViewModel.userId,
-                                            viewModel.cocktailByName[0]
+                                            cocktail[0]
                                         )
                                     } else if (!isClicked.value && loading.value){
-                                        listViewModel.deleteFavoritList(listViewModel.userId, viewModel.cocktailByName[0]._id)
-                                        delay(3000)
+                                        favoriteList[0].list.remove(cocktail[0])
+                                        listViewModel.deleteFavoritList(listViewModel.userId, cocktail[0]._id)
                                     }
-                                    loading.value = false
+                                    delay(2000)
                                 }
+                                loading.value = false*/
                             }
                         }
 

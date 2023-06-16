@@ -147,7 +147,6 @@ fun EinkaufsListenViewContent(navController: NavController, viewModel: MainViewM
                                 onClick = {
                                     itemList[0].list!!.remove(item)
                                     listViewModel.deleteShoppingList(listViewModel.userId, item)
-                                    println("In der remove " + itemList[0].list)
                                 },
                                 modifier = Modifier.size(24.dp)
                             ) {
