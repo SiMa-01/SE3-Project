@@ -122,20 +122,13 @@ fun RezeptViewContent(navController: NavController, viewModel: MainViewModel, li
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-            val name= cocktail[0].name
-            var ingredients= cocktail[0].ingredients
-            val difficulty=cocktail[0].difficulty
-            var alcoholic = cocktail[0].alcoholic
-            val taste =cocktail[0].taste
 
-            RezeptCocktailbox(
+
+            Cocktailbox(
                 navController,
                 viewModel,
-                name!!,
-                ingredients!!,
-                difficulty!!,
-                alcoholic,
-                taste!!,
+                cocktail[0],
+                1,
                 listViewModel
             )
 
@@ -158,9 +151,6 @@ fun RezeptViewContent(navController: NavController, viewModel: MainViewModel, li
                             IconButton(
                                 onClick = {
                                     listViewModel.addShoppingList(listViewModel.userId, item)
-
-                                    //        showToastMessage("$item wurde hinzugefügt")
-                                    // TODO hier kommt das hinzufügen zur Einkaufsliste
                                 },
                                 modifier = Modifier.size(24.dp)
                             ) {
@@ -213,17 +203,4 @@ fun RezeptViewContent(navController: NavController, viewModel: MainViewModel, li
         }
     }
 
-}
-
-
-@Composable
-fun RezeptCocktailbox(navController: NavController, viewModel: MainViewModel, name: String, ingredients: Array<String>, difficulty: String, alcoholic: Boolean, taste: String, listViewModel: ListViewModel) {
-    if (viewModel.errorMessage.isEmpty()) {
-        Cocktailbox(navController, viewModel, name, difficulty, alcoholic, taste, chipFarbe3, listViewModel)
-    }
-}
-@Composable
-fun showToastMessage(message:String){
-    val context= LocalContext.current
-    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 }

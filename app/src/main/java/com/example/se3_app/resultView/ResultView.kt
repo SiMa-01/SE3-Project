@@ -3,7 +3,6 @@ package com.example.se3_app.resultView
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -42,14 +41,9 @@ import com.example.se3_app.Dto.CocktailDto
 import com.example.se3_app.ListViewModel
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
-import com.example.se3_app.cocktailSearchView.CocktailSearchViewContent
-import com.example.se3_app.cocktailSearchView.options
-import com.example.se3_app.merklistenView.MerklistenCocktailbox
 import com.example.se3_app.startView.navigateToDestination
 import com.example.se3_app.startView.Cocktailbox
-import com.example.se3_app.startView.CocktailboxMitIndex
-import com.example.se3_app.ui.theme.chipFarbe3
-import kotlinx.coroutines.delay
+
 
 var cocktails = emptyList<CocktailDto>()
 
@@ -122,7 +116,7 @@ fun ResultViewContent(navController: NavController, viewModel: MainViewModel, li
             Spacer(modifier = Modifier.height(8.dp))
 
             cocktails.forEachIndexed {index, s ->
-                ResultCocktailbox(navController, viewModel, cocktails[index].name.toString(), cocktails[index].difficulty.toString(), cocktails[index].alcoholic, cocktails[index].taste.toString(), index, listViewModel )
+                Cocktailbox(navController, viewModel, cocktails[index], index, listViewModel )
             }
         }
         Spacer(modifier = Modifier.height(100.dp))
@@ -153,12 +147,7 @@ fun ResultViewContent(navController: NavController, viewModel: MainViewModel, li
     }
 
 }
-@Composable
-fun ResultCocktailbox(navController: NavController, viewModel: MainViewModel, name: String, difficulty: String, alcoholic: Boolean, taste: String, index: Int, listViewModel: ListViewModel) {
-    if (viewModel.errorMessage.isEmpty()) {
-        CocktailboxMitIndex(navController, viewModel, name, difficulty, alcoholic, taste, index, listViewModel)
-    }
-}
+
 
 
 

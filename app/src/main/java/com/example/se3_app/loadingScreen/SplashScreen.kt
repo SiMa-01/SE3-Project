@@ -25,8 +25,6 @@ import androidx.navigation.NavController
 import com.example.se3_app.ListViewModel
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
-import com.example.se3_app.resultView.ResultCocktailbox
-import com.example.se3_app.resultView.cocktails
 import kotlinx.coroutines.delay
 
 @Composable

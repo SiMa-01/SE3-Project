@@ -45,22 +45,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.se3_app.Dto.CocktailDto
 import com.example.se3_app.Dto.FavoriteCocktailDto
 import com.example.se3_app.ListViewModel
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
-import com.example.se3_app.rezeptView.cocktail
+import com.example.se3_app.startView.Cocktailbox
 import com.example.se3_app.startView.navigateToDestination
-import com.example.se3_app.startView.CocktailboxMitIndex
-import com.example.se3_app.startView.font
-import com.example.se3_app.ui.theme.chipFarbe1
-import com.example.se3_app.ui.theme.chipFarbe2
-import com.example.se3_app.ui.theme.chipFarbe3
-import com.example.se3_app.ui.theme.chipFarbe4
-import com.example.se3_app.ui.theme.chipFarbe5
-import com.example.se3_app.ui.theme.chipFarbe6
-import kotlinx.coroutines.delay
 
 
 var favoriteList: MutableList<FavoriteCocktailDto> by mutableStateOf(mutableListOf())
@@ -135,13 +125,10 @@ fun MerklistenViewContent(navController: NavController, viewModel: MainViewModel
             Spacer(modifier = Modifier.height(8.dp))
 
             favoriteList[0].list.forEachIndexed{ index, s ->
-                MerklistenCocktailbox(
+                Cocktailbox(
                     navController,
                     viewModel,
-                    favoriteList[0].list[index].name.toString(),
-                    favoriteList[0].list[index].difficulty.toString(),
-                    favoriteList[0].list[index].alcoholic,
-                    favoriteList[0].list[index].taste.toString(),
+                    favoriteList[0].list[index],
                     index,
                     listViewModel
                 )
@@ -179,13 +166,7 @@ fun MerklistenViewContent(navController: NavController, viewModel: MainViewModel
             }
         }
     }
-@Composable
-fun MerklistenCocktailbox(navController: NavController, viewModel: MainViewModel , name: String, difficulty: String, alcoholic: Boolean, taste: String, index: Int, listViewModel: ListViewModel) {
-    if (viewModel.errorMessage.isEmpty()) {
-        CocktailboxMitIndex(navController, viewModel, name, difficulty, alcoholic, taste, index, listViewModel)
-    }
 
-}
 
 
 
