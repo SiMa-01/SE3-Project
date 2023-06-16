@@ -24,7 +24,6 @@ class FavoriteListService {
     suspend fun getFavouriteList(userId: String? = null): List<FavoriteCocktailDto> {
         val stringUrl = "favoritecocktail?userId=$userId"
         val favoritList: List<FavoriteCocktailDto> = apiManager.httpClient.get(stringUrl)
-        println("liste neu" + favoritList)
         return favoritList
     }
 

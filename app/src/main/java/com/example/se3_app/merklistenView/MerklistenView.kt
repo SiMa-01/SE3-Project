@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.se3_app.Dto.CocktailDto
 import com.example.se3_app.Dto.FavoriteCocktailDto
+import com.example.se3_app.Dto.ShoppingListDto
 import com.example.se3_app.ListViewModel
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
@@ -52,10 +53,14 @@ import com.example.se3_app.startView.CocktailboxMitIndex
 
 
 
+var list: MutableList<FavoriteCocktailDto> by mutableStateOf(mutableListOf())
+var listShopping: MutableList<ShoppingListDto> by mutableStateOf(mutableListOf())
+
 @SuppressLint("UnrememberedMutableState")
 @Composable
 fun MerklistenView(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
-    var list: MutableList<FavoriteCocktailDto> by mutableStateOf(mutableListOf())
+
+
     if (listViewModel.loading) {
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -65,9 +70,11 @@ fun MerklistenView(navController: NavController, viewModel: MainViewModel, listV
         }
     } else {
         list = listViewModel.userFavoriteList
+        listShopping = listViewModel.userShoppingList
+        println("Liste1 " + list)
+        println("Liste2 " + listShopping )
         MerklistenViewContent(navController, viewModel, listViewModel)
     }
-    println("Liste1" + list)
 }
 
 

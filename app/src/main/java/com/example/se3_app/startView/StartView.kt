@@ -224,8 +224,6 @@ fun StartViewContent(
                             viewModel.comeBack = arrayOf("", 0f, 0, "egal", "")
                             viewModel.selectedIngredients.clear()
                             viewModel.getAllTastes()
-                        } else if (index == 2) {
-                            listViewModel.getFavouriteList(listViewModel.userId)
                         }
                         selectedItem = index
                         navigateToDestination(navController, index)

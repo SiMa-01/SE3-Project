@@ -22,16 +22,13 @@ class ListViewModel : ViewModel() {
     private val shoppingListService = ShoppingListService()
     var userFavoriteList: MutableList<FavoriteCocktailDto> by mutableStateOf(mutableListOf())
     var userShoppingList: MutableList<ShoppingListDto> by mutableStateOf(mutableListOf())
-    var itemsInFavoriteList: MutableList<CocktailDto> by mutableStateOf(mutableListOf())
 
 
     fun getFavouriteList(userId: String?) {
         viewModelScope.launch {
             loading = true
             try {
-                //userFavoriteList = favoriteListService.getFavouriteList(userId).toMutableList()
-                var liste1 = favoriteListService.getFavouriteList(userId)
-                println("testGet" + liste1)
+                userFavoriteList = favoriteListService.getFavouriteList(userId) as MutableList<FavoriteCocktailDto>
                 loading = false
             } catch (e: Exception) {
                 loading = false
@@ -45,7 +42,6 @@ class ListViewModel : ViewModel() {
             loading = true
             try {
                 val addedFavorite = favoriteListService.addFavoritList(cocktailDto, userId)
-                println("hinzugefügt" + addedFavorite)
                 loading = false
             } catch (e: Exception) {
                 loading = false

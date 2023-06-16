@@ -30,7 +30,11 @@ import com.example.se3_app.resultView.cocktails
 import kotlinx.coroutines.delay
 
 @Composable
-fun AnimatedSplashScreen(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
+fun AnimatedSplashScreen(
+    navController: NavController,
+    viewModel: MainViewModel,
+    listViewModel: ListViewModel
+) {
     var startAnimation by remember { mutableStateOf(false) }
 
     val alphaAnim = animateFloatAsState(
@@ -46,10 +50,7 @@ fun AnimatedSplashScreen(navController: NavController, viewModel: MainViewModel,
         delay(3000)
         listViewModel.getFavouriteList(listViewModel.userId)
         delay(3000)
-        listViewModel.userFavoriteList.forEachIndexed{ index, s ->
-          //  listViewModel.itemsInFavoriteList.add(s.list[index].name.toString())
-        }
-        delay(3000)
+        listViewModel.getShoppingList(listViewModel.userId)
 
         while (viewModel.loading || listViewModel.loading) {
             delay(1000) // Wartezeit vor der erneuten Überprüfung
