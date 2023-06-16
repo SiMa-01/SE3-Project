@@ -225,6 +225,9 @@ fun StartViewContent(
                             viewModel.selectedIngredients.clear()
                             viewModel.getAllTastes()
                         }
+                        else if (index == 3 ){
+                            listViewModel.getShoppingList(listViewModel.userId)
+                        }
                         selectedItem = index
                         navigateToDestination(navController, index)
                     })

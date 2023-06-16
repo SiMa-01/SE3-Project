@@ -47,6 +47,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.se3_app.Dto.CocktailDto
+import com.example.se3_app.Dto.ShoppingListDto
 import com.example.se3_app.ListViewModel
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
@@ -56,11 +57,12 @@ import com.example.se3_app.startView.navigateToDestination
 import com.example.se3_app.ui.theme.chipFarbe3
 
 var cocktail = emptyList<CocktailDto>()
+var itemList: MutableList<ShoppingListDto> by mutableStateOf(mutableListOf())
 
 @Composable
 fun RezeptView(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
 
-    if (viewModel.loading){
+    if (viewModel.loading || listViewModel.loading){
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
@@ -69,10 +71,9 @@ fun RezeptView(navController: NavController, viewModel: MainViewModel, listViewM
         }
     } else {
         cocktail = viewModel.cocktailByName
+        itemList = listViewModel.userShoppingList
         RezeptViewContent(navController, viewModel, listViewModel)
     }
-
-
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -156,7 +157,9 @@ fun RezeptViewContent(navController: NavController, viewModel: MainViewModel, li
                             )
                             IconButton(
                                 onClick = {
-                                  //        showToastMessage("$item wurde hinzugefügt")
+                                    listViewModel.addShoppingList(listViewModel.userId, item)
+
+                                    //        showToastMessage("$item wurde hinzugefügt")
                                     // TODO hier kommt das hinzufügen zur Einkaufsliste
                                 },
                                 modifier = Modifier.size(24.dp)

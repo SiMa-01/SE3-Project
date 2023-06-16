@@ -68,7 +68,7 @@ class MainActivity : ComponentActivity() {
                 CocktailSearchView(navController, mainViewModel)
             }
             composable(route = "einkaufslistenView") {
-                EinkaufslistenView(navController, mainViewModel)
+                EinkaufslistenView(navController, mainViewModel, listViewModel)
                 // SignInView(navController, signInViewModel)
             }
             composable(route = "hinzufuegenView") {

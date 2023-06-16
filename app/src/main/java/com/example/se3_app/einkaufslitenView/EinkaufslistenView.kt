@@ -22,12 +22,15 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -38,6 +41,8 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -51,20 +56,41 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.se3_app.Dto.ShoppingListDto
+import com.example.se3_app.ListViewModel
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
+import com.example.se3_app.merklistenView.MerklistenViewContent
+import com.example.se3_app.merklistenView.list
 import com.example.se3_app.startView.navigateToDestination
 import com.example.se3_app.ui.theme.chipFarbe2
 import com.example.se3_app.ui.theme.chipFarbe6
+import kotlinx.coroutines.delay
+
+
+var itemList: MutableList<ShoppingListDto> by mutableStateOf(mutableListOf())
 
 @Composable
-fun EinkaufslistenView(navController: NavController, viewModel: MainViewModel) {
-    EinkaufsListenViewContent(navController, viewModel)
+fun EinkaufslistenView(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
+    if (listViewModel.loading) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
+    } else {
+        itemList = listViewModel.userShoppingList
+        EinkaufsListenViewContent(navController, viewModel, listViewModel)
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EinkaufsListenViewContent(navController: NavController, viewModel: MainViewModel) {
+fun EinkaufsListenViewContent(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
+
+
+
     var selectedItem by remember { mutableStateOf(0) }
     val items = listOf("Home", "Cocktails", "Merkliste", "Einkaufsliste")
     val icons = listOf(
@@ -111,79 +137,39 @@ fun EinkaufsListenViewContent(navController: NavController, viewModel: MainViewM
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-            Text("Zutaten, die du manuelle hinzugefügt hast ", fontSize = 20.sp)
+            Text("Zutaten deiner Einkaufsliste ", fontSize = 20.sp)
             Spacer(modifier = Modifier.height(10.dp))
 
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 5.dp)
-                    .border(BorderStroke(1.dp, Color.LightGray))
+                   // .border(BorderStroke(1.dp, Color.LightGray))
             ) {
-                val itemList by remember {
-                    mutableStateOf(
-                        mutableStateListOf(
-                            "Zutat 1",
-                            "Zutat 2",
-                            "Zutat 3",
-                            "Zutat 2",
-                            "Zutat 3",
-                            "Zutat 2",
-                            "Zutat 3",
-                            "Zutat 2",
-                            "Zutat 3",
-                            "Zutat 2",
-                            "Zutat 3",
-                            "Zutat 2",
-                            "Zutat 3",
-                            "Zutat 2",
-                            "Zutat 3",
-                            "Zutat 2",
-                            "Zutat 3",
-                            "Zutat 2",
-                            "Zutat 3",
-                            "Zutat 2",
-                            "Zutat 3",
-                            "Zutat 2",
-                            "Zutat 3",
-                            "Zutat 2",
-                            "Zutat 3",
-                            "Zutat 2",
-                            "Zutat 3",
-                            "Zutat 2",
-                            "Zutat 3",
-                            "Zutat 2",
-                            "Zutat 3",
-                            "Zutat 2",
-                            "Zutat 3",
-                            "Zutat 2",
-                            "Zutat 3",
-                            "Zutat 2",
-                            "Zutat 3",
-                            "Zutat 2",
-                            "Zutat 3"
-                        )
-                    )
-                }
+
                 val newItemState = remember { mutableStateOf("") }
 
-                // TODO Methode auslagern
-                fun removeItem(item: String) {
-                    itemList.remove(item)
-                }
-
                 Column {
-                    for (item in itemList) {
-                        Row {
+                    for (item in itemList[0].list!!) {
+                        println("hoallo ich bin hier " + itemList[0].list!!)
+                        Row (Modifier.padding(8.dp)){
                             Text(
                                 item,
-                                modifier = Modifier.clickable {
-                                    removeItem(item)
-                                    //    showToast(context, "$item wurde von der Liste entfernt")
-                                    // TODO mit dem context habe ich ein Importproblem, keine Ahnung wie ich das löse
-                                }
-
+                                modifier = Modifier.weight(1f)
                             )
+                            IconButton(
+                                onClick = {
+                                    itemList[0].list!!.remove(item)
+                                    listViewModel.deleteShoppingList(listViewModel.userId, item)
+                                    println("In der remove " + itemList[0].list)
+                                },
+                                modifier = Modifier.size(24.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Delete,
+                                    contentDescription = "Delete"
+                                )
+                            }
                         }
                     }
 
@@ -201,10 +187,11 @@ fun EinkaufsListenViewContent(navController: NavController, viewModel: MainViewM
                     )
                     FloatingActionButton(
                         onClick = {
-                            val newItem = newItemState.value
-                            if (newItem.isNotBlank()) {
-                                itemList.add(newItem)
-                                newItemState.value = ""
+                            if (newItemState.value != "") {
+                                itemList[0].list!!.add(newItemState.value)
+                                listViewModel.addShoppingList(listViewModel.userId, newItemState.value)
+
+                                //navController.navigate("EinkaufslistenView")
                             }
                         },
                         modifier = Modifier
@@ -213,6 +200,17 @@ fun EinkaufsListenViewContent(navController: NavController, viewModel: MainViewM
                         containerColor = chipFarbe6
                     ) {
                         Text(text = "Zutat hinzufügen")
+                      /*  LaunchedEffect(loading.value) {
+                            if(loading.value){
+                                listViewModel.addShoppingList(listViewModel.userId, newItem.value)
+                                delay(3000)
+                                listViewModel.getShoppingList(listViewModel.userId)
+                                delay(3000)
+                               // itemList = listViewModel.userShoppingList
+                            }
+                            newItemState.value = ""
+                            loading.value = false
+                        }*/
                     }
                 }
             }
