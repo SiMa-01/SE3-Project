@@ -22,7 +22,6 @@ import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -175,7 +174,7 @@ fun StartViewContent(
             Text("Zum inspirieren", fontSize = 20.sp, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(8.dp))
 
-            var i: Int = 0
+            var i = 0
             while (i < 8) {
                 Cocktailbox(
                     navController,
@@ -229,7 +228,7 @@ fun Cocktailbox(
     colorIndex: Int,
     listViewModel: ListViewModel
 ) {
-    val color: Color;
+    val color: Color
     if (colorIndex % 6 == 0) color = chipFarbe1
     else if (colorIndex % 5 == 0) color = chipFarbe2
     else if (colorIndex % 4 == 0) color = chipFarbe3
@@ -289,15 +288,14 @@ fun Cocktailbox(
 
                             //wenn der Button geklickt wird -> zur Merkliste hinzufügen
 
-                            var isClicked= remember { mutableStateOf(false) }
-                          //  var loading = remember { mutableStateOf(false) }
+                            val isClicked= remember { mutableStateOf(false) }
 
-                       /*     favoriteList[0].list.forEachIndexed{index, s ->
-                                if (favoriteList[0].list[index].name.equals(name)){
+                            favoriteList[0].list.forEachIndexed{index, s ->
+                                if (favoriteList[0].list[index].name.equals(cocktail.name)){
                                     println("Die Liste in der for Each: "+ favoriteList[0].list[index].name)
                                     isClicked.value = true
                                 }
-                            }*/
+                            }
 
 
                             IconButton(
@@ -318,9 +316,7 @@ fun Cocktailbox(
                                         favoriteList[0].list.remove(cocktail)
                                         listViewModel.deleteFavoritList(listViewModel.userId, cocktail._id)
                                     }
-
-                                  //  loading.value = true
-                                },
+                                          },
                                 modifier = Modifier
                                     .size(24.dp)
                                     .weight(1f)
@@ -331,23 +327,6 @@ fun Cocktailbox(
                                     contentDescription = "Zur Merkliste",
                                     tint = if (isClicked.value) Color.Red else Color.Unspecified
                                 )
-                             /*   LaunchedEffect(loading.value) {
-                                    var cocktail = viewModel.cocktailByName
-                                    delay(2000)
-                                    if(isClicked.value && loading.value){
-                                        favoriteList[0].list.add(cocktail[0])
-                                        println("Die Liste im LaunchedEffect: "+ favoriteList[0].list)
-                                        listViewModel.addFavoritList(
-                                            listViewModel.userId,
-                                            cocktail[0]
-                                        )
-                                    } else if (!isClicked.value && loading.value){
-                                        favoriteList[0].list.remove(cocktail[0])
-                                        listViewModel.deleteFavoritList(listViewModel.userId, cocktail[0]._id)
-                                    }
-                                    delay(2000)
-                                }
-                                loading.value = false*/
                             }
                         }
 
@@ -370,7 +349,7 @@ fun Cocktailbox(
                                         modifier = Modifier.size(30.dp)
                                     )
 
-                                } else if (cocktail.difficulty!! == "mittel") {
+                                } else if (cocktail.difficulty == "mittel") {
                                     Row() {
 
                                         Icon(
@@ -380,7 +359,7 @@ fun Cocktailbox(
                                         )
                                     }
 
-                                } else if (cocktail.difficulty!! == "schwierig") {
+                                } else if (cocktail.difficulty == "schwierig") {
                                     Icon(
                                         painter = painterResource(id = R.drawable.hard),
                                         contentDescription = "schwierig",
@@ -394,7 +373,7 @@ fun Cocktailbox(
                             Box(
                                 modifier = Modifier.weight(1f)
                             ) {
-                                if (cocktail.alcoholic!!) {
+                                if (cocktail.alcoholic) {
                                     Text(
                                         "%", fontFamily = font, fontSize = 15.sp
                                     )
