@@ -99,17 +99,17 @@ fun PicrturesViewContent(
                 }
             })
 
-        val Bild: Painter = painterResource(R.drawable.bild)
-        val Bild1: Painter = painterResource(R.drawable.bild1)
-        val Bild2: Painter = painterResource(R.drawable.bild2)
-        val Bild3: Painter = painterResource(R.drawable.bild3)
-        val Bild4: Painter = painterResource(R.drawable.bild4)
-        val Bild5: Painter = painterResource(R.drawable.bild5)
-        val Bild6: Painter = painterResource(R.drawable.bild6)
-        val Bild7: Painter = painterResource(R.drawable.bild7)
+        val pic: Painter = painterResource(R.drawable.bild)
+        val pic1: Painter = painterResource(R.drawable.bild1)
+        val pic2: Painter = painterResource(R.drawable.bild2)
+        val pic3: Painter = painterResource(R.drawable.bild3)
+        val pic4: Painter = painterResource(R.drawable.bild4)
+        val pic5: Painter = painterResource(R.drawable.bild5)
+        val pic6: Painter = painterResource(R.drawable.bild6)
+        val pic7: Painter = painterResource(R.drawable.bild7)
 
         Image(
-            painter = Bild,
+            painter = pic,
             contentDescription = "Bild",
             modifier = Modifier
                 .fillMaxWidth()
@@ -122,20 +122,20 @@ fun PicrturesViewContent(
             modifier = Modifier.padding(5.dp)
         ) {
             Image(
-                painter = Bild1,
-                contentDescription = "Bild1",
+                painter = pic1,
+                contentDescription = "pic1",
                 modifier = Modifier
                     .height(200.dp)
             )
             Image(
-                painter = Bild3,
-                contentDescription = "Bild3",
+                painter = pic3,
+                contentDescription = "pic3",
                 modifier = Modifier
                     .height(200.dp)
             )
             Image(
-                painter = Bild7,
-                contentDescription = "Bild7",
+                painter = pic7,
+                contentDescription = "pic7",
                 modifier = Modifier
                     .height(200.dp)
             )
@@ -144,8 +144,8 @@ fun PicrturesViewContent(
         Spacer(modifier = Modifier.height(5.dp))
 
         Image(
-            painter = Bild2,
-            contentDescription = "Bild2",
+            painter = pic2,
+            contentDescription = "pic2",
             modifier = Modifier
                 .fillMaxWidth()
                 .height(200.dp)
@@ -157,14 +157,14 @@ fun PicrturesViewContent(
             modifier = Modifier.padding(5.dp)
         ) {
             Image(
-                painter = Bild4,
-                contentDescription = "Bild4",
+                painter = pic4,
+                contentDescription = "pic4",
                 modifier = Modifier
                     .height(200.dp)
             )
             Image(
-                painter = Bild5,
-                contentDescription = "Bild5",
+                painter = pic5,
+                contentDescription = "pic5",
                 modifier = Modifier
                     .height(200.dp)
             )
@@ -173,8 +173,8 @@ fun PicrturesViewContent(
         Spacer(modifier = Modifier.height(5.dp))
 
         Image(
-            painter = Bild6,
-            contentDescription = "Bild6",
+            painter = pic6,
+            contentDescription = "pic6",
             modifier = Modifier
                 .fillMaxWidth()
                 .height(200.dp)

@@ -11,8 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.se3_app.cocktailSearchView.CocktailSearchView
-import com.example.se3_app.einkaufslitenView.EinkaufslistenView
+import com.example.se3_app.itemListView.ItemListView
+import com.example.se3_app.favoriteListView.FavoriteListView
 import com.example.se3_app.firebase.forgot_password.ForgotPasswordView
 import com.example.se3_app.firebase.forgot_password.ForgotPasswordViewModel
 import com.example.se3_app.firebase.sign_in.SignInView
@@ -22,13 +22,13 @@ import com.example.se3_app.firebase.sign_up.SignUpViewModel
 import com.example.se3_app.firebase.verify_email.VerifyEmailView
 import com.example.se3_app.firebase.verify_email.VerifyEmailViewModel
 import com.example.se3_app.helpView.HelpView
-import com.example.se3_app.hinzufuegenView.HinzufuegenView
 import com.example.se3_app.ingredientsView.IngredientsView
 import com.example.se3_app.loadingScreen.AnimatedSplashScreen
-import com.example.se3_app.merklistenView.MerklistenView
+import com.example.se3_app.newCocktailView.NewCocktailView
 import com.example.se3_app.pictures.PicturesView
+import com.example.se3_app.recipeCocktailView.RecipeCocktailView
 import com.example.se3_app.resultView.ResultView
-import com.example.se3_app.rezeptView.RezeptView
+import com.example.se3_app.searchCocktailView.SearchCocktailView
 import com.example.se3_app.startView.StartView
 import com.example.se3_app.ui.theme.SE3AppTheme
 
@@ -37,7 +37,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SE3AppTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -64,24 +63,24 @@ class MainActivity : ComponentActivity() {
             composable(route = "startView") {
                 StartView(navController, mainViewModel, listViewModel)
             }
-            composable(route = "cocktailSearchView") {
-                CocktailSearchView(navController, mainViewModel, listViewModel)
+            composable(route = "searchCocktailView") {
+                SearchCocktailView(navController, mainViewModel, listViewModel)
             }
-            composable(route = "einkaufslistenView") {
-                EinkaufslistenView(navController, mainViewModel, listViewModel)
+            composable(route = "itemListView") {
+                ItemListView(navController, mainViewModel, listViewModel)
                 // SignInView(navController, signInViewModel)
             }
-            composable(route = "hinzufuegenView") {
-                HinzufuegenView(navController, mainViewModel, listViewModel)
+            composable(route = "newCocktailnView") {
+                NewCocktailView(navController, mainViewModel, listViewModel)
             }
-            composable(route = "merklistenView") {
-                MerklistenView(navController, mainViewModel, listViewModel)
+            composable(route = "favoriteListView") {
+                FavoriteListView(navController, mainViewModel, listViewModel)
             }
             composable(route = "resultView") {
                 ResultView(navController, mainViewModel, listViewModel)
             }
             composable(route = "rezeptView") {
-                RezeptView(navController, mainViewModel, listViewModel)
+                RecipeCocktailView(navController, mainViewModel, listViewModel)
             }
             composable(route = "signInView") {
                 SignInView(navController, signInViewModel, listViewModel)

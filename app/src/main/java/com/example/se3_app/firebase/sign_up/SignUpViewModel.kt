@@ -23,7 +23,7 @@ class SignUpViewModel : ViewModel() {
     var emailOk: Boolean by mutableStateOf(false)
     var registrierungOk: Boolean by mutableStateOf(false)
 
-    var userId: String? = null // UserID des angemeldeten Benutzers
+    var userId: String? = null // UserID of the logged in user
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
@@ -31,7 +31,7 @@ class SignUpViewModel : ViewModel() {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    // Registrierung erfolgreich
+                    // Registration successful
                     val user: FirebaseUser? = auth.currentUser
                     if (user != null) {
                         userId = user.uid
@@ -42,10 +42,10 @@ class SignUpViewModel : ViewModel() {
                     user?.sendEmailVerification()
                         ?.addOnCompleteListener { verificationTask ->
                             if (verificationTask.isSuccessful) {
-                                // E-Mail-Bestätigung erfolgreich gesendet
+                                // Email confirmation sent successfully
                                 emailOk = true
                             } else {
-                                // E-Mail-Bestätigung fehlgeschlagen
+                                // Email confirmation failed
                                 val exception: Exception? = verificationTask.exception
                                 emailOk = false
                             }
@@ -53,7 +53,7 @@ class SignUpViewModel : ViewModel() {
                     registrierungOk = true
                     loading2 = false
                 } else {
-                    // Registrierung fehlgeschlagen
+                    // Registration failed
                     exception = task.exception
                     loading2 = false
                     registrierungOk = false

@@ -23,7 +23,6 @@ class ApiManager2 {
             url.protocol = URLProtocol.HTTPS
             url.host = "warenkorb-api.onrender.com"
             url.encodedPath = "/api" + url.encodedPath
-            println("Pfad: " + url.encodedPath)
             contentType(ContentType.Application.Json)
         }
         HttpResponseValidator {

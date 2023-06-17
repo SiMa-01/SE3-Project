@@ -1,4 +1,4 @@
-package com.example.se3_app.cocktailSearchView
+package com.example.se3_app.searchCocktailView
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
@@ -12,17 +12,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -31,7 +25,6 @@ import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
@@ -58,15 +51,14 @@ import com.example.se3_app.ListViewModel
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
 import com.example.se3_app.startView.Navigationbar
-import com.example.se3_app.startView.navigateToDestination
-import com.example.se3_app.ui.theme.chipFarbe1
-import com.example.se3_app.ui.theme.chipFarbe2
-import com.example.se3_app.ui.theme.chipFarbe6
+import com.example.se3_app.ui.theme.cardColor1
+import com.example.se3_app.ui.theme.cardColor2
+import com.example.se3_app.ui.theme.cardColor6
 
 var options = mutableListOf<String>()
 
 @Composable
-fun CocktailSearchView(
+fun SearchCocktailView(
     navController: NavController,
     viewModel: MainViewModel,
     listViewModel: ListViewModel
@@ -80,7 +72,7 @@ fun CocktailSearchView(
         }
     } else {
         options = viewModel.tastes as MutableList<String>
-        CocktailSearchViewContent(navController, viewModel, listViewModel)
+        SearchCocktailViewContent(navController, viewModel, listViewModel)
     }
 }
 
@@ -90,7 +82,7 @@ val font = FontFamily(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CocktailSearchViewContent(
+fun SearchCocktailViewContent(
     navController: NavController,
     viewModel: MainViewModel,
     listViewModel: ListViewModel
@@ -167,10 +159,10 @@ fun CocktailSearchViewContent(
                     label = { Text(text = "Nach Name filtern", fontFamily = font) },
                     placeholder = { Text(text = "Cocktainame", fontFamily = font) },
                     colors = TextFieldDefaults.textFieldColors(
-                        containerColor = chipFarbe2,
-                        cursorColor = Color.Black, // Farbe des Cursors
-                        focusedIndicatorColor = chipFarbe6, // Farbe des Fokusindikators
-                        unfocusedIndicatorColor = Color.Gray // Farbe des nicht fokussierten Indikators
+                        containerColor = cardColor2,
+                        cursorColor = Color.Black,
+                        focusedIndicatorColor = cardColor6,
+                        unfocusedIndicatorColor = Color.Gray
                     )
                 )
                 nameDto = name.text
@@ -221,13 +213,13 @@ fun CocktailSearchViewContent(
                             var alcoholic = remember { mutableStateOf(istValue) }
 
                             Slider(
-                                value = alcoholic.value.toFloat(),
+                                value = alcoholic.value,
                                 colors = SliderDefaults.colors(
-                                    thumbColor = chipFarbe6,
-                                    activeTrackColor = chipFarbe1
+                                    thumbColor = cardColor6,
+                                    activeTrackColor = cardColor1
                                 ),
                                 onValueChange = { newValue ->
-                                    alcoholic.value = newValue.toFloat()
+                                    alcoholic.value = newValue
                                 },
                                 valueRange = minValue.toFloat()..maxValue.toFloat(),
                                 steps = maxValue - minValue - 1
@@ -246,7 +238,7 @@ fun CocktailSearchViewContent(
             }
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Auswahl der Zutaten
+            // Choose the incredients
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -298,13 +290,12 @@ fun CocktailSearchViewContent(
                                             if (alcoholicFloat != null) viewModel.comeBack[1] = alcoholicFloat!!
                                             if (difficultyInt != null) viewModel.comeBack[2] = difficultyInt!!
                                             if (tasteDto != null) viewModel.comeBack[3] = tasteDto.toString()
-
                                             navController.navigate("ingredientsView")
                                         },
                                         modifier = Modifier
                                             .height(40.dp)
                                             .fillMaxWidth(),
-                                        containerColor = chipFarbe6
+                                        containerColor = cardColor6
                                     ) {
                                         Text("Zutatenfilter", fontFamily = font)
                                     }
@@ -315,7 +306,7 @@ fun CocktailSearchViewContent(
                 }
             }
 
-            // Auswahl der Schwierigkeit
+            // Choose the difficulty
             Spacer(modifier = Modifier.height(8.dp))
             Box(
                 modifier = Modifier
@@ -361,8 +352,8 @@ fun CocktailSearchViewContent(
                             Slider(
                                 value = difficulty.value.toFloat(),
                                 colors = SliderDefaults.colors(
-                                    thumbColor = chipFarbe6,
-                                    activeTrackColor = chipFarbe1
+                                    thumbColor = cardColor6,
+                                    activeTrackColor = cardColor1
                                 ),
                                 onValueChange = { newValue ->
                                     difficulty.value = newValue.toInt()
@@ -383,7 +374,7 @@ fun CocktailSearchViewContent(
                 }
             }
 
-            // Die Geschmacksrichtung auswählen
+            // Choose the taste
             Spacer(modifier = Modifier.height(8.dp))
 
             Box(
@@ -420,8 +411,6 @@ fun CocktailSearchViewContent(
                                 .fillMaxSize(),
                             contentAlignment = Alignment.Center
                         ) {
-                            println("dürfte jetzt ein Egal drin sein " + options)
-
                             var expanded by remember { mutableStateOf(false) }
                             var selectedOptionText by remember {
                                 mutableStateOf(
@@ -456,9 +445,6 @@ fun CocktailSearchViewContent(
                                             onClick = {
                                                 selectedOptionText = selectionOption
                                                 expanded = false
-                                                println(
-                                                    "Der ausgewählte Geschmack: " + selectedOptionText
-                                                )
                                             },
                                             contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
                                         )
@@ -478,7 +464,8 @@ fun CocktailSearchViewContent(
                 }
             }
             Spacer(modifier = Modifier.height(8.dp))
-            // Der Suche Button
+
+            // Search Button
             Box(
                 modifier = Modifier
                     .fillMaxSize(),
@@ -500,7 +487,7 @@ fun CocktailSearchViewContent(
                     modifier = Modifier
                         .height(40.dp)
                         .fillMaxWidth(),
-                    containerColor = chipFarbe6
+                    containerColor = cardColor6
                 ) {
                     Text("Suchen", fontFamily = font)
                 }

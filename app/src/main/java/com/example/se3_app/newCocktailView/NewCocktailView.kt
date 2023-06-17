@@ -1,4 +1,4 @@
-package com.example.se3_app.hinzufuegenView
+package com.example.se3_app.newCocktailView
 
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
@@ -13,16 +13,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -31,7 +25,6 @@ import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Switch
@@ -58,18 +51,16 @@ import com.example.se3_app.Dto.CocktailDto
 import com.example.se3_app.ListViewModel
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
-import com.example.se3_app.cocktailSearchView.font
-import com.example.se3_app.cocktailSearchView.options
+import com.example.se3_app.searchCocktailView.font
+import com.example.se3_app.searchCocktailView.options
 import com.example.se3_app.startView.Navigationbar
-import com.example.se3_app.startView.navigateToDestination
-import com.example.se3_app.ui.theme.chipFarbe1
-import com.example.se3_app.ui.theme.chipFarbe2
-import com.example.se3_app.ui.theme.chipFarbe6
+import com.example.se3_app.ui.theme.cardColor1
+import com.example.se3_app.ui.theme.cardColor2
+import com.example.se3_app.ui.theme.cardColor6
 import kotlin.random.Random
 
-// val newCocktail = AddCocktailDto("", emptyArray(),"", true, "", "")
 @Composable
-fun HinzufuegenView(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
+fun NewCocktailView(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
     if (viewModel.loading) {
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -79,16 +70,16 @@ fun HinzufuegenView(navController: NavController, viewModel: MainViewModel, list
         }
     } else {
         options = viewModel.tastes as MutableList<String>
-        HinzufuegenViewContent(navController, viewModel, listViewModel)
+        NewCocktailViewContent(navController, viewModel, listViewModel)
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
+fun NewCocktailViewContent(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
     val context = LocalContext.current
 
-    var nameDto: String? = null
+    var nameDto: String?
     var tasteDto: String? = null
     var alcoholicDto: Boolean? = null
     var alcoholicBoolean: Boolean? = null
@@ -125,9 +116,6 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                 }
             })
 
-        var expanded by remember { mutableStateOf(false) }
-        var selectedOptionText by remember { mutableStateOf(options[0]) }
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -137,7 +125,7 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
             Text("Eigenschaften deines neuen Cocktails:", fontSize = 20.sp)
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Eingabefeld des Nutzers
+            // Input field: name
             var text by remember { mutableStateOf(TextFieldValue(viewModel.comeBack2[0].toString())) }
             TextField(
                 modifier = Modifier
@@ -150,16 +138,17 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                 label = { Text(text = "Der Name deines Cocktails") },
                 placeholder = { Text(text = "Cocktainame") },
                 colors = TextFieldDefaults.textFieldColors(
-                    containerColor = chipFarbe2,
-                    cursorColor = Color.Black, // Farbe des Cursors
-                    focusedIndicatorColor = chipFarbe6, // Farbe des Fokusindikators
-                    unfocusedIndicatorColor = Color.Gray // Farbe des nicht fokussierten Indikators
+                    containerColor = cardColor2,
+                    cursorColor = Color.Black,
+                    focusedIndicatorColor = cardColor6,
+                    unfocusedIndicatorColor = Color.Gray
                 )
             )
             nameDto = text.text
 
             Spacer(modifier = Modifier.height(8.dp))
 
+            // Switch: alcohol
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -208,10 +197,10 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                                         switchOn = switchOn_
                                     },
                                     colors = SwitchDefaults.colors(
-                                        uncheckedTrackColor = chipFarbe6,
+                                        uncheckedTrackColor = cardColor6,
                                         uncheckedThumbColor = Color.White,
                                         uncheckedBorderColor = Color.Transparent,
-                                        checkedTrackColor = chipFarbe6
+                                        checkedTrackColor = cardColor6
                                     )
                                 )
                                 alcoholicBoolean = switchOn
@@ -224,8 +213,8 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
             }
 
             Spacer(modifier = Modifier.height(8.dp))
-            // Auswahl der Zutaten
 
+            // Navigation to ingredient selection
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -282,7 +271,7 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                                         modifier = Modifier
                                             .height(40.dp)
                                             .fillMaxWidth(),
-                                        containerColor = chipFarbe6
+                                        containerColor = cardColor6
                                     ) {
                                         Text("Zutatenfilter", fontFamily = font)
                                     }
@@ -293,7 +282,7 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                 }
             }
 
-            // Auswahl der Schwierigkeit
+            // Switch: difficulty
             Spacer(modifier = Modifier.height(8.dp))
             Box(
                 modifier = Modifier
@@ -338,8 +327,8 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                             Slider(
                                 value = selectedValue.value.toFloat(),
                                 colors = SliderDefaults.colors(
-                                    thumbColor = chipFarbe6,
-                                    activeTrackColor = chipFarbe1
+                                    thumbColor = cardColor6,
+                                    activeTrackColor = cardColor1
                                 ),
                                 onValueChange = { newValue ->
                                     selectedValue.value = newValue.toInt()
@@ -359,7 +348,7 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                 }
             }
 
-            // Die Geschmacksrichtung auswählen
+            // Drop Down Menu: Taste
             Spacer(modifier = Modifier.height(8.dp))
 
             Box(
@@ -429,9 +418,6 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                                             onClick = {
                                                 selectedOptionText = selectionOption
                                                 expanded = false
-                                                println(
-                                                    "Der ausgewählte Geschmack: " + selectedOptionText
-                                                )
                                             },
                                             contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
                                         )
@@ -439,55 +425,14 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                                     tasteDto = selectedOptionText
                                 }
                             }
-
-                            /*
-                            ExposedDropdownMenuBox(
-                                expanded = expanded,
-                                modifier = Modifier.background(chipFarbe2),
-                                onExpandedChange = {
-                                    expanded = !expanded
-                                }
-                            ) {
-                                TextField(
-                                    modifier = Modifier.menuAnchor(),
-                                    readOnly = true,
-                                    value = selectedOptionText,
-                                    onValueChange = {},
-                                    label = { Text("Geschmack") },
-                                    trailingIcon = {
-                                        ExposedDropdownMenuDefaults.TrailingIcon(
-                                            expanded = expanded
-                                        )
-                                    },
-                                    colors = ExposedDropdownMenuDefaults.textFieldColors()
-                                )
-                                ExposedDropdownMenu(
-                                    expanded = expanded,
-                                    modifier = Modifier.background(chipFarbe2),
-                                    onDismissRequest = {
-                                        expanded = false
-                                    }
-                                ) {
-                                    options.forEach { selectionOption ->
-                                        DropdownMenuItem(
-                                            text = { Text(text = selectionOption) },
-                                            onClick = {
-                                                selectedOptionText = selectionOption
-                                                expanded = false
-                                                tasteDto = selectionOption
-                                            }
-                                        )
-                                    }
-                                }
-                            }*/
                         }
                     }
                 }
             }
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Eingabefeld des Nutzers
-            var beschreibungsText by remember {
+            // Input field: description text
+            var descriptionText by remember {
                 mutableStateOf(
                     TextFieldValue(viewModel.comeBack2[4].toString())
                 )
@@ -495,10 +440,10 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
             TextField(
                 modifier = Modifier
                     .fillMaxWidth().height(300.dp),
-                value = beschreibungsText,
+                value = descriptionText,
                 onValueChange = {
-                    beschreibungsText = it
-                    preparationDto = beschreibungsText.text
+                    descriptionText = it
+                    preparationDto = descriptionText.text
                 },
                 label = { Text(text = "Beschreibe deinen Cocktail") },
                 placeholder = {
@@ -508,17 +453,17 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                     )
                 },
                 colors = TextFieldDefaults.textFieldColors(
-                    containerColor = chipFarbe2,
-                    cursorColor = Color.Black, // Farbe des Cursors
-                    focusedIndicatorColor = chipFarbe6, // Farbe des Fokusindikators
-                    unfocusedIndicatorColor = Color.Gray // Farbe des nicht fokussierten Indikators
+                    containerColor = cardColor2,
+                    cursorColor = Color.Black,
+                    focusedIndicatorColor = cardColor6,
+                    unfocusedIndicatorColor = Color.Gray
                 )
             )
-            preparationDto = beschreibungsText.text
+            preparationDto = descriptionText.text
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Der Suche Button
+            // Search Button
             Box(
                 modifier = Modifier
                     .fillMaxSize(),
@@ -536,20 +481,18 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                             tasteDto,
                             preparationDto
                         )
-                        if (text.text.isNullOrEmpty() || viewModel.selectedIngredients.isNullOrEmpty() || beschreibungsText.text.isNullOrEmpty()) {
+                        if (text.text.isNullOrEmpty() || viewModel.selectedIngredients.isNullOrEmpty() || descriptionText.text.isNullOrEmpty()) {
                             Toast.makeText(
                                 context,
                                 "Der Name, Zutaten und die Beschreibung dürfen nicht leer sein!",
                                 Toast.LENGTH_SHORT
                             ).show()
                         } else {
-                            println("Neuer Cocktail $newCocktail")
                             viewModel.addCocktail(newCocktail)
                             if (viewModel.loading) {
                                 var i = 0
                                 i++
                             } else {
-                                println("Cocktail added ${viewModel.addedCocktail}")
                                 Toast.makeText(
                                     context,
                                     "Neuer Cocktail mit dem Namen ${text.text} angelegt",
@@ -558,10 +501,10 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
                                 viewModel.selectedIngredients.clear()
                             }
                         }
-                    }, // andere Seite einfügen
+                    },
                     modifier = Modifier
                         .height(40.dp).fillMaxWidth(),
-                    containerColor = chipFarbe6
+                    containerColor = cardColor6
                 ) {
                     Text("Hinzufügen")
                 }

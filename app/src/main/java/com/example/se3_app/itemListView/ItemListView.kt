@@ -1,9 +1,7 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.example.se3_app.einkaufslitenView
+package com.example.se3_app.itemListView
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,18 +17,12 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -51,17 +43,17 @@ import com.example.se3_app.Dto.ShoppingListDto
 import com.example.se3_app.ListViewModel
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
-import com.example.se3_app.cocktailSearchView.font
+import com.example.se3_app.searchCocktailView.font
 import com.example.se3_app.startView.Navigationbar
-import com.example.se3_app.startView.navigateToDestination
-import com.example.se3_app.ui.theme.chipFarbe2
-import com.example.se3_app.ui.theme.chipFarbe6
+import com.example.se3_app.ui.theme.cardColor2
+import com.example.se3_app.ui.theme.cardColor6
+
 
 
 var itemList: MutableList<ShoppingListDto> by mutableStateOf(mutableListOf())
 
 @Composable
-fun EinkaufslistenView(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
+fun ItemListView(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
     if (listViewModel.loading) {
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -71,25 +63,13 @@ fun EinkaufslistenView(navController: NavController, viewModel: MainViewModel, l
         }
     } else {
         itemList = listViewModel.userShoppingList
-        EinkaufsListenViewContent(navController, viewModel, listViewModel)
+        ItemListViewContent(navController, viewModel, listViewModel)
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EinkaufsListenViewContent(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
-
-
-
-    var selectedItem by remember { mutableStateOf(0) }
-    val items = listOf("Home", "Cocktails", "Merkliste", "Einkaufsliste")
-    val icons = listOf(
-        Icons.Filled.Home,
-        Icons.Filled.Search,
-        Icons.Filled.Favorite,
-        Icons.Filled.List
-    )
-    // Container mit allen Elementen
+fun ItemListViewContent(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -180,9 +160,9 @@ fun EinkaufsListenViewContent(navController: NavController, viewModel: MainViewM
                     label = { Text("Neue Zutat") },
                     modifier = Modifier.fillMaxWidth(),
                     colors = TextFieldDefaults.textFieldColors(
-                    containerColor = chipFarbe2,
+                    containerColor = cardColor2,
                     cursorColor = Color.Black,
-                    focusedIndicatorColor = chipFarbe6,
+                    focusedIndicatorColor = cardColor6,
                     unfocusedIndicatorColor = Color.Gray
                     )
                 )
@@ -196,9 +176,9 @@ fun EinkaufsListenViewContent(navController: NavController, viewModel: MainViewM
                     },
                     modifier = Modifier
                         .height(40.dp)
-                        .padding(vertical = 10.dp)
+                        .padding(vertical = 5.dp)
                         .fillMaxWidth(),
-                    containerColor = chipFarbe6
+                    containerColor = cardColor6
                 ) {
                     Text(text = "Zutat hinzufügen", fontFamily = font)
                 }

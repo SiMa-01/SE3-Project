@@ -1,4 +1,4 @@
-package com.example.se3_app.rezeptView
+package com.example.se3_app.recipeCocktailView
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
@@ -16,11 +16,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -30,7 +26,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,8 +46,7 @@ var cocktail = emptyList<CocktailDto>()
 var itemList: MutableList<ShoppingListDto> by mutableStateOf(mutableListOf())
 
 @Composable
-fun RezeptView(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
-
+fun RecipeCocktailView(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
     if (viewModel.loading || listViewModel.loading){
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -63,12 +57,12 @@ fun RezeptView(navController: NavController, viewModel: MainViewModel, listViewM
     } else {
         cocktail = viewModel.cocktailByName
         itemList = listViewModel.userShoppingList
-        RezeptViewContent(navController, viewModel, listViewModel)
+        RecipeCocktailViewContent(navController, viewModel, listViewModel)
     }
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RezeptViewContent(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
+fun RecipeCocktailViewContent(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally

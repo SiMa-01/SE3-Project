@@ -8,10 +8,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material3.AlertDialogDefaults.containerColor
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
@@ -19,7 +17,6 @@ import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -35,28 +32,23 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
-import com.example.se3_app.cocktailSearchView.font
-import com.example.se3_app.ui.theme.chipFarbe1
-import com.example.se3_app.ui.theme.chipFarbe2
-import com.example.se3_app.ui.theme.chipFarbe3
-import com.example.se3_app.ui.theme.chipFarbe4
-import com.example.se3_app.ui.theme.chipFarbe5
-import com.example.se3_app.ui.theme.neueIdee
-
-// import androidx.compose.foundation.layout.FlowRow
+import com.example.se3_app.searchCocktailView.font
+import com.example.se3_app.ui.theme.cardColor1
+import com.example.se3_app.ui.theme.cardColor2
+import com.example.se3_app.ui.theme.cardColor3
+import com.example.se3_app.ui.theme.cardColor4
+import com.example.se3_app.ui.theme.cardColor5
+import com.example.se3_app.ui.theme.cardColor6
 
 val font = FontFamily(
     Font(resId = R.font.arciform)
 )
 var selectedFilters: MutableList<String> = emptyList<String>().toMutableList()
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IngredientsView(navController: NavController, ingredientsViewModel: MainViewModel) {
-    var ingredients = listOf("Apfel", "Banane", "Birne", "Orange", "Ananas")
-
+    val ingredients: List<String>
     val tempList: Set<Int> = emptySet()
-
     if (ingredientsViewModel.loading) {
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -86,11 +78,9 @@ fun ChipEachRow(
     tempList: Set<Int>
 ) {
     var multipleChecked by rememberSaveable { mutableStateOf(tempList) }
-
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
-        // verticalArrangement = Arrangement.SpaceBetween,
     ) {
         Box(
             modifier = Modifier
@@ -102,7 +92,6 @@ fun ChipEachRow(
                 modifier = Modifier.align(Alignment.Center)
             )
         }
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -128,9 +117,7 @@ fun ChipEachRow(
                             } else {
                                 selectedFilters.plus(s).toMutableList()
                             }
-                            println("ItemsInList $selectedFilters ")
                             viewModel.selectedIngredients = selectedFilters
-                            println("ItemsInViewModel ${viewModel.selectedIngredients} ")
                         },
                         label = {
                             Text(text = s, fontFamily = font)
@@ -142,15 +129,15 @@ fun ChipEachRow(
                         colors = FilterChipDefaults.filterChipColors(
                             containerColor =
                             if (index % 6 == 0) {
-                                chipFarbe1
+                                cardColor1
                             } else if (index % 4 == 0) {
-                                chipFarbe2
+                                cardColor2
                             } else if (index % 3 == 0) {
-                                chipFarbe3
+                                cardColor3
                             } else if (index % 2 == 0) {
-                                chipFarbe4
+                                cardColor4
                             } else {
-                                chipFarbe5
+                                cardColor5
                             },
                             selectedContainerColor = Color.Transparent
                         ),
@@ -158,8 +145,6 @@ fun ChipEachRow(
                         trailingIcon = {
                             if (viewModel.selectedIngredients.contains(s)) {
                                 Icon(Icons.Default.Check, contentDescription = "")
-                            } else {
-                                null
                             }
                         }
                     )
@@ -169,8 +154,7 @@ fun ChipEachRow(
         }
     }
 
-    // Der Suche Button
-
+    // Search Button
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -189,7 +173,7 @@ fun ChipEachRow(
             modifier = Modifier
                 .height(40.dp)
                 .fillMaxWidth(),
-            containerColor = neueIdee
+            containerColor = cardColor6
         ) {
             Text("Fertig", fontFamily = font)
         }

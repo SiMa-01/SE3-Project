@@ -61,7 +61,6 @@ class CocktailService {
 
     suspend fun addCocktail(cocktailDto: CocktailDto): CocktailDto {
         val cocktail: CocktailDto = apiManager.httpClient.post("cocktails") {
-            println(cocktailDto)
             body = cocktailDto
         }
         return cocktail

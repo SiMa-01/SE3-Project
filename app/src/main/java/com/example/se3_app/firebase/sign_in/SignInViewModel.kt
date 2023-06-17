@@ -14,7 +14,7 @@ class SignInViewModel : ViewModel() {
 
     var veriviziert: Boolean by mutableStateOf(false)
     var anmeldungOk: Boolean by mutableStateOf(false)
-    var userId: String? = null // UserID des angemeldeten Benutzers
+    var userId: String? = null // UserID of the logged in user
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
@@ -24,7 +24,7 @@ class SignInViewModel : ViewModel() {
                 if (task.isSuccessful) {
                     val user: FirebaseUser? = auth.currentUser
                     if (user != null && user.isEmailVerified) {
-                        // Anmeldung erfolgreich und E-Mail-Adresse verifiziert
+                        // Registration successful and email address verified
                         userId = user.uid
                         veriviziert = true
                         anmeldungOk = true
@@ -33,22 +33,22 @@ class SignInViewModel : ViewModel() {
                             .addOnCompleteListener { tokenTask ->
                                 if (tokenTask.isSuccessful) {
                                     val idToken = tokenTask.result?.token
-                                    // Hier hast du den JWT (idToken) des angemeldeten Benutzers
-                                    // Führe hier weitere Operationen mit dem JWT durch
+                                    // Here you have the JWT (idToken) of the logged in user
+                                    // Perform more operations with the JWT here
                                     println("idToken:$idToken")
                                 } else {
-                                    // Fehler beim Abrufen des JWT
+                                    // Error when retrieving the JWT
                                     val exception = tokenTask.exception
-                                    // Behandle den Fehler entsprechend
+                                    // Handle the error accordingly
                                 }
                             }
                     } else {
-                        // Anmeldung erfolgreich, aber E-Mail-Adresse nicht verifiziert
+                        // Registration successful, but email address not verified
                         veriviziert = false
                         anmeldungOk = true
                     }
                 } else {
-                    // Anmeldung fehlgeschlagen
+                    // Login failed
                     val exception: Exception? = task.exception
                     print(exception)
                     anmeldungOk = false

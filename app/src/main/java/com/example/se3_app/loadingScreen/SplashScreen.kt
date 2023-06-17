@@ -34,14 +34,12 @@ fun AnimatedSplashScreen(
     listViewModel: ListViewModel
 ) {
     var startAnimation by remember { mutableStateOf(false) }
-
     val alphaAnim = animateFloatAsState(
         targetValue = if (startAnimation) 1f else 0f,
         animationSpec = tween(
             durationMillis = 3000
         )
     )
-
     LaunchedEffect(key1 = true) {
         startAnimation = true
         viewModel.getAllCocktails()
@@ -49,17 +47,14 @@ fun AnimatedSplashScreen(
         listViewModel.getFavouriteList(listViewModel.userId)
         delay(3000)
         listViewModel.getShoppingList(listViewModel.userId)
-
         while (viewModel.loading || listViewModel.loading) {
-            delay(1000) // Wartezeit vor der erneuten Überprüfung
+            delay(1000)
         }
-
         navController.popBackStack()
         navController.navigate("startView")
     }
     Splash(alpha = alphaAnim.value, viewModel)
 }
-
 @Composable
 fun Splash(alpha: Float, viewModel: MainViewModel) {
     Box(
@@ -87,7 +82,7 @@ fun Splash(alpha: Float, viewModel: MainViewModel) {
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(horizontal = 16.dp),
-                    color = Color.Blue // progress color
+                    color = Color.Blue
                 )
             }
         }

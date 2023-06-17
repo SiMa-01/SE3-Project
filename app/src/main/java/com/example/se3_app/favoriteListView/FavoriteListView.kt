@@ -1,4 +1,4 @@
-package com.example.se3_app.merklistenView
+package com.example.se3_app.favoriteListView
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
@@ -30,10 +30,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.se3_app.Dto.FavoriteCocktailDto
 import com.example.se3_app.ListViewModel
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
+import com.example.se3_app.Dto.FavoriteCocktailDto
 import com.example.se3_app.startView.Cocktailbox
 import com.example.se3_app.startView.Navigationbar
 
@@ -42,9 +42,7 @@ var favoriteList: MutableList<FavoriteCocktailDto> by mutableStateOf(mutableList
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun MerklistenView(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
-
-
+fun FavoriteListView(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
     if (listViewModel.loading) {
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -54,14 +52,13 @@ fun MerklistenView(navController: NavController, viewModel: MainViewModel, listV
         }
     } else {
         favoriteList = listViewModel.userFavoriteList
-        MerklistenViewContent(navController, viewModel, listViewModel)
+        FavoriteListViewContent(navController, viewModel, listViewModel)
     }
 }
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MerklistenViewContent(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
+fun FavoriteListViewContent(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
 
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
@@ -91,15 +88,12 @@ fun MerklistenViewContent(navController: NavController, viewModel: MainViewModel
             }
         })
 
-
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState())
         ){
-
             if (favoriteList[0].list.isNullOrEmpty()){
                 Text("Noch keine Lieblingscocktails? \nFüge sie mit dem Herz Icon hinzu!", fontSize = 20.sp)
             }

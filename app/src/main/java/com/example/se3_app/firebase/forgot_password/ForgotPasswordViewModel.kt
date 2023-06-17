@@ -26,16 +26,16 @@ class ForgotPasswordViewModel {
                     val signInMethods = task.result?.signInMethods ?: emptyList()
 
                     if (signInMethods.contains(EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD)) {
-                        // E-Mail-Adresse registriert, Passwortzurücksetzungsmail senden
+                        // Email address registered, send password reset email
                         emailRegistriert = true
                         auth.sendPasswordResetEmail(email)
                             .addOnCompleteListener { resetTask ->
                                 if (resetTask.isSuccessful) {
-                                    // Passwortzurücksetzungsmail erfolgreich gesendet
+                                    // Password reset email sent successfully
                                     Log.d(TAG, "Passwortzurücksetzungsmail erfolgreich gesendet.")
                                     emailReset = true
                                 } else {
-                                    // Passwortzurücksetzungsmail senden fehlgeschlagen
+                                    // Send password reset email failed
                                     Log.w(
                                         TAG,
                                         "Passwortzurücksetzungsmail senden fehlgeschlagen.",
@@ -45,12 +45,12 @@ class ForgotPasswordViewModel {
                                 }
                             }
                     } else {
-                        // E-Mail-Adresse nicht registriert
+                        // Email address not registered
                         emailRegistriert = false
                         Log.w(TAG, "E-Mail-Adresse ist nicht registriert.")
                     }
                 } else {
-                    // Fehler beim Überprüfen der Anmeldearten für die E-Mail-Adresse
+                    // Error when checking the login types for the email address
                     Log.w(
                         TAG,
                         "Fehler beim Überprüfen der Anmeldearten für die E-Mail-Adresse.",
