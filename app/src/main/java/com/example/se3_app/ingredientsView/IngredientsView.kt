@@ -111,7 +111,6 @@ fun ChipEachRow(
                             } else {
                                 multipleChecked.plus(index)
                             }
-
                             selectedFilters = if (selectedFilters.contains(s)) {
                                 selectedFilters.minus(s).toMutableList()
                             } else {
@@ -164,10 +163,12 @@ fun ChipEachRow(
     ) {
         FloatingActionButton(
             onClick = {
+                println("cameFrom: " + viewModel.cameFrom)
                 if (viewModel.cameFrom == 1) {
-                    navController.navigate("CocktailSearchView")
+                    println("in der if ")
+                    navController.navigate("SearchCocktailView")
                 } else if (viewModel.cameFrom == 2) {
-                    navController.navigate("HinzufuegenView")
+                    navController.navigate("newCocktailnView")
                 }
             },
             modifier = Modifier
