@@ -30,19 +30,22 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.se3_app.Dto.FavoriteCocktailDto
 import com.example.se3_app.ListViewModel
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
-import com.example.se3_app.Dto.FavoriteCocktailDto
 import com.example.se3_app.startView.Cocktailbox
 import com.example.se3_app.startView.Navigationbar
-
 
 var favoriteList: MutableList<FavoriteCocktailDto> by mutableStateOf(mutableListOf())
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun FavoriteListView(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
+fun FavoriteListView(
+    navController: NavController,
+    viewModel: MainViewModel,
+    listViewModel: ListViewModel
+) {
     if (listViewModel.loading) {
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -58,8 +61,11 @@ fun FavoriteListView(navController: NavController, viewModel: MainViewModel, lis
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FavoriteListViewContent(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
-
+fun FavoriteListViewContent(
+    navController: NavController,
+    viewModel: MainViewModel,
+    listViewModel: ListViewModel
+) {
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -71,37 +77,38 @@ fun FavoriteListViewContent(navController: NavController, viewModel: MainViewMod
                 modifier = Modifier.size(40.dp)
             )
         }, title = {
-            Box(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                Text(
-                    text = "MIX'N'FIX",
-                    fontFamily = com.example.se3_app.startView.font,
-                    fontSize = 30.sp,
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
-        }, actions = {
-            IconButton(onClick = { navController.navigate("HelpView") })
-            {
-                Icon(Icons.Filled.Info, contentDescription = "Search Icon")
-            }
-        })
+                Box(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    Text(
+                        text = "MIX'N'FIX",
+                        fontFamily = com.example.se3_app.startView.font,
+                        fontSize = 30.sp,
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+            }, actions = {
+                IconButton(onClick = { navController.navigate("HelpView") }) {
+                    Icon(Icons.Filled.Info, contentDescription = "Search Icon")
+                }
+            })
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState())
-        ){
-            if (favoriteList[0].list.isNullOrEmpty()){
-                Text("Noch keine Lieblingscocktails? \nFüge sie mit dem Herz Icon hinzu!", fontSize = 20.sp)
-            }
-            else{
+        ) {
+            if (favoriteList[0].list.isNullOrEmpty()) {
+                Text(
+                    "Noch keine Lieblingscocktails? \nFüge sie mit dem Herz Icon hinzu!",
+                    fontSize = 20.sp
+                )
+            } else {
                 Text("Deine Lieblingscocktails:", fontSize = 20.sp)
                 Spacer(modifier = Modifier.height(8.dp))
 
-                favoriteList[0].list.forEachIndexed{ index, s ->
+                favoriteList[0].list.forEachIndexed { index, s ->
                     Cocktailbox(
                         navController,
                         viewModel,
@@ -117,9 +124,3 @@ fun FavoriteListViewContent(navController: NavController, viewModel: MainViewMod
     Spacer(modifier = Modifier.height(100.dp))
     Navigationbar(viewModel, listViewModel, navController)
 }
-
-
-
-
-
-

@@ -49,9 +49,14 @@ fun ResultView(navController: NavController, viewModel: MainViewModel, listViewM
         ResultViewContent(navController, viewModel, listViewModel)
     }
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ResultViewContent(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
+fun ResultViewContent(
+    navController: NavController,
+    viewModel: MainViewModel,
+    listViewModel: ListViewModel
+) {
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -63,22 +68,23 @@ fun ResultViewContent(navController: NavController, viewModel: MainViewModel, li
                 modifier = Modifier.size(40.dp)
             )
         }, title = {
-            Box(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                Text(
-                    text = "MIX'N'FIX",
-                    fontFamily = com.example.se3_app.startView.font,
-                    fontSize = 30.sp,
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
-        }, actions = {
-            IconButton(onClick = { navController.navigate("HelpView")
-            }) {
-                Icon(Icons.Filled.Info, contentDescription = "Search Icon")
-            }
-        })
+                Box(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    Text(
+                        text = "MIX'N'FIX",
+                        fontFamily = com.example.se3_app.startView.font,
+                        fontSize = 30.sp,
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+            }, actions = {
+                IconButton(onClick = {
+                    navController.navigate("HelpView")
+                }) {
+                    Icon(Icons.Filled.Info, contentDescription = "Search Icon")
+                }
+            })
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -86,14 +92,13 @@ fun ResultViewContent(navController: NavController, viewModel: MainViewModel, li
                 .verticalScroll(rememberScrollState())
         ) {
             Spacer(modifier = Modifier.height(8.dp))
-            if (cocktails.isNullOrEmpty()){
+            if (cocktails.isNullOrEmpty()) {
                 Text("Mit deiner Auswahl gibt es aktuell leider keinen Cocktail", fontSize = 20.sp)
-            }
-            else {
+            } else {
                 Text("Damit empfehlen wir dir diese Cocktails: ", fontSize = 20.sp)
                 Spacer(modifier = Modifier.height(8.dp))
-                cocktails.forEachIndexed {index, s ->
-                    Cocktailbox(navController, viewModel, cocktails[index], index, listViewModel )
+                cocktails.forEachIndexed { index, s ->
+                    Cocktailbox(navController, viewModel, cocktails[index], index, listViewModel)
                 }
             }
             Spacer(modifier = Modifier.height(100.dp))
@@ -101,7 +106,3 @@ fun ResultViewContent(navController: NavController, viewModel: MainViewModel, li
     }
     Navigationbar(viewModel, listViewModel, navController)
 }
-
-
-
-

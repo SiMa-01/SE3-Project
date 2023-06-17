@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.se3_app.itemListView.ItemListView
 import com.example.se3_app.favoriteListView.FavoriteListView
 import com.example.se3_app.firebase.forgot_password.ForgotPasswordView
 import com.example.se3_app.firebase.forgot_password.ForgotPasswordViewModel
@@ -23,6 +22,7 @@ import com.example.se3_app.firebase.verify_email.VerifyEmailView
 import com.example.se3_app.firebase.verify_email.VerifyEmailViewModel
 import com.example.se3_app.helpView.HelpView
 import com.example.se3_app.ingredientsView.IngredientsView
+import com.example.se3_app.itemListView.ItemListView
 import com.example.se3_app.loadingScreen.AnimatedSplashScreen
 import com.example.se3_app.newCocktailView.NewCocktailView
 import com.example.se3_app.pictures.PicturesView

@@ -48,12 +48,14 @@ import com.example.se3_app.startView.Navigationbar
 import com.example.se3_app.ui.theme.cardColor2
 import com.example.se3_app.ui.theme.cardColor6
 
-
-
 var itemList: MutableList<ShoppingListDto> by mutableStateOf(mutableListOf())
 
 @Composable
-fun ItemListView(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
+fun ItemListView(
+    navController: NavController,
+    viewModel: MainViewModel,
+    listViewModel: ListViewModel
+) {
     if (listViewModel.loading) {
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -69,7 +71,11 @@ fun ItemListView(navController: NavController, viewModel: MainViewModel, listVie
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ItemListViewContent(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
+fun ItemListViewContent(
+    navController: NavController,
+    viewModel: MainViewModel,
+    listViewModel: ListViewModel
+) {
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -107,11 +113,12 @@ fun ItemListViewContent(navController: NavController, viewModel: MainViewModel, 
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-            if (itemList[0].list.isNullOrEmpty()){
-                Text("Noch keine Zutaten in der Einkaufsliste? \nFüge sie mit dem plus in den Rezepten oder hier im Textefeld hinzu!", fontSize = 20.sp)
-            }
-            else {
-
+            if (itemList[0].list.isNullOrEmpty()) {
+                Text(
+                    "Noch keine Zutaten in der Einkaufsliste? \nFüge sie mit dem plus in den Rezepten oder hier im Textefeld hinzu!",
+                    fontSize = 20.sp
+                )
+            } else {
                 Text("Zutaten deiner Einkaufsliste ", fontSize = 20.sp)
                 Spacer(modifier = Modifier.height(10.dp))
 
@@ -145,49 +152,50 @@ fun ItemListViewContent(navController: NavController, viewModel: MainViewModel, 
                 }
             }
 
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .wrapContentSize(Alignment.BottomCenter)
-        ) {
-            Column(
+            Box(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxSize()
+                    .wrapContentSize(Alignment.BottomCenter)
             ) {
-                TextField(
-                    value = newItemState.value,
-                    onValueChange = { newItemState.value = it },
-                    label = { Text("Neue Zutat") },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = TextFieldDefaults.textFieldColors(
-                    containerColor = cardColor2,
-                    cursorColor = Color.Black,
-                    focusedIndicatorColor = cardColor6,
-                    unfocusedIndicatorColor = Color.Gray
-                    )
-                )
-
-                FloatingActionButton(
-                    onClick = {
-                        if (newItemState.value != "") {
-                            itemList[0].list!!.add(newItemState.value)
-                            listViewModel.addShoppingList(listViewModel.userId, newItemState.value)
-                        }
-                    },
+                Column(
                     modifier = Modifier
-                        .height(40.dp)
-                        .padding(vertical = 5.dp)
-                        .fillMaxWidth(),
-                    containerColor = cardColor6
+                        .fillMaxWidth()
                 ) {
-                    Text(text = "Zutat hinzufügen", fontFamily = font)
+                    TextField(
+                        value = newItemState.value,
+                        onValueChange = { newItemState.value = it },
+                        label = { Text("Neue Zutat") },
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = TextFieldDefaults.textFieldColors(
+                            containerColor = cardColor2,
+                            cursorColor = Color.Black,
+                            focusedIndicatorColor = cardColor6,
+                            unfocusedIndicatorColor = Color.Gray
+                        )
+                    )
+
+                    FloatingActionButton(
+                        onClick = {
+                            if (newItemState.value != "") {
+                                itemList[0].list!!.add(newItemState.value)
+                                listViewModel.addShoppingList(
+                                    listViewModel.userId,
+                                    newItemState.value
+                                )
+                            }
+                        },
+                        modifier = Modifier
+                            .height(40.dp)
+                            .padding(vertical = 5.dp)
+                            .fillMaxWidth(),
+                        containerColor = cardColor6
+                    ) {
+                        Text(text = "Zutat hinzufügen", fontFamily = font)
+                    }
                 }
             }
-        }
         }
         Spacer(modifier = Modifier.height(140.dp))
     }
     Navigationbar(viewModel, listViewModel, navController)
 }
-
-

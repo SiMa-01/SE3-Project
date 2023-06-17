@@ -55,6 +55,7 @@ fun AnimatedSplashScreen(
     }
     Splash(alpha = alphaAnim.value, viewModel)
 }
+
 @Composable
 fun Splash(alpha: Float, viewModel: MainViewModel) {
     Box(

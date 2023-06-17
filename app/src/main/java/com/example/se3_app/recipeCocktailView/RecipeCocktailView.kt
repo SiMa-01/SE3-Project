@@ -46,8 +46,12 @@ var cocktail = emptyList<CocktailDto>()
 var itemList: MutableList<ShoppingListDto> by mutableStateOf(mutableListOf())
 
 @Composable
-fun RecipeCocktailView(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
-    if (viewModel.loading || listViewModel.loading){
+fun RecipeCocktailView(
+    navController: NavController,
+    viewModel: MainViewModel,
+    listViewModel: ListViewModel
+) {
+    if (viewModel.loading || listViewModel.loading) {
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
@@ -60,9 +64,14 @@ fun RecipeCocktailView(navController: NavController, viewModel: MainViewModel, l
         RecipeCocktailViewContent(navController, viewModel, listViewModel)
     }
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RecipeCocktailViewContent(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
+fun RecipeCocktailViewContent(
+    navController: NavController,
+    viewModel: MainViewModel,
+    listViewModel: ListViewModel
+) {
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -74,26 +83,25 @@ fun RecipeCocktailViewContent(navController: NavController, viewModel: MainViewM
                 modifier = Modifier.size(40.dp)
             )
         }, title = {
-            Box(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                Text(
-                    text = "MIX'N'FIX",
-                    fontFamily = com.example.se3_app.startView.font,
-                    fontSize = 30.sp,
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
-        }, actions = {
-            IconButton(onClick = { navController.navigate("HelpView")
+                Box(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    Text(
+                        text = "MIX'N'FIX",
+                        fontFamily = com.example.se3_app.startView.font,
+                        fontSize = 30.sp,
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+            }, actions = {
+                IconButton(onClick = {
+                    navController.navigate("HelpView")
+                }) {
+                    Icon(Icons.Filled.Info, contentDescription = "Search Icon")
+                }
+            })
 
-
-            }) {
-                Icon(Icons.Filled.Info, contentDescription = "Search Icon")
-            }
-        })
-
-        //----------------------------------
+        // ----------------------------------
 
         Column(
             modifier = Modifier
@@ -101,7 +109,6 @@ fun RecipeCocktailViewContent(navController: NavController, viewModel: MainViewM
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-
             Cocktailbox(
                 navController,
                 viewModel,

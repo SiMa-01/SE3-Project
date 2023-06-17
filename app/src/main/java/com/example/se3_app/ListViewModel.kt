@@ -23,7 +23,6 @@ class ListViewModel : ViewModel() {
     var userFavoriteList: MutableList<FavoriteCocktailDto> by mutableStateOf(mutableListOf())
     var userShoppingList: MutableList<ShoppingListDto> by mutableStateOf(mutableListOf())
 
-
     fun getFavouriteList(userId: String?) {
         viewModelScope.launch {
             loading = true

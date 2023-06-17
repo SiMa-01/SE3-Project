@@ -60,7 +60,11 @@ import com.example.se3_app.ui.theme.cardColor6
 import kotlin.random.Random
 
 @Composable
-fun NewCocktailView(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
+fun NewCocktailView(
+    navController: NavController,
+    viewModel: MainViewModel,
+    listViewModel: ListViewModel
+) {
     if (viewModel.loading) {
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -76,7 +80,11 @@ fun NewCocktailView(navController: NavController, viewModel: MainViewModel, list
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NewCocktailViewContent(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
+fun NewCocktailViewContent(
+    navController: NavController,
+    viewModel: MainViewModel,
+    listViewModel: ListViewModel
+) {
     val context = LocalContext.current
 
     var nameDto: String?
