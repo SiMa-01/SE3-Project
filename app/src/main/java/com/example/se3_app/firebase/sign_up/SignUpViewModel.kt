@@ -9,6 +9,7 @@ import com.example.se3_app.service.FavoriteListService
 import com.example.se3_app.service.ShoppingListService
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class SignUpViewModel : ViewModel() {
@@ -36,9 +37,13 @@ class SignUpViewModel : ViewModel() {
                     if (user != null) {
                         userId = user.uid
                     }
-                    addFavoriteUser(userId)
-                    addShoppinglistUser(userId)
 
+                    viewModelScope.launch {
+                        addFavoriteUser(userId)
+                        delay(1000)
+                        addShoppinglistUser(userId)
+
+                    }
                     user?.sendEmailVerification()
                         ?.addOnCompleteListener { verificationTask ->
                             if (verificationTask.isSuccessful) {
@@ -61,7 +66,7 @@ class SignUpViewModel : ViewModel() {
             }
     }
 
-    private fun addFavoriteUser(userId: String?) {
+    fun addFavoriteUser(userId: String?) {
         viewModelScope.launch {
             loading = true
             try {
@@ -74,7 +79,7 @@ class SignUpViewModel : ViewModel() {
         }
     }
 
-    private fun addShoppinglistUser(userId: String?) {
+    fun addShoppinglistUser(userId: String?) {
         viewModelScope.launch {
             loading = true
             try {

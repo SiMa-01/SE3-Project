@@ -6,11 +6,11 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.ktx.auth
 
 class SignInViewModel : ViewModel() {
     var errorMessage: String by mutableStateOf("")
     var loading: Boolean by mutableStateOf(false)
+
 
     var veriviziert: Boolean by mutableStateOf(false)
     var anmeldungOk: Boolean by mutableStateOf(false)
@@ -55,4 +55,9 @@ class SignInViewModel : ViewModel() {
                 }
             }
     }
+
+    fun logoutUser() {
+        auth.signOut()
+    }
+
 }

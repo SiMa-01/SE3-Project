@@ -9,10 +9,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -33,6 +35,7 @@ import androidx.navigation.NavController
 import com.example.se3_app.ListViewModel
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
+import com.example.se3_app.firebase.sign_in.SignInViewModel
 import com.example.se3_app.startView.Navigationbar
 
 val font = FontFamily(
@@ -43,9 +46,10 @@ val font = FontFamily(
 fun HelpView(
     navController: NavController,
     viewModel: MainViewModel,
-    listViewModel: ListViewModel
+    listViewModel: ListViewModel,
+    signInViewModel: SignInViewModel
 ) {
-    HelpViewContent(navController, viewModel, listViewModel)
+    HelpViewContent(navController, viewModel, listViewModel, signInViewModel)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,7 +57,8 @@ fun HelpView(
 fun HelpViewContent(
     navController: NavController,
     viewModel: MainViewModel,
-    listViewModel: ListViewModel
+    listViewModel: ListViewModel,
+    signInViewModel: SignInViewModel
 ) {
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
@@ -159,7 +164,26 @@ fun HelpViewContent(
                 Spacer(modifier = Modifier.height(8.dp))
             }
         }
-        Spacer(modifier = Modifier.height(100.dp))
+        Spacer(modifier = Modifier.height(30.dp))
+
+        Box(
+            modifier = Modifier.fillMaxSize().padding(15.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Button(
+                onClick = {
+                    signInViewModel.logoutUser()
+                    navController.navigate("signInView")
+                },
+                shape = RoundedCornerShape(50.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp)
+            ) {
+                Text(text = "Logout")
+            }
+        }
     }
+
     Navigationbar(viewModel, listViewModel, navController)
 }

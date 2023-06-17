@@ -146,7 +146,7 @@ fun StartViewContent(
                         viewModel.comeBack2 = arrayOf("", false, 0, "bitter", "")
                         viewModel.getAllTastes()
                         viewModel.selectedIngredients.clear()
-                        navController.navigate("NewCocktailView")
+                        navController.navigate("newCocktailnView")
                     },
                     modifier = Modifier
                         .weight(1f)

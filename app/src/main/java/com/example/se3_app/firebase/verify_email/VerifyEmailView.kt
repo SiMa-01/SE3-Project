@@ -23,7 +23,7 @@ import androidx.navigation.NavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun VerifyEmailView(navController: NavController, verifyEmailViewModel: VerifyEmailViewModel) {
+fun VerifyEmailView(navController: NavController) {
     val context = LocalContext.current
 
     Column(

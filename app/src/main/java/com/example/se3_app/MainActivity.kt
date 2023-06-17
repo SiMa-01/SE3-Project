@@ -19,7 +19,6 @@ import com.example.se3_app.firebase.sign_in.SignInViewModel
 import com.example.se3_app.firebase.sign_up.SignUpView
 import com.example.se3_app.firebase.sign_up.SignUpViewModel
 import com.example.se3_app.firebase.verify_email.VerifyEmailView
-import com.example.se3_app.firebase.verify_email.VerifyEmailViewModel
 import com.example.se3_app.helpView.HelpView
 import com.example.se3_app.ingredientsView.IngredientsView
 import com.example.se3_app.itemListView.ItemListView
@@ -55,7 +54,6 @@ class MainActivity : ComponentActivity() {
         val signInViewModel = SignInViewModel()
         val signUpViewModel = SignUpViewModel()
         val forgotPasswordViewModel = ForgotPasswordViewModel()
-        val verifyEmailViewModel = VerifyEmailViewModel()
 
         val navController = rememberNavController()
 
@@ -92,7 +90,7 @@ class MainActivity : ComponentActivity() {
                 ForgotPasswordView(navController, forgotPasswordViewModel)
             }
             composable(route = "verifyEmailView") {
-                VerifyEmailView(navController, verifyEmailViewModel)
+                VerifyEmailView(navController)
             }
             composable(route = "splashScreen") {
                 AnimatedSplashScreen(navController, mainViewModel, listViewModel)
@@ -101,7 +99,7 @@ class MainActivity : ComponentActivity() {
                 IngredientsView(navController, mainViewModel)
             }
             composable(route = "helpView") {
-                HelpView(navController, mainViewModel, listViewModel)
+                HelpView(navController, mainViewModel, listViewModel, signInViewModel)
             }
             composable(route = "picturesView") {
                 PicturesView(navController, mainViewModel)
