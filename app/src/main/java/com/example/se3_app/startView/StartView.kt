@@ -75,12 +75,6 @@ fun StartViewContent(
     viewModel: MainViewModel,
     listViewModel: ListViewModel
 ) {
-
-
-    var selectedItem by remember { mutableStateOf(0) }
-    val items = listOf("Home", "Cocktails", "Merkliste", "Einkaufsliste")
-    val icons =
-        listOf(Icons.Filled.Home, Icons.Filled.Search, Icons.Filled.Favorite, Icons.Filled.List)
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -191,7 +185,15 @@ fun StartViewContent(
 
         }
     }
+    Navigationbar(viewModel, listViewModel, navController)
+}
 
+@Composable
+fun Navigationbar(viewModel: MainViewModel, listViewModel: ListViewModel, navController: NavController){
+    var selectedItem by remember { mutableStateOf(0) }
+    val items = listOf("Home", "Cocktails", "Merkliste", "Einkaufsliste")
+    val icons =
+        listOf(Icons.Filled.Home, Icons.Filled.Search, Icons.Filled.Favorite, Icons.Filled.List)
     Box(
         modifier = Modifier
             .fillMaxSize()

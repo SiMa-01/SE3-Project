@@ -55,10 +55,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.se3_app.Dto.CocktailDto
+import com.example.se3_app.ListViewModel
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
 import com.example.se3_app.cocktailSearchView.font
 import com.example.se3_app.cocktailSearchView.options
+import com.example.se3_app.startView.Navigationbar
 import com.example.se3_app.startView.navigateToDestination
 import com.example.se3_app.ui.theme.chipFarbe1
 import com.example.se3_app.ui.theme.chipFarbe2
@@ -67,7 +69,7 @@ import kotlin.random.Random
 
 // val newCocktail = AddCocktailDto("", emptyArray(),"", true, "", "")
 @Composable
-fun HinzufuegenView(navController: NavController, viewModel: MainViewModel) {
+fun HinzufuegenView(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
     if (viewModel.loading) {
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -77,13 +79,13 @@ fun HinzufuegenView(navController: NavController, viewModel: MainViewModel) {
         }
     } else {
         options = viewModel.tastes as MutableList<String>
-        HinzufuegenViewContent(navController, viewModel)
+        HinzufuegenViewContent(navController, viewModel, listViewModel)
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewModel) {
+fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
     val context = LocalContext.current
 
     var nameDto: String? = null
@@ -94,14 +96,6 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
     var difficultyInt: Int? = null
     var preparationDto: String? = null
 
-    var selectedItem by remember { mutableStateOf(0) }
-    val items = listOf("Home", "Cocktails", "Merkliste", "Einkaufsliste")
-    val icons = listOf(
-        Icons.Filled.Home,
-        Icons.Filled.Search,
-        Icons.Filled.Favorite,
-        Icons.Filled.List
-    )
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -575,26 +569,5 @@ fun HinzufuegenViewContent(navController: NavController, viewModel: MainViewMode
             Spacer(modifier = Modifier.height(200.dp))
         }
     }
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .wrapContentSize(Alignment.BottomCenter)
-    ) {
-        BottomAppBar() {
-            items.forEachIndexed { index, item ->
-                NavigationBarItem(
-                    icon = { Icon(icons[index], contentDescription = null) },
-                    label = { Text(item) },
-                    selected = selectedItem == 1,
-                    onClick = {
-                        if (index == 1) {
-                            viewModel.getAllTastes()
-                        }
-                        selectedItem = index
-                        navigateToDestination(navController, index)
-                    }
-                )
-            }
-        }
-    }
+    Navigationbar(viewModel, listViewModel, navController)
 }

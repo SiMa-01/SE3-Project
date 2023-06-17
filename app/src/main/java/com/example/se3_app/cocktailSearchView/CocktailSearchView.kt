@@ -54,8 +54,10 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.se3_app.ListViewModel
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
+import com.example.se3_app.startView.Navigationbar
 import com.example.se3_app.startView.navigateToDestination
 import com.example.se3_app.ui.theme.chipFarbe1
 import com.example.se3_app.ui.theme.chipFarbe2
@@ -66,7 +68,8 @@ var options = mutableListOf<String>()
 @Composable
 fun CocktailSearchView(
     navController: NavController,
-    viewModel: MainViewModel
+    viewModel: MainViewModel,
+    listViewModel: ListViewModel
 ) {
     if (viewModel.loading) {
         Box(
@@ -77,7 +80,7 @@ fun CocktailSearchView(
         }
     } else {
         options = viewModel.tastes as MutableList<String>
-        CocktailSearchViewContent(navController, viewModel)
+        CocktailSearchViewContent(navController, viewModel, listViewModel)
     }
 }
 
@@ -89,7 +92,8 @@ val font = FontFamily(
 @Composable
 fun CocktailSearchViewContent(
     navController: NavController,
-    viewModel: MainViewModel
+    viewModel: MainViewModel,
+    listViewModel: ListViewModel
 ) {
     var nameDto: String? = null
     var tasteDto: String? = null
@@ -98,17 +102,6 @@ fun CocktailSearchViewContent(
     var difficultyDto: String? = null
     var difficultyInt: Int? = null
 
-    var expanded by remember { mutableStateOf(false) }
-    var selectedOptionText by remember { mutableStateOf(options[0]) }
-
-    var selectedItem by remember { mutableStateOf(0) }
-    val items = listOf("Home", "Cocktails", "Merkliste", "Einkaufsliste")
-    val icons = listOf(
-        Icons.Filled.Home,
-        Icons.Filled.Search,
-        Icons.Filled.Favorite,
-        Icons.Filled.List
-    )
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -494,7 +487,6 @@ fun CocktailSearchViewContent(
             ) {
                 FloatingActionButton(
                     onClick = {
-                        println("in der onclick: " + tasteDto)
                         viewModel.searchCocktails(
                             nameDto,
                             tasteDto,
@@ -502,17 +494,6 @@ fun CocktailSearchViewContent(
                             alcoholicDto,
                             difficultyDto
                         )
-                        /*println("Im on Click " + nameDto)
-                        if (nameDto != null) viewModel.filterListe.add("Name: " + nameDto.toString())
-                        if (tasteDto != null) viewModel.filterListe.add("Geschmack: " + tasteDto.toString())
-                        if (!viewModel.selectedIngredients.isNullOrEmpty()){
-                            viewModel.filterListe.add("Zutatenfilter: ")
-                            for (item in viewModel.selectedIngredients) { viewModel.filterListe.add(item) }
-                        }
-                        if (alcoholicDto != "egal") viewModel.filterListe.add("Alkoholisch: " + alcoholicDto.toString())
-                        if (difficultyDto != "egal") viewModel.filterListe.add("Schwierigkeit: " + difficultyDto.toString())
-                        println("Die Liste im on Click " + viewModel.filterListe)*/
-
                         navController.navigate("ResultView")
                         viewModel.selectedIngredients.clear()
                     },
@@ -527,32 +508,5 @@ fun CocktailSearchViewContent(
             Spacer(modifier = Modifier.height(100.dp))
         }
     }
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .wrapContentSize(Alignment.BottomCenter)
-    ) {
-        BottomAppBar() {
-            items.forEachIndexed { index, item ->
-                NavigationBarItem(
-                    icon = {
-                        Icon(
-                            icons[index],
-                            contentDescription = "Cocktail"
-                        )
-                    },
-                    label = { Text(item) },
-
-                    selected = selectedItem == 1,
-                    onClick = {
-                        if (index == 1) {
-                            viewModel.getAllTastes()
-                        }
-                        selectedItem = index
-                        navigateToDestination(navController, index)
-                    }
-                )
-            }
-        }
-    }
+    Navigationbar(viewModel, listViewModel, navController)
 }

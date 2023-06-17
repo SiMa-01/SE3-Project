@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -18,12 +17,10 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -41,9 +38,8 @@ import com.example.se3_app.Dto.CocktailDto
 import com.example.se3_app.ListViewModel
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
-import com.example.se3_app.startView.navigateToDestination
 import com.example.se3_app.startView.Cocktailbox
-
+import com.example.se3_app.startView.Navigationbar
 
 var cocktails = emptyList<CocktailDto>()
 
@@ -60,19 +56,10 @@ fun ResultView(navController: NavController, viewModel: MainViewModel, listViewM
         cocktails = viewModel.cocktailsSearch
         ResultViewContent(navController, viewModel, listViewModel)
     }
-
 }
-
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ResultViewContent(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
-    var selectedItem by remember { mutableStateOf(0) }
-    val items = listOf("Home", "Cocktails", "Merkliste", "Einkaufsliste")
-    val icons = listOf(
-        Icons.Filled.Home, Icons.Filled.Search,
-        Icons.Filled.Favorite, Icons.Filled.List
-    )
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -110,42 +97,20 @@ fun ResultViewContent(navController: NavController, viewModel: MainViewModel, li
                 .verticalScroll(rememberScrollState())
         ) {
             Spacer(modifier = Modifier.height(8.dp))
-
-            Text("Damit empfehlen wir dir diese Cocktails: ", fontSize = 20.sp)
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            cocktails.forEachIndexed {index, s ->
-                Cocktailbox(navController, viewModel, cocktails[index], index, listViewModel )
+            if (cocktails.isNullOrEmpty()){
+                Text("Mit deiner Auswahl gibt es aktuell leider keinen Cocktail", fontSize = 20.sp)
+            }
+            else {
+                Text("Damit empfehlen wir dir diese Cocktails: ", fontSize = 20.sp)
+                Spacer(modifier = Modifier.height(8.dp))
+                cocktails.forEachIndexed {index, s ->
+                    Cocktailbox(navController, viewModel, cocktails[index], index, listViewModel )
+                }
             }
         }
         Spacer(modifier = Modifier.height(100.dp))
-
     }
-
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .wrapContentSize(Alignment.BottomCenter)
-    ) {
-        BottomAppBar() {
-            items.forEachIndexed { index, item ->
-                NavigationBarItem(
-                    icon = { Icon(icons[index], contentDescription = null) },
-                    label = { Text(item) },
-                    selected = selectedItem == 1,
-                    onClick = {
-                        if (index == 1) {
-                            viewModel.getAllTastes()
-                        }
-                        selectedItem = index
-                        navigateToDestination(navController, index)
-                    }
-                )
-            }
-        }
-    }
-
+    Navigationbar(viewModel, listViewModel, navController)
 }
 
 

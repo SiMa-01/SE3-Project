@@ -65,14 +65,14 @@ class MainActivity : ComponentActivity() {
                 StartView(navController, mainViewModel, listViewModel)
             }
             composable(route = "cocktailSearchView") {
-                CocktailSearchView(navController, mainViewModel)
+                CocktailSearchView(navController, mainViewModel, listViewModel)
             }
             composable(route = "einkaufslistenView") {
                 EinkaufslistenView(navController, mainViewModel, listViewModel)
                 // SignInView(navController, signInViewModel)
             }
             composable(route = "hinzufuegenView") {
-                HinzufuegenView(navController, mainViewModel)
+                HinzufuegenView(navController, mainViewModel, listViewModel)
             }
             composable(route = "merklistenView") {
                 MerklistenView(navController, mainViewModel, listViewModel)
@@ -102,7 +102,7 @@ class MainActivity : ComponentActivity() {
                 IngredientsView(navController, mainViewModel)
             }
             composable(route = "helpView") {
-                HelpView(navController, mainViewModel)
+                HelpView(navController, mainViewModel, listViewModel)
             }
             composable(route = "picturesView") {
                 PicturesView(navController, mainViewModel)

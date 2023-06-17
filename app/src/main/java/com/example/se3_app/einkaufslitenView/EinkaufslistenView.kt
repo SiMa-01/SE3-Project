@@ -2,6 +2,8 @@
 
 package com.example.se3_app.einkaufslitenView
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -49,6 +51,8 @@ import com.example.se3_app.Dto.ShoppingListDto
 import com.example.se3_app.ListViewModel
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
+import com.example.se3_app.cocktailSearchView.font
+import com.example.se3_app.startView.Navigationbar
 import com.example.se3_app.startView.navigateToDestination
 import com.example.se3_app.ui.theme.chipFarbe2
 import com.example.se3_app.ui.theme.chipFarbe6
@@ -116,115 +120,94 @@ fun EinkaufsListenViewContent(navController: NavController, viewModel: MainViewM
             })
 
         // ---------------------------------------------------------------------------------------------
-
+        val newItemState = remember { mutableStateOf("") }
         Column(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-            Text("Zutaten deiner Einkaufsliste ", fontSize = 20.sp)
-            Spacer(modifier = Modifier.height(10.dp))
+            if (itemList[0].list.isNullOrEmpty()){
+                Text("Noch keine Zutaten in der Einkaufsliste? \nFüge sie mit dem plus in den Rezepten oder hier im Textefeld hinzu!", fontSize = 20.sp)
+            }
+            else {
 
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 5.dp)
-                   // .border(BorderStroke(1.dp, Color.LightGray))
-            ) {
+                Text("Zutaten deiner Einkaufsliste ", fontSize = 20.sp)
+                Spacer(modifier = Modifier.height(10.dp))
 
-                val newItemState = remember { mutableStateOf("") }
-
-                Column {
-                    for (item in itemList[0].list!!) {
-                        println("hoallo ich bin hier " + itemList[0].list!!)
-                        Row (Modifier.padding(8.dp)){
-                            Text(
-                                item,
-                                modifier = Modifier.weight(1f)
-                            )
-                            IconButton(
-                                onClick = {
-                                    itemList[0].list!!.remove(item)
-                                    listViewModel.deleteShoppingList(listViewModel.userId, item)
-                                },
-                                modifier = Modifier.size(24.dp)
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Delete,
-                                    contentDescription = "Delete"
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 5.dp)
+                ) {
+                    Column {
+                        for (item in itemList[0].list!!) {
+                            Row(Modifier.padding(8.dp)) {
+                                Text(
+                                    item,
+                                    modifier = Modifier.weight(1f).padding(5.dp)
                                 )
+                                IconButton(
+                                    onClick = {
+                                        itemList[0].list!!.remove(item)
+                                        listViewModel.deleteShoppingList(listViewModel.userId, item)
+                                    },
+                                    modifier = Modifier.size(24.dp)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Delete,
+                                        contentDescription = "Delete"
+                                    )
+                                }
                             }
                         }
-                    }
-
-                    TextField(
-                        value = newItemState.value,
-                        onValueChange = { newItemState.value = it },
-                        label = { Text("Neue Zutat") },
-                        modifier = Modifier.padding(16.dp),
-                        colors = TextFieldDefaults.textFieldColors(
-                            containerColor = chipFarbe2,
-                            cursorColor = Color.Black,
-                            focusedIndicatorColor = chipFarbe6,
-                            unfocusedIndicatorColor = Color.Gray
-                        )
-                    )
-                    FloatingActionButton(
-                        onClick = {
-                            if (newItemState.value != "") {
-                                itemList[0].list!!.add(newItemState.value)
-                                listViewModel.addShoppingList(listViewModel.userId, newItemState.value)
-
-                                //navController.navigate("EinkaufslistenView")
-                            }
-                        },
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .fillMaxWidth(),
-                        containerColor = chipFarbe6
-                    ) {
-                        Text(text = "Zutat hinzufügen")
-                      /*  LaunchedEffect(loading.value) {
-                            if(loading.value){
-                                listViewModel.addShoppingList(listViewModel.userId, newItem.value)
-                                delay(3000)
-                                listViewModel.getShoppingList(listViewModel.userId)
-                                delay(3000)
-                               // itemList = listViewModel.userShoppingList
-                            }
-                            newItemState.value = ""
-                            loading.value = false
-                        }*/
                     }
                 }
             }
-            Spacer(modifier = Modifier.height(100.dp))
-        }
-    }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .wrapContentSize(Alignment.BottomCenter)
-    ) {
-        BottomAppBar() {
-            items.forEachIndexed { index, item ->
-                NavigationBarItem(
-                    icon = { Icon(icons[index], contentDescription = null) },
-                    label = { Text(item) },
-                    selected = selectedItem == 1,
-                    onClick = {
-                        if (index == 1) {
-                            viewModel.getAllTastes()
-                        }
-                        selectedItem = 3
-                        navigateToDestination(navController, index)
-                    }
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .wrapContentSize(Alignment.BottomCenter)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                TextField(
+                    value = newItemState.value,
+                    onValueChange = { newItemState.value = it },
+                    label = { Text("Neue Zutat") },
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = TextFieldDefaults.textFieldColors(
+                    containerColor = chipFarbe2,
+                    cursorColor = Color.Black,
+                    focusedIndicatorColor = chipFarbe6,
+                    unfocusedIndicatorColor = Color.Gray
+                    )
                 )
+
+                FloatingActionButton(
+                    onClick = {
+                        if (newItemState.value != "") {
+                            itemList[0].list!!.add(newItemState.value)
+                            listViewModel.addShoppingList(listViewModel.userId, newItemState.value)
+                        }
+                    },
+                    modifier = Modifier
+                        .height(40.dp)
+                        .padding(vertical = 10.dp)
+                        .fillMaxWidth(),
+                    containerColor = chipFarbe6
+                ) {
+                    Text(text = "Zutat hinzufügen", fontFamily = font)
+                }
             }
         }
+        }
+        Spacer(modifier = Modifier.height(140.dp))
     }
+    Navigationbar(viewModel, listViewModel, navController)
 }
 
 

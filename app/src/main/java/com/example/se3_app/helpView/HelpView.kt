@@ -40,8 +40,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.se3_app.ListViewModel
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
+import com.example.se3_app.startView.Navigationbar
 import com.example.se3_app.startView.navigateToDestination
 
 val font = FontFamily(
@@ -51,26 +53,19 @@ val font = FontFamily(
 @Composable
 fun HelpView(
     navController: NavController,
-    viewModel: MainViewModel
+    viewModel: MainViewModel,
+    listViewModel: ListViewModel
 ) {
-    HelpViewContent(navController, viewModel)
+    HelpViewContent(navController, viewModel, listViewModel)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HelpViewContent(
     navController: NavController,
-    viewModel: MainViewModel
+    viewModel: MainViewModel,
+    listViewModel: ListViewModel
 ) {
-    var selectedItem by remember { mutableStateOf(0) }
-    val items = listOf("Home", "Cocktails", "Merkliste", "Einkaufsliste")
-    val icons = listOf(
-        Icons.Filled.Home,
-        Icons.Filled.Search,
-        Icons.Filled.Favorite,
-        Icons.Filled.List
-    )
-
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -177,26 +172,5 @@ fun HelpViewContent(
         }
         Spacer(modifier = Modifier.height(100.dp))
     }
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .wrapContentSize(Alignment.BottomCenter)
-    ) {
-        BottomAppBar() {
-            items.forEachIndexed { index, item ->
-                NavigationBarItem(
-                    icon = { Icon(icons[index], contentDescription = "Home") },
-                    label = { Text(item) },
-                    selected = selectedItem == 1,
-                    onClick = {
-                        if (index == 1) {
-                            viewModel.getAllTastes()
-                        }
-                        selectedItem = index
-                        navigateToDestination(navController, index)
-                    }
-                )
-            }
-        }
-    }
+    Navigationbar(viewModel, listViewModel, navController)
 }
