@@ -33,6 +33,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.BottomCenter
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.Alignment.Companion.End
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -77,8 +80,7 @@ fun ItemListViewContent(
     listViewModel: ListViewModel
 ) {
     Column(
-        verticalArrangement = Arrangement.SpaceBetween,
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = Modifier.fillMaxSize()
     ) {
         TopAppBar(modifier = Modifier.fillMaxWidth(), navigationIcon = {
             Icon(
@@ -106,16 +108,17 @@ fun ItemListViewContent(
             })
 
         // ---------------------------------------------------------------------------------------------
+
         val newItemState = remember { mutableStateOf("") }
         Column(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState())
         ) {
             if (itemList[0].list.isNullOrEmpty()) {
                 Text(
-                    "Noch keine Zutaten in der Einkaufsliste? \nFüge sie mit dem plus in den Rezepten oder hier im Textefeld hinzu!",
+                    "Noch keine Zutaten in der Einkaufsliste? \nFüge sie mit dem Plus in den Rezepten oder hier im Textefeld hinzu!",
                     fontSize = 20.sp
                 )
             } else {
@@ -155,11 +158,12 @@ fun ItemListViewContent(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .wrapContentSize(Alignment.BottomCenter)
+                    .align(End)
             ) {
                 Column(
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .fillMaxSize()
+                        .align(alignment = BottomCenter)
                 ) {
                     TextField(
                         value = newItemState.value,
@@ -194,6 +198,7 @@ fun ItemListViewContent(
                     }
                 }
             }
+
         }
         Spacer(modifier = Modifier.height(140.dp))
     }
