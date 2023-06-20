@@ -42,7 +42,6 @@ class SignUpViewModel : ViewModel() {
                         addFavoriteUser(userId)
                         delay(1000)
                         addShoppinglistUser(userId)
-
                     }
                     user?.sendEmailVerification()
                         ?.addOnCompleteListener { verificationTask ->

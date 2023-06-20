@@ -37,6 +37,7 @@ import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
 import com.example.se3_app.firebase.sign_in.SignInViewModel
 import com.example.se3_app.startView.Navigationbar
+import com.google.firebase.auth.FirebaseAuth
 
 val font = FontFamily(
     Font(resId = R.font.arciform)
@@ -172,7 +173,8 @@ fun HelpViewContent(
         ) {
             Button(
                 onClick = {
-                    signInViewModel.logoutUser()
+                    FirebaseAuth.getInstance().signOut()
+                    FirebaseAuth.getInstance().useAppLanguage()
                     navController.navigate("signInView")
                 },
                 shape = RoundedCornerShape(50.dp),
