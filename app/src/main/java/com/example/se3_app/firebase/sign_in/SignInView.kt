@@ -34,6 +34,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.se3_app.ListViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -59,7 +63,9 @@ fun SignInView(
         )
     }
     Column(
-        modifier = Modifier.padding(20.dp).fillMaxSize(),
+        modifier = Modifier
+            .padding(20.dp)
+            .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -99,19 +105,21 @@ fun SignInView(
                             username.value.text,
                             password.value.text
                         )
-                        if (signInViewModel.anmeldungOk && signInViewModel.veriviziert) {
+                    }
+                    CoroutineScope(Dispatchers.Main).launch {
+                        delay(1000)
+                        if (signInViewModel.anmeldungOk && signInViewModel.verifiziert) {
                             listViewModel.userId = signInViewModel.userId!!
                             navController.navigate("splashScreen")
-                        }
-                        if (signInViewModel.anmeldungOk && !signInViewModel.veriviziert) {
+                        } else if (signInViewModel.anmeldungOk && !signInViewModel.verifiziert) {
                             Toast.makeText(
                                 context,
                                 "E-Mail-Adresse nicht verifiziert",
                                 Toast.LENGTH_SHORT
                             ).show()
-                        }
-                        if (!signInViewModel.anmeldungOk) {
-                            Toast.makeText(context, "Anmeldung fehlgeschlagen", Toast.LENGTH_SHORT).show()
+                        } else if (!signInViewModel.anmeldungOk) {
+                            Toast.makeText(context, "Anmeldung fehlgeschlagen", Toast.LENGTH_SHORT)
+                                .show()
                         }
                     }
                 },

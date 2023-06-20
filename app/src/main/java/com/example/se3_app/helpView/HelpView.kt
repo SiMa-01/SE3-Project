@@ -98,7 +98,11 @@ fun HelpViewContent(
             modifier = Modifier.fillMaxWidth(),
             containerColor = Color.White
         ) {
-            Column(modifier = Modifier.padding(horizontal = 10.dp).fillMaxWidth()) {
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 10.dp)
+                    .fillMaxWidth()
+            ) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Icon(
                     Icons.Default.Info,
@@ -122,7 +126,11 @@ fun HelpViewContent(
             modifier = Modifier.fillMaxWidth(),
             containerColor = Color.White
         ) {
-            Column(modifier = Modifier.padding(horizontal = 10.dp).fillMaxWidth()) {
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 10.dp)
+                    .fillMaxWidth()
+            ) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Icon(Icons.Default.Person, contentDescription = "Konto")
                 Text(
@@ -147,7 +155,11 @@ fun HelpViewContent(
             modifier = Modifier.fillMaxWidth(),
             containerColor = Color.White
         ) {
-            Column(modifier = Modifier.padding(horizontal = 10.dp).fillMaxWidth()) {
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 10.dp)
+                    .fillMaxWidth()
+            ) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Icon(Icons.Default.List, contentDescription = "Liste")
                 Text(
@@ -168,13 +180,16 @@ fun HelpViewContent(
         Spacer(modifier = Modifier.height(30.dp))
 
         Box(
-            modifier = Modifier.fillMaxSize().padding(15.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(15.dp),
             contentAlignment = Alignment.Center
         ) {
             Button(
                 onClick = {
                     FirebaseAuth.getInstance().signOut()
                     FirebaseAuth.getInstance().useAppLanguage()
+                    println("User in Help " + FirebaseAuth.getInstance().currentUser)
                     navController.navigate("signInView")
                 },
                 shape = RoundedCornerShape(50.dp),

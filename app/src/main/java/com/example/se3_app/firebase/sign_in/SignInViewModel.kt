@@ -13,7 +13,7 @@ class SignInViewModel : ViewModel() {
     var errorMessage: String by mutableStateOf("")
     var loading: Boolean by mutableStateOf(false)
 
-    var veriviziert: Boolean by mutableStateOf(false)
+    var verifiziert: Boolean by mutableStateOf(false)
     var anmeldungOk: Boolean by mutableStateOf(false)
     var userId: String? = null // UserID of the logged in user
 
@@ -27,9 +27,6 @@ class SignInViewModel : ViewModel() {
             val authStateListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
                 val currentUser = firebaseAuth.currentUser
                 if (currentUser == null) {
-                    // Der Benutzer wurde erfolgreich abgemeldet
-                    println("Nutzer abgemeldet")
-                    // Hier können Sie die Anmeldung fortsetzen
                     auth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
@@ -37,16 +34,14 @@ class SignInViewModel : ViewModel() {
                                 if (user != null && user.isEmailVerified) {
                                     // Registrierung erfolgreich und E-Mail-Adresse verifiziert
                                     userId = user.uid
-                                    veriviziert = true
+                                    verifiziert = true
                                     anmeldungOk = true
 
                                     user.getIdToken(true)
                                         .addOnCompleteListener { tokenTask ->
                                             if (tokenTask.isSuccessful) {
                                                 val idToken = tokenTask.result?.token
-                                                // Hier haben Sie das JWT (idToken) des angemeldeten Benutzers
-                                                // Führen Sie weitere Operationen mit dem JWT hier durch
-                                                println("idToken:$idToken")
+                                                // JWT (idToken) des angemeldeten Benutzers
                                             } else {
                                                 // Fehler beim Abrufen des JWT
                                                 val exception = tokenTask.exception
@@ -55,7 +50,7 @@ class SignInViewModel : ViewModel() {
                                         }
                                 } else {
                                     // Registrierung erfolgreich, aber E-Mail-Adresse nicht verifiziert
-                                    veriviziert = false
+                                    verifiziert = false
                                     anmeldungOk = true
                                 }
                             } else {
@@ -67,13 +62,8 @@ class SignInViewModel : ViewModel() {
                         }
                 }
             }
-
             // AuthStateListener hinzufügen, um den Abschluss der Abmeldung zu überwachen
             FirebaseAuth.getInstance().addAuthStateListener(authStateListener)
         }
-    }
-
-    fun logoutUser() {
-        FirebaseAuth.getInstance().signOut()
     }
 }
