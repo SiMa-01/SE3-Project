@@ -45,7 +45,7 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-
+}
     @Composable
     fun CocktailApp() {
         val mainViewModel = MainViewModel()
@@ -106,4 +106,3 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-}

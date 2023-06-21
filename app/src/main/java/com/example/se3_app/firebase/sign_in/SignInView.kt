@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -52,7 +53,7 @@ fun SignInView(
             text = AnnotatedString("Registrieren"),
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(20.dp),
+                .padding(20.dp).testTag("loginView"),
             onClick = { navController.navigate("SignUpView") },
             style = TextStyle(
                 fontSize = 14.sp,
@@ -78,8 +79,10 @@ fun SignInView(
         TextField(
             label = { Text(text = "E-Mail") },
             value = username.value,
-            onValueChange = { username.value = it }
+            onValueChange = { username.value = it },
+            modifier = Modifier.testTag("emailField")
         )
+
 
         Spacer(modifier = Modifier.height(20.dp))
         TextField(
@@ -87,7 +90,8 @@ fun SignInView(
             value = password.value,
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            onValueChange = { password.value = it }
+            onValueChange = { password.value = it },
+            modifier = Modifier.testTag("passwordField")
         )
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -127,6 +131,7 @@ fun SignInView(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp)
+                    .testTag("loginButton")
             ) {
                 Text(text = "Login")
             }
