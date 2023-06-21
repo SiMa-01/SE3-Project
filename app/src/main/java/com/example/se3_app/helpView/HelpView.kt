@@ -61,6 +61,8 @@ fun HelpViewContent(
     listViewModel: ListViewModel,
     signInViewModel: SignInViewModel
 ) {
+    var count = 0
+
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -151,7 +153,13 @@ fun HelpViewContent(
         Spacer(modifier = Modifier.height(15.dp))
 
         FloatingActionButton(
-            onClick = { navController.navigate("picturesView") },
+            onClick = {
+                count += 1
+                if (count == 5) {
+                    count = 0
+                    navController.navigate("picturesView")
+                }
+            },
             modifier = Modifier.fillMaxWidth(),
             containerColor = Color.White
         ) {

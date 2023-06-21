@@ -24,7 +24,7 @@ import com.example.se3_app.ingredientsView.IngredientsView
 import com.example.se3_app.itemListView.ItemListView
 import com.example.se3_app.loadingScreen.AnimatedSplashScreen
 import com.example.se3_app.newCocktailView.NewCocktailView
-import com.example.se3_app.pictures.PicturesView
+import com.example.se3_app.picturesView.PicturesView
 import com.example.se3_app.recipeCocktailView.RecipeCocktailView
 import com.example.se3_app.resultView.ResultView
 import com.example.se3_app.searchCocktailView.SearchCocktailView
