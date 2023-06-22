@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -71,7 +72,7 @@ fun StartViewContent(
     listViewModel: ListViewModel
 ) {
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().testTag("startView"),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TopAppBar(modifier = Modifier.fillMaxWidth(), navigationIcon = {
@@ -136,7 +137,7 @@ fun StartViewContent(
                     },
                     modifier = Modifier
                         .weight(1f)
-                        .height(80.dp),
+                        .height(80.dp).testTag("searchCocktailButton"),
                     containerColor = cardColor2
                 ) {
                     Text("Cocktail suchen", fontFamily = font, fontSize = 15.sp)

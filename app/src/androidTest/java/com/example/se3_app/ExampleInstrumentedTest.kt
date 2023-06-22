@@ -77,50 +77,93 @@ class ExampleInstrumentedTest {
         val splashView= composeTestRule.onNodeWithTag("splashView")
         composeTestRule.waitUntil(8000) { true }
         splashView.assertIsDisplayed()
+    }
 
+    @Test
+    fun searchCocktail() {
+        val loginView = composeTestRule.onNodeWithTag("loginView")
+        loginView.assertExists()
 
-        /*    var wait = false
-            GlobalScope.launch {
-                delay(4000)
-                wait = true
-            }
-            composeTestRule.waitUntil(8000) { wait }
-            val view = composeTestRule.onNodeWithTag("startView")
-            view.assertIsDisplayed()*/
-
-        /*    composeTestRule.waitForIdle() // Warte auf den Ruhezustand des Compose-Frameworks
-
-            composeTestRule.onNodeWithTag("startView").assertExists()*/
-
-        //val view = composeTestRule.onNodeWithTag("startView")
-        //view.assertIsDisplayed()
-
-        /*    var viewExists = false
-
-            while (!viewExists) {
-                composeTestRule.waitForIdle()
-                try {
-                    composeTestRule.onRoot().printToLog("bin im try")
-                    val view = composeTestRule.onNodeWithTag("startView")
-                    view.assertExists()
-                    viewExists = true
-                } catch (e: AssertionError) {
-                }
-            } */
-
-
-        //     composeTestRule.onRoot().printToLog("mach was")
-
-        /* runBlocking {
-            delay(10000)
-
-
-            composeTestRule.onRoot().printToLog("immer noch was")
-
-            val startScreen = composeTestRule.onNodeWithTag("startView")
-            startScreen.assertExists()
-
+        val emailField = composeTestRule.onNodeWithTag("emailField")
+        emailField.performTextInput("mayer-simon@web.de")
+        var wait = false
+        GlobalScope.launch {
+            delay(4000)
+            wait = true
         }
-    }*/
+        composeTestRule.waitUntil(8000) { wait }
+
+        val passwordField = composeTestRule.onNodeWithTag("passwordField")
+        passwordField.performTextInput("test1234")
+        var wait2 = false
+        GlobalScope.launch {
+            delay(4000)
+            wait2 = true
+        }
+        composeTestRule.waitUntil(8000) { wait2 }
+
+        val loginButton = composeTestRule.onNodeWithTag("loginButton")
+        loginButton.performClick()
+
+        var wait3 = false
+        GlobalScope.launch {
+            delay(4000)
+            wait3 = true
+        }
+        composeTestRule.waitUntil(8000) { wait3 }
+
+        val splashView= composeTestRule.onNodeWithTag("splashView")
+        composeTestRule.waitUntil(8000) { true }
+        splashView.assertIsDisplayed()
+
+        var wait4 = false
+        GlobalScope.launch {
+            delay(4000)
+            wait4 = true
+        }
+        composeTestRule.waitUntil(8000) { wait4 }
+
+        val startView = composeTestRule.onNodeWithTag("startView")
+        startView.assertIsDisplayed()
+
+        var wait5 = false
+        GlobalScope.launch {
+            delay(4000)
+            wait5 = true
+        }
+        composeTestRule.waitUntil(8000) { wait5 }
+
+        val searchCocktailButton = composeTestRule.onNodeWithTag("searchCocktailButton")
+        searchCocktailButton.performClick()
+        var wait6 = false
+        GlobalScope.launch {
+            delay(4000)
+            wait6 = true
+        }
+        composeTestRule.waitUntil(8000) { wait6 }
+
+        val searchCocktailView = composeTestRule.onNodeWithTag("searchCocktailView")
+        searchCocktailView.assertIsDisplayed()
+
+        var wait8 = false
+        GlobalScope.launch {
+            delay(4000)
+            wait8 = true
+        }
+        composeTestRule.waitUntil(8000) { wait8 }
+
+        val searchButton = composeTestRule.onNodeWithTag("searchButton")
+        searchButton.performClick()
+
+        var wait7 = false
+        GlobalScope.launch {
+            delay(4000)
+            wait7 = true
+        }
+        composeTestRule.waitUntil(8000) { wait7 }
+
+        val resultView = composeTestRule.onNodeWithTag("resultView")
+        resultView.assertIsDisplayed()
+
     }
 }

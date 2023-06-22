@@ -40,6 +40,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -96,7 +97,7 @@ fun SearchCocktailViewContent(
 
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.testTag("SearchCocktailView")
     ) {
         TopAppBar(modifier = Modifier.fillMaxWidth(), navigationIcon = {
             Icon(
@@ -486,7 +487,7 @@ fun SearchCocktailViewContent(
                     },
                     modifier = Modifier
                         .height(40.dp)
-                        .fillMaxWidth(),
+                        .fillMaxWidth().testTag("searchButton"),
                     containerColor = cardColor6
                 ) {
                     Text("Suchen", fontFamily = font)
