@@ -60,7 +60,8 @@ fun ResultViewContent(
 ) {
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
-        horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.testTag("resultView")
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.testTag("resultView")
     ) {
         TopAppBar(modifier = Modifier.fillMaxWidth(), navigationIcon = {
             Icon(

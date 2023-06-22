@@ -2,28 +2,19 @@ package com.example.se3_app
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
-import androidx.compose.ui.test.printToLog
-import androidx.navigation.NavController
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry
-import com.example.se3_app.startView.StartViewContent
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import com.example.se3_app.launchapp_se3App
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runBlockingTest
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -34,7 +25,6 @@ import kotlinx.coroutines.test.runBlockingTest
 class ExampleInstrumentedTest {
     @get:Rule
     val composeTestRule = createComposeRule()
-
 
     @Before
     fun setup() {
@@ -74,7 +64,7 @@ class ExampleInstrumentedTest {
         }
         composeTestRule.waitUntil(8000) { wait3 }
 
-        val splashView= composeTestRule.onNodeWithTag("splashView")
+        val splashView = composeTestRule.onNodeWithTag("splashView")
         composeTestRule.waitUntil(8000) { true }
         splashView.assertIsDisplayed()
     }
@@ -112,7 +102,7 @@ class ExampleInstrumentedTest {
         }
         composeTestRule.waitUntil(8000) { wait3 }
 
-        val splashView= composeTestRule.onNodeWithTag("splashView")
+        val splashView = composeTestRule.onNodeWithTag("splashView")
         composeTestRule.waitUntil(8000) { true }
         splashView.assertIsDisplayed()
 
@@ -164,6 +154,5 @@ class ExampleInstrumentedTest {
 
         val resultView = composeTestRule.onNodeWithTag("resultView")
         resultView.assertIsDisplayed()
-
     }
 }

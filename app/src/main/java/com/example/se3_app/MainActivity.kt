@@ -46,63 +46,64 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-    @Composable
-    fun CocktailApp() {
-        val mainViewModel = MainViewModel()
-        val listViewModel = ListViewModel()
 
-        val signInViewModel = SignInViewModel()
-        val signUpViewModel = SignUpViewModel()
-        val forgotPasswordViewModel = ForgotPasswordViewModel()
+@Composable
+fun CocktailApp() {
+    val mainViewModel = MainViewModel()
+    val listViewModel = ListViewModel()
 
-        val navController = rememberNavController()
+    val signInViewModel = SignInViewModel()
+    val signUpViewModel = SignUpViewModel()
+    val forgotPasswordViewModel = ForgotPasswordViewModel()
 
-        NavHost(navController, startDestination = "signInView") {
-            composable(route = "startView") {
-                StartView(navController, mainViewModel, listViewModel)
-            }
-            composable(route = "searchCocktailView") {
-                SearchCocktailView(navController, mainViewModel, listViewModel)
-            }
-            composable(route = "itemListView") {
-                ItemListView(navController, mainViewModel, listViewModel)
-                // SignInView(navController, signInViewModel)
-            }
-            composable(route = "newCocktailnView") {
-                NewCocktailView(navController, mainViewModel, listViewModel)
-            }
-            composable(route = "favoriteListView") {
-                FavoriteListView(navController, mainViewModel, listViewModel)
-            }
-            composable(route = "resultView") {
-                ResultView(navController, mainViewModel, listViewModel)
-            }
-            composable(route = "rezeptView") {
-                RecipeCocktailView(navController, mainViewModel, listViewModel)
-            }
-            composable(route = "signInView") {
-                SignInView(navController, signInViewModel, listViewModel)
-            }
-            composable(route = "signUpView") {
-                SignUpView(navController, signUpViewModel)
-            }
-            composable(route = "forgotPasswordView") {
-                ForgotPasswordView(navController, forgotPasswordViewModel)
-            }
-            composable(route = "verifyEmailView") {
-                VerifyEmailView(navController)
-            }
-            composable(route = "splashScreen") {
-                AnimatedSplashScreen(navController, mainViewModel, listViewModel)
-            }
-            composable(route = "ingredientsView") {
-                IngredientsView(navController, mainViewModel)
-            }
-            composable(route = "helpView") {
-                HelpView(navController, mainViewModel, listViewModel, signInViewModel)
-            }
-            composable(route = "picturesView") {
-                PicturesView(navController, mainViewModel)
-            }
+    val navController = rememberNavController()
+
+    NavHost(navController, startDestination = "signInView") {
+        composable(route = "startView") {
+            StartView(navController, mainViewModel, listViewModel)
+        }
+        composable(route = "searchCocktailView") {
+            SearchCocktailView(navController, mainViewModel, listViewModel)
+        }
+        composable(route = "itemListView") {
+            ItemListView(navController, mainViewModel, listViewModel)
+            // SignInView(navController, signInViewModel)
+        }
+        composable(route = "newCocktailnView") {
+            NewCocktailView(navController, mainViewModel, listViewModel)
+        }
+        composable(route = "favoriteListView") {
+            FavoriteListView(navController, mainViewModel, listViewModel)
+        }
+        composable(route = "resultView") {
+            ResultView(navController, mainViewModel, listViewModel)
+        }
+        composable(route = "rezeptView") {
+            RecipeCocktailView(navController, mainViewModel, listViewModel)
+        }
+        composable(route = "signInView") {
+            SignInView(navController, signInViewModel, listViewModel)
+        }
+        composable(route = "signUpView") {
+            SignUpView(navController, signUpViewModel)
+        }
+        composable(route = "forgotPasswordView") {
+            ForgotPasswordView(navController, forgotPasswordViewModel)
+        }
+        composable(route = "verifyEmailView") {
+            VerifyEmailView(navController)
+        }
+        composable(route = "splashScreen") {
+            AnimatedSplashScreen(navController, mainViewModel, listViewModel)
+        }
+        composable(route = "ingredientsView") {
+            IngredientsView(navController, mainViewModel)
+        }
+        composable(route = "helpView") {
+            HelpView(navController, mainViewModel, listViewModel, signInViewModel)
+        }
+        composable(route = "picturesView") {
+            PicturesView(navController, mainViewModel)
         }
     }
+}

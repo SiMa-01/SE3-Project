@@ -83,7 +83,6 @@ fun SignInView(
             modifier = Modifier.testTag("emailField")
         )
 
-
         Spacer(modifier = Modifier.height(20.dp))
         TextField(
             label = { Text(text = "Passwort") },

@@ -97,7 +97,8 @@ fun SearchCocktailViewContent(
 
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
-        horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.testTag("SearchCocktailView")
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.testTag("searchCocktailView")
     ) {
         TopAppBar(modifier = Modifier.fillMaxWidth(), navigationIcon = {
             Icon(
