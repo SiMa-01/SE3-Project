@@ -48,12 +48,35 @@ class ExampleInstrumentedTest {
 
         val emailField = composeTestRule.onNodeWithTag("emailField")
         emailField.performTextInput("mayer-simon@web.de")
+        var wait = false
+        GlobalScope.launch {
+            delay(4000)
+            wait = true
+        }
+        composeTestRule.waitUntil(8000) { wait }
 
         val passwordField = composeTestRule.onNodeWithTag("passwordField")
         passwordField.performTextInput("test1234")
+        var wait2 = false
+        GlobalScope.launch {
+            delay(4000)
+            wait2 = true
+        }
+        composeTestRule.waitUntil(8000) { wait2 }
 
         val loginButton = composeTestRule.onNodeWithTag("loginButton")
         loginButton.performClick()
+
+        var wait3 = false
+        GlobalScope.launch {
+            delay(4000)
+            wait3 = true
+        }
+        composeTestRule.waitUntil(8000) { wait3 }
+
+        val splashView= composeTestRule.onNodeWithTag("splashView")
+        composeTestRule.waitUntil(8000) { true }
+        splashView.assertIsDisplayed()
 
 
         /*    var wait = false
