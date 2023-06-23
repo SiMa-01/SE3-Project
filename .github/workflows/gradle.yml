@@ -51,7 +51,7 @@ jobs:
         run: ./gradlew build
 
       - name: "Run Unit Tests"
-        run: ./gradlew test --tests "com.example.ExampleUnitTest"
+        run: ./gradlew test --tests "com.example.*ExampleUnitTest"
 
       - name: "Run UI Tests"
-        run: ./gradlew connectedAndroidTest --tests "com.example.ExampleInstrumentedTest"
+        run: ./gradlew connectedAndroidTest --tests "com.example.*ExampleInstrumentedTest"
