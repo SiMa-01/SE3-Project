@@ -32,7 +32,7 @@ jobs:
           ./gradlew build
 
   test:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
       - name: "checkout"
@@ -47,11 +47,11 @@ jobs:
       - name: "Set execute permission on Gradle script"
         run: chmod +x ./gradlew
 
-      - name: "Build with Gradle"
-        run: ./gradlew build
-
-#      - name: "Run Unit Tests"
-#       run: ./gradlew test 
+      - name: "Start Emulator"
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          script: ./gradlew connectedCheck
 
       - name: "Run UI Tests"
         run: ./gradlew connectedAndroidTest
