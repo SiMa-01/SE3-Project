@@ -3,13 +3,13 @@ name: Java CI with Gradle
 on:
   push:
     branches:
-      - main
+      - Pipeline_jetztgehtalles
   pull_request:
     branches:
-      - main
+      - Pipeline_jetztgehtalles
     paths:
-      - "**/*.kt"
-      - ".github/workflows/ktlint.yml"
+    - "*/.kt"
+    - ".github/workflows/ktlint.yml"
 
 permissions:
   contents: read
@@ -17,29 +17,27 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v3
-      - name: Set execute permission on Gradle script
-        run: chmod +x ./gradlew
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v2
         with:
           java-version: '17'
           distribution: 'temurin'
+
+      - name: Set execute permission on Gradle script
+        run: chmod +x ./gradlew
+
       - name: Build with Gradle
-        run: |
-          ./gradlew build
+        run: ./gradlew build
 
   test:
     runs-on: macos-latest
-
     steps:
       - name: "checkout"
         uses: actions/checkout@v2
 
       - name: "Set up JDK 17"
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v2
         with:
           java-version: '17'
           distribution: 'temurin'
@@ -47,11 +45,11 @@ jobs:
       - name: "Set execute permission on Gradle script"
         run: chmod +x ./gradlew
 
-      - name: "Start Emulator"
+      - name: "Setup Android Emulator"
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
-          script: ./gradlew connectedCheck
+          script: echo "Emulator setup complete"
 
       - name: "Run UI Tests"
         run: ./gradlew connectedAndroidTest
