@@ -3,10 +3,10 @@ name: Java CI with Gradle
 on:
   push:
     branches:
-      - main
+      - Pipeline_jetztgehtalles
   pull_request:
     branches:
-      - main
+      - Pipeline_jetztgehtalles
     paths:
       - "**/*.kt"
       - ".github/workflows/ktlint.yml"
