@@ -32,7 +32,7 @@ jobs:
           ./gradlew build
 
   test:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: "checkout"
@@ -51,7 +51,9 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
-          script: ./gradlew connectedCheck
+
+      - name: "Wait for Emulator"
+        run: android-wait-for-emulator
 
       - name: "Run UI Tests"
         run: ./gradlew connectedAndroidTest
