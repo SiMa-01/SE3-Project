@@ -19,6 +19,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -47,6 +48,9 @@ fun SignInView(
     signInViewModel: SignInViewModel,
     listViewModel: ListViewModel
 ) {
+
+    val scope = rememberCoroutineScope()
+
     val context = LocalContext.current
     Box(modifier = Modifier.fillMaxSize()) {
         ClickableText(
@@ -109,7 +113,7 @@ fun SignInView(
                             password.value.text
                         )
                     }
-                    CoroutineScope(Dispatchers.Main).launch {
+                    scope.launch {
                         delay(1000)
                         if (signInViewModel.anmeldungOk && signInViewModel.verifiziert) {
                             listViewModel.userId = signInViewModel.userId!!
