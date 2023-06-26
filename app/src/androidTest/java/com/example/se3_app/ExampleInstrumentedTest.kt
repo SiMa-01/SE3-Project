@@ -118,7 +118,7 @@ class ExampleInstrumentedTest {
 
         var wait5 = false
         GlobalScope.launch {
-            delay(4000)
+            delay(8000)
             wait5 = true
         }
         composeTestRule.waitUntil(8000) { wait5 }
