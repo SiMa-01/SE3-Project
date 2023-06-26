@@ -69,7 +69,7 @@ class ExampleInstrumentedTest {
         splashView.assertIsDisplayed()
     }
 
-/*    @Test
+    @Test
     fun searchCocktail() {
         val loginView = composeTestRule.onNodeWithTag("loginView")
         loginView.assertExists()
@@ -154,5 +154,5 @@ class ExampleInstrumentedTest {
 
         val resultView = composeTestRule.onNodeWithTag("resultView")
         resultView.assertIsDisplayed()
-    }*/
+    }
 }
