@@ -48,9 +48,11 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: "Start Emulator"
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 29
+        run: |
+          echo "no" | avdmanager create avd --force --name emulator --abi google_apis/x86_64 --package 'system-images;android-33;google_apis;x86_64'
+          emulator -avd emulator -no-audio -no-window -no-boot-anim -accel on -gpu off &
+          android-wait-for-emulator
+          adb devices
 
       - name: "Wait for Emulator"
         run: android-wait-for-emulator
