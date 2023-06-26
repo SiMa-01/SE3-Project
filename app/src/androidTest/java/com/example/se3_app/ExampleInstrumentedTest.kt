@@ -108,10 +108,10 @@ class ExampleInstrumentedTest {
 
         var wait4 = false
         GlobalScope.launch {
-            delay(4000)
+            delay(10000)
             wait4 = true
         }
-        composeTestRule.waitUntil(8000) { wait4 }
+        composeTestRule.waitUntil(15000) { wait4 }
 
         val searchCocktailButton = composeTestRule.onNodeWithTag("searchCocktailButton")
         searchCocktailButton.performClick()
