@@ -32,7 +32,7 @@ jobs:
           ./gradlew build
 
   test:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
       - name: "checkout"
@@ -47,15 +47,9 @@ jobs:
       - name: "Set execute permission on Gradle script"
         run: chmod +x ./gradlew
 
-      - name: "Start Emulator"
-        run: |
-          echo "no" | avdmanager create avd --force --name emulator --abi google_apis/x86_64 --package 'system-images;android-33;google_apis;x86_64'
-          emulator -avd emulator -no-audio -no-window -no-boot-anim -accel on -gpu off &
-          android-wait-for-emulator
-          adb devices
+      - name: "Run UI-Test"
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          script: ./gradlew connectedCheck
 
-      - name: "Wait for Emulator"
-        run: android-wait-for-emulator
-
-      - name: "Run UI Tests"
-        run: ./gradlew connectedAndroidTest
