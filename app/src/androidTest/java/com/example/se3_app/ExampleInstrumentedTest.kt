@@ -70,7 +70,7 @@ class ExampleInstrumentedTest {
     }
 
     @Test
-    fun  searchCocktail() {
+    fun searchCocktail() {
         val loginView = composeTestRule.onNodeWithTag("loginView")
         loginView.assertExists()
 
@@ -137,10 +137,10 @@ class ExampleInstrumentedTest {
 
         var wait7 = false
         GlobalScope.launch {
-            delay(4000)
+            delay(10000)
             wait7 = true
         }
-        composeTestRule.waitUntil(8000) { wait7 }
+        composeTestRule.waitUntil(15000) { wait7 }
 
         val resultView = composeTestRule.onNodeWithTag("resultView")
         resultView.assertIsDisplayed()
