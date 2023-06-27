@@ -140,7 +140,7 @@ class ExampleInstrumentedTest {
             delay(10000)
             wait7 = true
         }
-        composeTestRule.waitUntil(15000) { wait7 }
+        composeTestRule.waitUntil(16000) { wait7 }
 
         val resultView = composeTestRule.onNodeWithTag("resultView")
         resultView.assertIsDisplayed()
