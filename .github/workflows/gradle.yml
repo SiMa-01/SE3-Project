@@ -47,12 +47,11 @@ jobs:
       - name: "Set execute permission on Gradle script"
         run: chmod +x ./gradlew
 
-   #   - name: "Run UI-Test"
-   #     uses: reactivecircus/android-emulator-runner@v2
-  #    with:
-   #       api-level: 29
-    #      script: ./gradlew connectedCheck
-      
-      - name: "Run Unit Tests"
-        run: ./gradlew test 
+      - name: "Run UI-Test"
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          script: ./gradlew connectedCheck
 
+      - name: "Run Unit Tests"
+        run: ./gradlew test
