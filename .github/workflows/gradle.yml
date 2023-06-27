@@ -54,5 +54,5 @@ jobs:
     #      script: ./gradlew connectedCheck
       
       - name: "Run Unit Tests"
-        run: ./gradlew test --tests "com.example.se3_app.*"
+        run: ./gradlew test 
 
