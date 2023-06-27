@@ -52,4 +52,7 @@ jobs:
         with:
           api-level: 29
           script: ./gradlew connectedCheck
+      
+      - name: Unit Test
+        run: ./gradlew ExampleUnitTest
 
