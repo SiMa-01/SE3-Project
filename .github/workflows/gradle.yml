@@ -3,10 +3,10 @@ name: Java CI with Gradle
 on:
   push:
     branches:
-      - main
+      - Pipeline_jetztgehtalles
   pull_request:
     branches:
-      - main
+      - Pipeline_jetztgehtalles
     paths:
       - "**/*.kt"
       - ".github/workflows/ktlint.yml"
@@ -47,11 +47,11 @@ jobs:
       - name: "Set execute permission on Gradle script"
         run: chmod +x ./gradlew
 
-      - name: "Start Emulator"
+      - name: "Run UI-Test"
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
           script: ./gradlew connectedCheck
 
-      - name: "Run UI Tests"
-        run: ./gradlew connectedAndroidTest
+      - name: "Run Unit Tests"
+        run: ./gradlew test
