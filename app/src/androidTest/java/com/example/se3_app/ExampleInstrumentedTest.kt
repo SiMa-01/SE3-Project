@@ -135,15 +135,5 @@ class ExampleInstrumentedTest {
         val searchButton = composeTestRule.onNodeWithTag("searchButton")
         searchButton.performClick()
 
-/*        var wait7 = false
-        GlobalScope.launch {
-            delay(10000)
-            wait7 = true
-        }
-        composeTestRule.waitUntil(16000) { wait7 }
-
-        val resultView = composeTestRule.onNodeWithTag("resultView")
-        resultView.assertIsDisplayed()
-        */
     }
 }
