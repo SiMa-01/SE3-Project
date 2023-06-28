@@ -36,8 +36,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.se3_app.ListViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -48,7 +46,6 @@ fun SignInView(
     signInViewModel: SignInViewModel,
     listViewModel: ListViewModel
 ) {
-
     val scope = rememberCoroutineScope()
 
     val context = LocalContext.current

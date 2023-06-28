@@ -134,6 +134,5 @@ class ExampleInstrumentedTest {
 
         val searchButton = composeTestRule.onNodeWithTag("searchButton")
         searchButton.performClick()
-
     }
 }
