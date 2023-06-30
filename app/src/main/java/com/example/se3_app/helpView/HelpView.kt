@@ -96,7 +96,7 @@ fun HelpViewContent(
         Spacer(modifier = Modifier.height(15.dp))
 
         FloatingActionButton(
-            onClick = { }, // andere Seite einfügen
+            onClick = { },
             modifier = Modifier.fillMaxWidth(),
             containerColor = Color.White
         ) {
@@ -117,7 +117,7 @@ fun HelpViewContent(
                     fontWeight = FontWeight.Bold
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                Text("Bla", fontFamily = font, fontSize = 15.sp)
+                Text("Clicke um mehr zu erfahren", fontFamily = font, fontSize = 15.sp)
                 Spacer(modifier = Modifier.height(8.dp))
             }
         }
@@ -185,30 +185,25 @@ fun HelpViewContent(
                 Spacer(modifier = Modifier.height(8.dp))
             }
         }
-        Spacer(modifier = Modifier.height(30.dp))
 
-        Box(
+        Spacer(modifier = Modifier.height(15.dp))
+
+        Button(
+            onClick = {
+                FirebaseAuth.getInstance().signOut()
+                FirebaseAuth.getInstance().useAppLanguage()
+                println("User in Help " + FirebaseAuth.getInstance().currentUser)
+                navController.navigate("signInView")
+            },
+            shape = RoundedCornerShape(50.dp),
             modifier = Modifier
-                .fillMaxSize()
-                .padding(15.dp),
-            contentAlignment = Alignment.Center
+                .fillMaxWidth()
+                .height(50.dp)
         ) {
-            Button(
-                onClick = {
-                    FirebaseAuth.getInstance().signOut()
-                    FirebaseAuth.getInstance().useAppLanguage()
-                    println("User in Help " + FirebaseAuth.getInstance().currentUser)
-                    navController.navigate("signInView")
-                },
-                shape = RoundedCornerShape(50.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp)
-            ) {
-                Text(text = "Logout")
-            }
+            Text(text = "Logout")
         }
-    }
 
+        Spacer(modifier = Modifier.height(200.dp))
+    }
     Navigationbar(viewModel, listViewModel, navController)
 }

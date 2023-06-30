@@ -62,7 +62,7 @@ fun StartView(
         }
     } else {
         favoriteList = listViewModel.userFavoriteList
-        mixnfix = viewModel.cocktailByName
+        viewModel.getCocktailByName("MIX'N'FIX")
         StartViewContent(navController, viewModel, listViewModel)
     }
 }
@@ -105,6 +105,7 @@ fun StartViewContent(
 
         // --------------------------------------------------------------------------------------------------------------
 
+        mixnfix = viewModel.cocktailByName
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -113,8 +114,6 @@ fun StartViewContent(
         ) {
             Text("Der MIX'N'FIX", fontSize = 20.sp, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(8.dp))
-
-
 
             Cocktailbox(
                 navController,

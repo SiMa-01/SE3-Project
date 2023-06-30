@@ -83,7 +83,6 @@ class MainViewModel : ViewModel() {
         stringAlcoholic: String? = null,
         stringDifficulty: String? = null
     ) {
-        println("Hallo ich bin hier")
         viewModelScope.launch {
             println("In der Methode")
             var alcoholic: Boolean? = null
@@ -111,7 +110,6 @@ class MainViewModel : ViewModel() {
                     alcoholic,
                     difficulty
                 )
-                println("Das Ergebnis " + searchCocktails[0].name)
                 cocktailsSearch = searchCocktails.toMutableList()
                 loading = false
             } catch (e: Exception) {
