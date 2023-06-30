@@ -48,6 +48,8 @@ fun AnimatedSplashScreen(
         listViewModel.getFavouriteList(listViewModel.userId)
         delay(3000)
         listViewModel.getShoppingList(listViewModel.userId)
+        delay(3000)
+        viewModel.getCocktailByName("MIX'N'FIX")
         while (viewModel.loading || listViewModel.loading) {
             delay(1000)
         }

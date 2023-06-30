@@ -329,7 +329,7 @@ fun NewCocktailViewContent(
                             val minValue = 0
                             val maxValue = 2
                             val istValue: Int = viewModel.comeBack2[2] as Int
-                            val values = listOf("simpel", "mittel", "schwer")
+                            val values = listOf("einfach", "mittel", "schwierig")
 
                             val selectedValue = remember { mutableStateOf(istValue) }
                             Slider(
@@ -497,15 +497,14 @@ fun NewCocktailViewContent(
                             ).show()
                         } else {
                             viewModel.addCocktail(newCocktail)
+                            navController.navigate("StartView")
+                            Toast.makeText(
+                                context,
+                                "Neuer Cocktail mit dem Namen ${text.text} angelegt",
+                                Toast.LENGTH_SHORT
+                            ).show()
                             if (viewModel.loading) {
-                                var i = 0
-                                i++
                             } else {
-                                Toast.makeText(
-                                    context,
-                                    "Neuer Cocktail mit dem Namen ${text.text} angelegt",
-                                    Toast.LENGTH_SHORT
-                                ).show()
                                 viewModel.selectedIngredients.clear()
                             }
                         }

@@ -45,6 +45,8 @@ val font = FontFamily(
     Font(resId = R.font.arciform)
 )
 
+var mixnfix = emptyList<CocktailDto>()
+
 @Composable
 fun StartView(
     navController: NavController,
@@ -60,6 +62,7 @@ fun StartView(
         }
     } else {
         favoriteList = listViewModel.userFavoriteList
+        mixnfix = viewModel.cocktailByName
         StartViewContent(navController, viewModel, listViewModel)
     }
 }
@@ -111,10 +114,12 @@ fun StartViewContent(
             Text("Der MIX'N'FIX", fontSize = 20.sp, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(8.dp))
 
+
+
             Cocktailbox(
                 navController,
                 viewModel,
-                viewModel.cocktailsAll[0],
+                mixnfix[0],
                 4,
                 listViewModel
             )
