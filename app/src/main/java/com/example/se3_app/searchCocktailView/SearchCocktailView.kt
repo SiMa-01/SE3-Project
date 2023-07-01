@@ -483,7 +483,7 @@ fun SearchCocktailViewContent(
                             alcoholicDto,
                             difficultyDto
                         )
-                       // listViewModel.getShoppingList(listViewModel.userId)
+                        // listViewModel.getShoppingList(listViewModel.userId)
                         navController.navigate("ResultView")
                         viewModel.selectedIngredients.clear()
                     },

@@ -21,7 +21,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,17 +30,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.se3_app.Dto.CocktailDto
-import com.example.se3_app.Dto.FavoriteCocktailDto
 import com.example.se3_app.ListViewModel
 import com.example.se3_app.MainViewModel
 import com.example.se3_app.R
-import com.example.se3_app.favoriteListView.favoriteList
 import com.example.se3_app.startView.Cocktailbox
 import com.example.se3_app.startView.Navigationbar
 
 var cocktails = emptyList<CocktailDto>()
-//var favoriteList: MutableList<FavoriteCocktailDto> by mutableStateOf(mutableListOf())
-
+// var favoriteList: MutableList<FavoriteCocktailDto> by mutableStateOf(mutableListOf())
 
 @Composable
 fun ResultView(navController: NavController, viewModel: MainViewModel, listViewModel: ListViewModel) {
@@ -54,7 +50,7 @@ fun ResultView(navController: NavController, viewModel: MainViewModel, listViewM
         }
     } else {
         cocktails = viewModel.cocktailsSearch
-        //favoriteList = listViewModel.userFavoriteList
+        // favoriteList = listViewModel.userFavoriteList
         ResultViewContent(navController, viewModel, listViewModel)
     }
 }
