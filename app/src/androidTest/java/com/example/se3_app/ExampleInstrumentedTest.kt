@@ -77,7 +77,6 @@ class ExampleInstrumentedTest {
         val emailField = composeTestRule.onNodeWithTag("emailField")
         emailField.performTextInput("mayer-simon@web.de")
 
-
         val passwordField = composeTestRule.onNodeWithTag("passwordField")
         passwordField.performTextInput("test1234")
 

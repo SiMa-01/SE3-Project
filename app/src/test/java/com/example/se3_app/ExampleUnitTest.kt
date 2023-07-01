@@ -1,15 +1,14 @@
 package com.example.se3_app
 
+import com.example.se3_app.Dto.CocktailDto
 import com.example.se3_app.api.ApiManager
 import com.example.se3_app.service.CocktailService
-import com.example.se3_app.Dto.CocktailDto
 import io.ktor.client.*
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
-import org.junit.Before
 import org.junit.Test
 
 class ExampleUnitTest {
@@ -51,6 +50,5 @@ class ExampleUnitTest {
         assertEquals(1, result.size)
         assertEquals("Mojito", result[0].name)
         assertTrue(result[0].alcoholic)
-
     }
 }
