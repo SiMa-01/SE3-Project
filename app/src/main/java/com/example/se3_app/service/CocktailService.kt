@@ -8,8 +8,7 @@ import com.example.se3_app.api.ApiManager
 import io.ktor.client.request.get
 import io.ktor.client.request.post
 
-class CocktailService {
-    var apiManager = ApiManager()
+class CocktailService(private val apiManager: ApiManager) {
     var errorMessage: String by mutableStateOf("")
 
     suspend fun findCocktails(

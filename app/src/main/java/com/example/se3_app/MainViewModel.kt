@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.se3_app.Dto.CocktailDto
+import com.example.se3_app.api.ApiManager
 import com.example.se3_app.service.CocktailService
 import kotlinx.coroutines.launch
 
@@ -13,7 +14,8 @@ class MainViewModel : ViewModel() {
 
     var errorMessage: String by mutableStateOf("")
     var loading: Boolean by mutableStateOf(false)
-    private val cocktailService = CocktailService()
+    private val apiManager = ApiManager()
+    private val cocktailService = CocktailService(apiManager)
     var cocktailByName: MutableList<CocktailDto> by mutableStateOf(mutableListOf())
     var cocktailsAll: MutableList<CocktailDto> by mutableStateOf(mutableListOf())
     lateinit var tastes: List<String>

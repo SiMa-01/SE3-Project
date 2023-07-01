@@ -1,38 +1,56 @@
 package com.example.se3_app
 
 import com.example.se3_app.api.ApiManager
-import com.example.se3_app.service.*
+import com.example.se3_app.service.CocktailService
+import com.example.se3_app.Dto.CocktailDto
+import io.ktor.client.*
+import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
-import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
-/**
- * Test API Anfrage
- */
 class ExampleUnitTest {
 
-    private lateinit var cocktailService: CocktailService
-    private val apiManager: ApiManager = mockk(relaxed = true)
-
-    @Before
-    fun setup() {
-        cocktailService = CocktailService()
-        cocktailService.apiManager = apiManager
-    }
-
     @Test
-    fun findCocktails() = runBlocking {
-        // Arrange
-        val cocktailService = CocktailService()
+    fun findCocktails() {
+        // Mocking des HttpClient
+        val httpClientMock = mockk<HttpClient>()
 
-        // Act
-        val cocktailsMojitoName = cocktailService.findCocktails(name = "Mojito")
+        // Mocking des ApiManager
+        val apiManagerMock = mockk<ApiManager>() {
+            every { httpClient } returns httpClientMock
+        }
+
+        // Mocking des CocktailService mit der mock ApiManager Instanz
+        val cocktailService = mockk<CocktailService>()
+
+        // Setup für das Stubbing des Ergebnisses der findCocktails Methode
+        coEvery {
+            cocktailService.findCocktails(any(), any(), any(), any(), any())
+        } returns listOf(
+            CocktailDto(
+                _id = "1",
+                name = "Mojito",
+                ingredients = arrayOf("Mint", "Sugar", "Lime", "Rum", "Soda"),
+                difficulty = "Easy",
+                alcoholic = true,
+                taste = "Fresh",
+                preparation = "Some preparation text"
+            )
+            // Fügen Sie hier zusätzliche CocktailDto-Instanzen hinzu...
+        )
+
+        // Ruft die findCocktails Methode auf und speichert das Ergebnis
+        val result = runBlocking {
+            cocktailService.findCocktails(name = "Mojito")
+        }
         // Assert
-        assertEquals(1, cocktailsMojitoName.size)
-        assertEquals("Mojito", cocktailsMojitoName[0].name)
-        assertTrue(cocktailsMojitoName[0].alcoholic)
+        assertEquals(1, result.size)
+        assertEquals("Mojito", result[0].name)
+        assertTrue(result[0].alcoholic)
+
     }
 }
