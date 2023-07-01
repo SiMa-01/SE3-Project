@@ -101,6 +101,9 @@ class ExampleInstrumentedTest {
         }
         composeTestRule.waitUntil(10000) { wait4 }
 
+        val startView = composeTestRule.onNodeWithTag("startView")
+        startView.assertIsDisplayed()
+
         val searchCocktailButton = composeTestRule.onNodeWithTag("searchCocktailButton")
         searchCocktailButton.performClick()
         var wait6 = false
