@@ -96,6 +96,7 @@ class ExampleInstrumentedTest {
         composeTestRule.waitUntil(8000) { true }
         splashView.assertIsDisplayed()
 
+        // Pipeline braucht die Zeit für die SplashView
         var wait4 = false
         GlobalScope.launch {
             delay(25000)
@@ -112,5 +113,73 @@ class ExampleInstrumentedTest {
 
         val rezeptview = composeTestRule.onNodeWithTag("Rezeptview")
         rezeptview.assertIsDisplayed()
+    }
+
+    @Test
+    fun searchCocktail() {
+        val loginView = composeTestRule.onNodeWithTag("loginView")
+        loginView.assertExists()
+
+        val emailField = composeTestRule.onNodeWithTag("emailField")
+        emailField.performTextInput("mayer-simon@web.de")
+        var wait = false
+        GlobalScope.launch {
+            delay(4000)
+            wait = true
+        }
+        composeTestRule.waitUntil(8000) { wait }
+
+        val passwordField = composeTestRule.onNodeWithTag("passwordField")
+        passwordField.performTextInput("test1234")
+        var wait2 = false
+        GlobalScope.launch {
+            delay(4000)
+            wait2 = true
+        }
+        composeTestRule.waitUntil(8000) { wait2 }
+
+        val loginButton = composeTestRule.onNodeWithTag("loginButton")
+        loginButton.performClick()
+
+        var wait3 = false
+        GlobalScope.launch {
+            delay(4000)
+            wait3 = true
+        }
+        composeTestRule.waitUntil(8000) { wait3 }
+
+        val splashView = composeTestRule.onNodeWithTag("splashView")
+        composeTestRule.waitUntil(8000) { true }
+        splashView.assertIsDisplayed()
+
+        // Pipeline braucht die Zeit für die SplashView
+        var wait4 = false
+        GlobalScope.launch {
+            delay(25000)
+            wait4 = true
+        }
+        composeTestRule.waitUntil(30000) { wait4 }
+
+        val searchCocktailButton = composeTestRule.onNodeWithTag("searchCocktailButton")
+        searchCocktailButton.performClick()
+        var wait6 = false
+        GlobalScope.launch {
+            delay(4000)
+            wait6 = true
+        }
+        composeTestRule.waitUntil(8000) { wait6 }
+
+        val searchCocktailView = composeTestRule.onNodeWithTag("searchCocktailView")
+        searchCocktailView.assertIsDisplayed()
+
+        var wait8 = false
+        GlobalScope.launch {
+            delay(4000)
+            wait8 = true
+        }
+        composeTestRule.waitUntil(8000) { wait8 }
+
+        val searchButton = composeTestRule.onNodeWithTag("searchButton")
+        searchButton.performClick()
     }
 }
