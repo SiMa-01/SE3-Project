@@ -1,7 +1,9 @@
 package com.example.se3_app
 
+import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
@@ -70,7 +72,7 @@ class ExampleInstrumentedTest {
     }
 
     @Test
-    fun searchCocktail() {
+    fun cocktailViewTest() {
         val loginView = composeTestRule.onNodeWithTag("loginView")
         loginView.assertExists()
 
@@ -101,19 +103,14 @@ class ExampleInstrumentedTest {
         }
         composeTestRule.waitUntil(10000) { wait4 }
 
-        val searchCocktailButton = composeTestRule.onNodeWithTag("searchCocktailButton")
-        searchCocktailButton.performClick()
-        var wait6 = false
-        GlobalScope.launch {
-            delay(4000)
-            wait6 = true
-        }
-        composeTestRule.waitUntil(8000) { wait6 }
+        val favoriteButtons = composeTestRule.onAllNodesWithTag("cocktail")
+        favoriteButtons.assertCountEquals(9)
 
-        val searchCocktailView = composeTestRule.onNodeWithTag("searchCocktailView")
-        searchCocktailView.assertIsDisplayed()
+        // Klick auf den ersten Favoriten-Button
+        favoriteButtons[0].assertIsDisplayed()
+        favoriteButtons[0].performClick()
 
-        val searchButton = composeTestRule.onNodeWithTag("searchButton")
-        searchButton.performClick()
+        val rezeptview = composeTestRule.onNodeWithTag("Rezeptview")
+        rezeptview.assertIsDisplayed()
     }
 }

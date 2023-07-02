@@ -203,6 +203,7 @@ fun Navigationbar(
         modifier = Modifier
             .fillMaxSize()
             .wrapContentSize(Alignment.BottomCenter)
+
     ) {
         BottomAppBar() {
             items.forEachIndexed { index, item ->
@@ -255,7 +256,7 @@ fun Cocktailbox(
             viewModel.getCocktailByName(cocktail.name!!)
             navController.navigate("RezeptView")
         },
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().testTag("cocktail"),
         containerColor = color
     ) {
         Box(
@@ -313,11 +314,8 @@ fun Cocktailbox(
 
                                     if (isClicked.value) {
                                         favoriteList[0].list.add(cocktail)
-                                        listViewModel.addFavoritList(
-                                            listViewModel.userId,
-                                            cocktail
-                                        )
-                                    } else if (!isClicked.value) {
+                                        listViewModel.addFavoritList(listViewModel.userId, cocktail)
+                                    } else {
                                         favoriteList[0].list.remove(cocktail)
                                         listViewModel.deleteFavoritList(
                                             listViewModel.userId,
