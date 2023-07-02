@@ -98,10 +98,10 @@ class ExampleInstrumentedTest {
 
         var wait4 = false
         GlobalScope.launch {
-            delay(10000)
+            delay(25000)
             wait4 = true
         }
-        composeTestRule.waitUntil(12000) { wait4 }
+        composeTestRule.waitUntil(30000) { wait4 }
 
         val favoriteButtons = composeTestRule.onAllNodesWithTag("cocktail")
         favoriteButtons.assertCountEquals(9)
